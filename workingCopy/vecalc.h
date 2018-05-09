@@ -1,8 +1,10 @@
-//===============================================/
-//Author	:	Ben Haubrich		//
-//File		:	vecalc.h		//
-//Synopsis	:	Vector Calculator	//
-//===============================================/
+/*
+ *==============================================//
+ * Author	:	Ben Haubrich		//
+ * File		:	vecalc.h		//
+ * Synopsis	:	Vector Calculator	//
+ *==============================================//
+ */
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -11,7 +13,7 @@
 #ifndef _VECALC_H_
 #define _VECALC_H_
 
-#define ERROR 1E-6 //Error used to test floating point values of vectors
+#define ERROR 1E-6 /*Error used to test floating point values of vectors*/
 
 typedef float Elem;
 
@@ -21,9 +23,7 @@ struct Vector {
 	Elem *elements;
 };
 
-/*
- * Function Headers
- */
+/*Function Headers*/
 
 /*
  * Print the vector to stdout
@@ -81,6 +81,7 @@ struct Vector *scalar_mult(struct Vector *, Elem);
  * param Elem: The value that each element will be divided by
  * return: A vector that has had all it's elements divided by Elem
  * precond: Input vector is not null
+ * precond: divisor is not zero
  */
 struct Vector *scalar_div(struct Vector *, Elem);
 

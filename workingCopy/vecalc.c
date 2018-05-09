@@ -1,19 +1,21 @@
-//===============================================================================/
-//Author	:	Ben Haubrich						//
-//File		:	vecalc.c						//
-//Synopsis	:	A vector calculator that can be run from		//
-//			the command line with a set of defined arguments	//
-//===============================================================================/
+/*
+ *===============================================================================/
+ * Author	:	Ben Haubrich						//
+ * File		:	vecalc.c						//
+ * Synopsis	:	A vector calculator that can be run from		//
+ * 			the command line with a set of defined arguments	//
+ *===============================================================================/
+ */
 
-//Standard Headers
+/*Standard Headers*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <assert.h> //For conditionally compiled testing. Use -DTESTING
-#include <string.h> //For refreshArgv()
-#include <ctype.h> //For isdigit()
+#include <assert.h> /*For conditionally compiled testing. Use -DTESTING*/
+#include <string.h> /*For refreshArgv()*/
+#include <ctype.h>  /*For isdigit()*/
 
-//Local Headers
+/*Local Headers*/
 #include "vecalc.h"
 
 /*
@@ -73,50 +75,60 @@ void getHelp() {
  */
 int refreshArgv(char *argv[]) {
 
-	//get new arguments from stdin (next 9 lines)
+	/*get new arguments from stdin (next 9 lines)*/
 	char *newOptions = malloc(sizeof(char));
 	
-	//Using 20 as the maximum possible for no particular reason. Just
-	//need enough to make sure we can handle any combination of args	
+	/*
+	 * Using 20 as the maximum possible for no particular reason. Just
+	 * need enough to make sure we can handle any combination of args
+	 */	
 	printf("vecalc: ");
         fgets(newOptions, 20, stdin);
 	
-	//nextArg stores space delimited arguments from newOptions and is then 
-	//used to insert into argv. Using 11 since the largest single argument possible
-	//is the largest possible number - UINT_MAX. which is 10 characters long, plus
-	//a newline.
+	/*
+	 * nextArg stores space delimited arguments from newOptions and is then 
+	 * used to insert into argv. Using 11 since the largest single argument possible
+	 * is the largest possible number - UINT_MAX. which is 10 characters long, plus
+	 * a newline.
+	 */
 	char *nextArg = malloc(11*sizeof(char));
 
-	 //The first argument of argv is taken by then name of the program. j fullfills
-	 //two purposes:
-	 //The first is keeping track of which element of argv we should insert into.
-	 //The second is counting how many arguments were added, so that we can use
-	 //it to update argc. 
+	 /*
+	  * The first argument of argv is taken by then name of the program. j fullfills
+	  * two purposes:
+	  * The first is keeping track of which element of argv we should insert into.
+	  * The second is counting how many arguments were added, so that we can use
+	  * it to update argc.
+	  */ 
 	int j = 1;
 
-		//Pressing the enter key gives fgets a newline as input, so that's
-	 	//when we stop. One the terribly unreasonable chance that we have naughty
-	 	//users who enter more than 20 characters, fgets will add null to the end
-	 	//of the string since there is no room for the newline
-		//so we'll check for that too
+		/* 
+		 * Pressing the enter key gives fgets a newline as input, so that's
+	 	 * when we stop. One the terribly unreasonable chance that we have naughty
+	 	 * users who enter more than 20 characters, fgets will add null to the end
+	 	 * of the string since there is no room for the newline
+		 * so we'll check for that too
+		 */
 		if(strcmp(newOptions, "") == 0) {
 
 			return j;
 		}
 		
-		//get all the space delimited arguments and put them in argv
+		/*get all the space delimited arguments and put them in argv*/
 		char *delim = " ";
 		nextArg = strtok(newOptions, delim);
 
 		while(nextArg != NULL) {
 
-			//In case vecalc was called with no arguments (not even a space), or gets more
-			//arguments than it had last time, we'll have to check for null elements.
+			/*
+			 * In case vecalc was called with no arguments (not even a space), or gets more
+			 * arguments than it had last time, we'll have to check for null elements.
+			 */
 			if(argv[j] == NULL) {
 
 				argv[j] = calloc(1, sizeof(char));
 			}
-			//Clear and allocate anyway for copying
+			/*Clear and allocate anyway for copying*/
 			else {
 				
 				argv[j] = NULL;
@@ -125,9 +137,11 @@ int refreshArgv(char *argv[]) {
 
 			strncpy(argv[j], nextArg, strlen(nextArg));
 			j++;
-			//With the null input string, strtok continues on from the old string, and
-			//keeps copying more characters until the next delimiter. If there are no
-			//more delimiters, strtok returns null
+			/*
+			 * With the null input string, strtok continues on from the old string, and
+			 * keeps copying more characters until the next delimiter. If there are no
+			 * more delimiters, strtok returns null
+			 */
 			nextArg = strtok(NULL, delim);
 		}
 return j;
@@ -188,18 +202,18 @@ void dealloc_vec(struct Vector *vector) {
  */
 struct Vector *extend_vec(struct Vector *inputVector, Elem value) {
 
-	//Initialise the new vector
+	/*Initialise the new vector*/
 	struct Vector *biggerVector = calloc(1, sizeof(struct Vector));
 	biggerVector->size = inputVector->size + 1;
 	biggerVector->elements = calloc(biggerVector->size, sizeof(Elem));
 
-	//Copy the elements from the input vector into the new vector
+	/*Copy the elements from the input vector into the new vector*/
 	int i;
 	for(i = 0; i < inputVector->size; i++) {
 
 		biggerVector->elements[i] = inputVector->elements[i];
 	}
-	//Add in the value for the additional element
+	/*Add in the value for the additional element*/
 	biggerVector->elements[(biggerVector->size) -1] = value;
 
 	return biggerVector;
@@ -219,6 +233,11 @@ struct Vector *scalar_plus(struct Vector *vector, Elem addend) {
 		return vector;
 	}
 	
+	if(vector->size == 0) {
+		
+		printf("Using scalar plus on a zero size vector has no effect\n");
+	}
+	
 	int i;
 	for(i = 0; i < vector->size; i++) {
 
@@ -230,20 +249,59 @@ return vector;
 
 struct Vector *scalar_minus(struct Vector *vector, Elem difference) {
 
-	//TODO Function stub	
+	
+
+	if(vector->size == 0) {
+								
+		printf("Using scalar minus on a zero size vector has no effect\n");
+	}
 	return NULL;
 }
-
+/*
+ * multiplies a chosen value to each element of the vector
+ * param vector: The vector whose elements will have Elem multiplied to
+ * param Elem: The value that will be multiplied to each element
+ * return: A vector that has had all it's elements multiplied by Elem
+ * precond: Input vector is not null
+ */
 struct Vector *scalar_mult(struct Vector *vector, Elem factor) {
 
-	//TODO Function stub	
-	return NULL;
-}
+	/*TODO Function stub*/
 
+	if(vector->size == 0) {
+								
+		printf("Using scalar multiply on a zero size vector has no effect\n");
+	}
+return NULL;
+}
+/*
+ * Divides a chosen value from each element of the vector
+ * param vector: The vector whose elements will be divided by Elem
+ * param Elem: The value that each element will be divided by
+ * return: A vector that has had all it's elements divided by Elem
+ * precond: Input vector is not null
+ * precond: divisor is not zero
+ */
 struct Vector *scalar_div(struct Vector *vector, Elem divisor) {
 
-	//TODO Function stub	
-	return NULL;
+	if(divisor == 0) {
+
+		fprintf(stderr, "Bad argument to divide - Divide by zero error\n");
+		return vector;
+	}
+	else if(vector->size == 0) {
+								
+		printf("Using scalar divide on a zero size vector has no effect\n");
+	}
+	else {
+
+		int i;
+		for(i = 0; i < vector->size; i++) {
+
+			vector->elements[i] = (vector->elements[i]) / (divisor);
+		}
+	}
+return vector;
 }
 /*
  * Program main entry point.
@@ -251,17 +309,21 @@ struct Vector *scalar_div(struct Vector *vector, Elem divisor) {
  */
 int main(int argc, char *argv[]) {
 
-	//The main vector on which operation are performed
-	struct Vector *vec = alloc_vec();
-	//Temporary vector when the extend_vec function is called
-	struct Vector *tempVec = vec;
-	//Holds the current option being processed. Option never contains an
-	//an argument to an option
+	/*The main vector on which operation are performed*/
+	  struct Vector *vec = alloc_vec();
+
+	 /*Temporary vector when the extend_vec function is called*/
+	  struct Vector *tempVec = vec;
+
+	 /*
+	  * option holds the current option being processed. Option never contains an
+	  * an argument to an option
+	  */
 	char *option;
 	
 	while(1) {	
 		
-		//Check vec in case the c option was given
+		/*Check vec in case the c option was given*/
 		if(vec == NULL) {
 
 			vec = alloc_vec();
@@ -301,8 +363,10 @@ int main(int argc, char *argv[]) {
 				case 'a':	tempVec = vec;
 						if(ensureDigit(argv[i + 1])) {
 
-							//Notice that the Elem value increments i, and takes the next value.
-							//this skips over the next iteration.
+							/*
+							 * Notice that the Elem value increments i, and takes the next value.
+							 * this skips over the next iteration.
+							 */
 							vec = extend_vec(vec, atof(argv[++i]));
 							dealloc_vec(tempVec);
 						}
@@ -315,12 +379,13 @@ int main(int argc, char *argv[]) {
 
 				case '+':	if(ensureDigit(argv[i + 1])) {
 
-							scalar_plus(vec, atof(argv[++i]));
+							scalar_plus(vec, atof(argv[++i]));	
 						}
 						else {
 
 							fprintf(stderr, "Bad argument - Usage [+] [value]\n");
-							//The argument is invalid, so skip over it.
+							/*The argument is invalid, so skip over it. This same logic
+							 * is repeated in other cases*/
 							i++;
 						}
 						break;
@@ -328,6 +393,7 @@ int main(int argc, char *argv[]) {
 				case '-':	if(ensureDigit(argv[i + 1])) {
 
 							scalar_plus(vec, atof(argv[++i]));
+	
 						}
 						else {
 
@@ -338,7 +404,7 @@ int main(int argc, char *argv[]) {
 
 				case '*':	if(ensureDigit(argv[i + 1])) {
 
-							scalar_mult(vec, atof(argv[++i]));
+							scalar_mult(vec, atof(argv[++i]));	
 						}
 						else {
 
@@ -349,7 +415,7 @@ int main(int argc, char *argv[]) {
 
 				case '/':	if(ensureDigit(argv[i + 1])) {
 
-							scalar_div(vec, atof(argv[++i]));
+							scalar_div(vec, atof(argv[++i]));	
 						}
 						else {
 
