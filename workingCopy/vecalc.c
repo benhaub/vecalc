@@ -16,6 +16,10 @@
 //Local Headers
 #include "vecalc.h"
 
+/*
+ * Allocate memory for a new vector
+ * return: A new vector with 0 size
+ */
 bool print_vec(struct Vector *vector) {
 
 	if(vector == NULL) {
@@ -39,33 +43,34 @@ bool print_vec(struct Vector *vector) {
 	}
 }	
 
+/*
+ * Prints a help page for usage of vecalc to a file in the CWD
+ */
 void getHelp() {
 
+	printf("Vecalc is a program that can perform operations on a vector (1 dimensional array)\n");
 	printf("Usage: [Option] [Value]\n");
 	printf("Options:\n");
 	printf("[q] : quit; Same functionality as [e] (end)\n");
 	printf("[c] : clear; Delete the current vector and start a new one\n");
-	printf("[p] : print;  \n");
-	printf("[h] : help; \n");
-	printf("[a] [value] : append;  \n");
-	printf("[+] [value] : scalar plus;  \n");
-	printf("[-] [value] : scalar minus \n");
-	printf("[*] [value] : scalar multiply \n");
-	printf("[/] [value] : scalar divide \n");
+	printf("[p] : print; Output the contents of the vector to the console \n");
+	printf("[h] : help; Output the list of commands and the usage\n");
+	printf("[a] [value] : append; extend the vector by one element and fill the element with the value \n");
+	printf("[+] [value] : scalar plus;  add [value] to each element of the vector\n");
+	printf("[-] [value] : scalar minus subtract [value] from each element of the vector\n");
+	printf("[*] [value] : scalar multiply multiply [value] to each element of the vector\n");
+	printf("[/] [value] : scalar divide divide [value] from each element of the vector\n");
 	printf("[e] : end; terminate the vecalc program\n");
 }
 
- /* 
-  * gets new options from standard in and places them back in argv for
-  * processing
-  * param argv: The argument vector that contains all the arguments
-  * return: The new number of arguments
-  * postcond: argv is refreshed with new arguments. The old ones are overwritten.
-  *
-  * Note that there is some change in behaviour with the way that the input args
-  * work and subsequent refreshed args. In the input, kkkkkk is all one argument,
-  * but for a refreshed arg that is 6 arguments.
-  */
+/* 
+ * gets new options from standard in and places them back in argv for
+ * processing
+ * param argv: The argument vector that contains all the arguments
+ * return: The new number of arguments
+ * postcond: argv is refreshed with new arguments. The old ones are overwritten.
+ * if there place needs to be taken
+ */
 int refreshArgv(char *argv[]) {
 
 	//get new arguments from stdin (next 9 lines)
@@ -248,9 +253,10 @@ int main(int argc, char *argv[]) {
 
 	//The main vector on which operation are performed
 	struct Vector *vec = alloc_vec();
-	//temporary vector when the extend_vec function is called
+	//Temporary vector when the extend_vec function is called
 	struct Vector *tempVec = vec;
-	//Holds the current option being processed
+	//Holds the current option being processed. Option never contains an
+	//an argument to an option
 	char *option;
 	
 	while(1) {	
@@ -303,6 +309,7 @@ int main(int argc, char *argv[]) {
 						else {
 
 							fprintf(stderr, "Bad argument - Usage: [a] [value]\n");
+							i++;
 						}
 						break;
 
@@ -310,11 +317,22 @@ int main(int argc, char *argv[]) {
 
 							scalar_plus(vec, atof(argv[++i]));
 						}
+						else {
+
+							fprintf(stderr, "Bad argument - Usage [+] [value]\n");
+							//The argument is invalid, so skip over it.
+							i++;
+						}
 						break;
 				
 				case '-':	if(ensureDigit(argv[i + 1])) {
 
 							scalar_plus(vec, atof(argv[++i]));
+						}
+						else {
+
+							fprintf(stderr, "Bad argument - Usage [-] [value]\n");
+							i++;
 						}
 						break;
 
@@ -322,18 +340,26 @@ int main(int argc, char *argv[]) {
 
 							scalar_mult(vec, atof(argv[++i]));
 						}
+						else {
+
+							fprintf(stderr, "Bad argument - Usage [*] [value]\n");
+							i++;
+						}
 						break;
 
 				case '/':	if(ensureDigit(argv[i + 1])) {
 
 							scalar_div(vec, atof(argv[++i]));
 						}
+						else {
+
+							fprintf(stderr, "Bad argument - Usage [/] [value]\n");
+							i++;
+						}
 						break;
 
 				default:	fprintf(stderr, "Invalid option: %s", argv[i]);
 						break;
-						//TODO: add if's for common misuse, and suggest input	
-
 			}
 		}
 	argc = refreshArgv(argv);
