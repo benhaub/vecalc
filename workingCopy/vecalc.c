@@ -30,7 +30,7 @@ bool print_vec(struct Vector *vector) {
 	}
 	else {
 
-		int i = 0;
+		int i;
 		for(i = 0; i < vector->size; i++) {
 
 			printf("%f\n", vector->elements[i]);
@@ -157,6 +157,12 @@ bool ensureDigit(char *arg) {
 struct Vector *alloc_vec() {
 	
 	struct Vector *vector = calloc(1, sizeof(struct Vector));
+
+	if(vector == NULL) {
+
+		fprintf(stderr, "Error allocating memory");
+	}
+
 	vector->size = 0;
 
 return vector;
@@ -183,7 +189,7 @@ struct Vector *extend_vec(struct Vector *inputVector, Elem value) {
 	biggerVector->elements = calloc(biggerVector->size, sizeof(Elem));
 
 	//Copy the elements from the input vector into the new vector
-	int i = 0;
+	int i;
 	for(i = 0; i < inputVector->size; i++) {
 
 		biggerVector->elements[i] = inputVector->elements[i];
@@ -193,11 +199,28 @@ struct Vector *extend_vec(struct Vector *inputVector, Elem value) {
 
 	return biggerVector;
 }
-
+/*
+ * Adds a chosen value to each element of the vector
+ * param vector: the vector whose elements will be added on to
+ * param Elem: The value to be added to each element
+ * return: A vector that has all the input elements incremented by Elem
+ * precond: vector is not null
+ */
 struct Vector *scalar_plus(struct Vector *vector, Elem addend) {
 
-	//TODO Function stub	
-	return NULL;
+	if(vector == NULL) {
+
+		fprintf(stderr, "Input vector is null!\n");
+		return vector;
+	}
+	
+	int i;
+	for(i = 0; i < vector->size; i++) {
+
+		vector->elements[i] += addend;
+	}
+
+return vector;
 }
 
 struct Vector *scalar_minus(struct Vector *vector, Elem difference) {
@@ -232,7 +255,13 @@ int main(int argc, char *argv[]) {
 	
 	while(1) {	
 		
-		int i = 0;
+		//Check vec in case the c option was given
+		if(vec == NULL) {
+
+			vec = alloc_vec();
+		}
+
+		int i;
 		for(i = 1; i < argc; i++) {
 
 			if(argv[i] == NULL) {
@@ -254,6 +283,7 @@ int main(int argc, char *argv[]) {
 						break;
 			
 				case 'c':	dealloc_vec(vec);
+						vec = NULL;
 						break;
 
 				case 'p':	print_vec(vec);
@@ -276,16 +306,28 @@ int main(int argc, char *argv[]) {
 						}
 						break;
 
-				case '+':	scalar_plus(vec, atof(argv[++i]));
+				case '+':	if(ensureDigit(argv[i + 1])) {
+
+							scalar_plus(vec, atof(argv[++i]));
+						}
 						break;
 				
-				case '-':	scalar_plus(vec, atof(argv[++i]));
+				case '-':	if(ensureDigit(argv[i + 1])) {
+
+							scalar_plus(vec, atof(argv[++i]));
+						}
 						break;
 
-				case '*':	scalar_mult(vec, atof(argv[++i]));
+				case '*':	if(ensureDigit(argv[i + 1])) {
+
+							scalar_mult(vec, atof(argv[++i]));
+						}
 						break;
 
-				case '/':	scalar_div(vec, atof(argv[++i]));
+				case '/':	if(ensureDigit(argv[i + 1])) {
+
+							scalar_div(vec, atof(argv[++i]));
+						}
 						break;
 
 				default:	fprintf(stderr, "Invalid option: %s", argv[i]);
