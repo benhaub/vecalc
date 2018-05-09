@@ -41,8 +41,18 @@ bool print_vec(struct Vector *vector) {
 
 void getHelp() {
 
-	//FILE *helpDoc
-	//helpDoc = fopen("vecalcHelp", "w");
+	printf("Usage: [Option] [Value]\n");
+	printf("Options:\n");
+	printf("[q] : quit; Same functionality as [e] (end)\n");
+	printf("[c] : clear; Delete the current vector and start a new one\n");
+	printf("[p] : print;  \n");
+	printf("[h] : help; \n");
+	printf("[a] [value] : append;  \n");
+	printf("[+] [value] : scalar plus;  \n");
+	printf("[-] [value] : scalar minus \n");
+	printf("[*] [value] : scalar multiply \n");
+	printf("[/] [value] : scalar divide \n");
+	printf("[e] : end; terminate the vecalc program\n");
 }
 
  /* 
@@ -278,7 +288,7 @@ int main(int argc, char *argv[]) {
 				case '/':	scalar_div(vec, atof(argv[++i]));
 						break;
 
-				default:	printf("Not a valid option\n");
+				default:	fprintf(stderr, "Invalid option: %s", argv[i]);
 						break;
 						//TODO: add if's for common misuse, and suggest input	
 
