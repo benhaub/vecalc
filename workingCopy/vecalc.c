@@ -237,11 +237,13 @@ struct Vector *scalar_plus(struct Vector *vector, Elem addend) {
 		
 		printf("Using scalar plus on a zero size vector has no effect\n");
 	}
-	
-	int i;
-	for(i = 0; i < vector->size; i++) {
+	else {
+		
+		int i;
+		for(i = 0; i < vector->size; i++) {
 
-		vector->elements[i] += addend;
+			vector->elements[i] += addend;
+		}
 	}
 
 return vector;
@@ -249,13 +251,26 @@ return vector;
 
 struct Vector *scalar_minus(struct Vector *vector, Elem difference) {
 
-	
+	if(vector == NULL) {
 
+		fprintf(stderr, "Input vector is null!\n");
+		return vector;
+	}
+	
 	if(vector->size == 0) {
 								
 		printf("Using scalar minus on a zero size vector has no effect\n");
 	}
-	return NULL;
+	else {
+
+		int i;
+		for(i = 0; i < vector->size; i++) {
+
+			vector->elements[i] -= difference;
+		}
+	}	
+
+return vector;
 }
 /*
  * multiplies a chosen value to each element of the vector
@@ -266,13 +281,24 @@ struct Vector *scalar_minus(struct Vector *vector, Elem difference) {
  */
 struct Vector *scalar_mult(struct Vector *vector, Elem factor) {
 
-	/*TODO Function stub*/
+	if(vector == NULL) {
 
+		fprintf(stderr, "Input vector is null!\n");
+		return vector;
+	}
 	if(vector->size == 0) {
 								
 		printf("Using scalar multiply on a zero size vector has no effect\n");
 	}
-return NULL;
+	else {
+		
+		int i;
+		for(i = 0; i < vector->size; i++) {
+
+			vector->elements[i] *= factor;
+		}
+	}
+return vector;
 }
 /*
  * Divides a chosen value from each element of the vector
@@ -392,7 +418,7 @@ int main(int argc, char *argv[]) {
 				
 				case '-':	if(ensureDigit(argv[i + 1])) {
 
-							scalar_plus(vec, atof(argv[++i]));
+							scalar_minus(vec, atof(argv[++i]));
 	
 						}
 						else {
