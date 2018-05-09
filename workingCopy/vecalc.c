@@ -4,11 +4,14 @@
 //Synopsis	:	A vector calculator that can be run from		//
 //			the command line with a set of defined arguments	//
 //===============================================================================/
+
+//Standard Headers
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h> //For conditionally compiled testing. Use -DTESTING
 #include <string.h> //For refreshArgv()
+#include <ctype.h> //For isdigit()
 
 //Local Headers
 #include "vecalc.h"
@@ -112,22 +115,41 @@ int refreshArgv(char *argv[]) {
 			//more delimiters, strtok returns null
 			nextArg = strtok(NULL, delim);
 		}
-	return j;
+return j;
 }
 
+/*
+ * Checks to see if the argument is a digit or not
+ * param arg: The current argument that needs to be checked
+ * return: true if it is a digit, false otherwise
+ * precond: input parameter is not null
+ */
 bool ensureDigit(char *arg) {
 
-	//Function Stub	
-	return false;
-	//TODO: Implement.
-}
+	if(arg == NULL) {
 
+		return false;
+	}
+
+	if(isdigit(*arg) > 0) {
+
+		return true;
+	}
+	else {
+
+		return false;
+	}
+}
+/*
+ * Allocate memory for a new vector
+ * return: A new vector with 0 size
+ */
 struct Vector *alloc_vec() {
 	
 	struct Vector *vector = calloc(1, sizeof(struct Vector));
 	vector->size = 0;
 
-	return vector;
+return vector;
 }
 
 void dealloc_vec(struct Vector *vector) {
@@ -240,7 +262,7 @@ int main(int argc, char *argv[]) {
 						}
 						else {
 
-							printf("Bad argument - Usage: [a] [value]\n");
+							fprintf(stderr, "Bad argument - Usage: [a] [value]\n");
 						}
 						break;
 
