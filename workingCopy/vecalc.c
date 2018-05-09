@@ -58,16 +58,17 @@ int refreshArgv(char *argv[]) {
 	//get new arguments from stdin (next 9 lines)
 	char *newOptions = malloc(sizeof(char));
 	
-	//Using 8 as the maximum possible for no particular reason. Just
+	//Using 20 as the maximum possible for no particular reason. Just
 	//need enough to make sure we can handle any combination of args	
 	printf("vecalc: ");
-        fgets(newOptions, 8, stdin);
+        fgets(newOptions, 20, stdin);
 	
-	//newOptionByte stores one character at a time from newOptions and is used
-	//to place into argv one iteration at a time.	
-	char *newOptionByte = malloc(sizeof(char));
+	//nextArg stores space delimited arguments from newOptions and is then 
+	//used to insert into argv. Using 11 since the largest single argument possible
+	//is the largest possible number - UINT_MAX. which is 10 characters long, plus
+	//a newline.
+	char *nextArg = malloc(11*sizeof(char));
 
-	 //Insert the new arguments into argv (while loop)
 	 //The first argument of argv is taken by then name of the program. j fullfills
 	 //two purposes:
 	 //The first is keeping track of which element of argv we should insert into.
@@ -75,41 +76,24 @@ int refreshArgv(char *argv[]) {
 	 //it to update argc. 
 	int j = 1;
 
-	while(newOptions[0] != '\n') {
-
-		//TODO: Entire structure of vecalc needs to be changed. Needs to be able
-		//to split single arguments not by character, but by whitespace.
-
 		//Pressing the enter key gives fgets a newline as input, so that's
 	 	//when we stop. One the terribly unreasonable chance that we have naughty
-	 	//users who enter more than 8 characters, fgets will add null to the end
+	 	//users who enter more than 20 characters, fgets will add null to the end
 	 	//of the string since there is no room for the newline
 		//so we'll check for that too
 		if(strcmp(newOptions, "") == 0) {
 
 			return j;
 		}
-		//Eliminate the spaces from the argument list.
-		if(newOptions[0] == ' ') {
+		
+		//get all the space delimited arguments and put them in argv
+		char *delim = " ";
+		nextArg = strtok(newOptions, delim);
 
-			newOptions += 1;
-			//Might not even need the continue statement, but it also might help
-			//make this statements purpose more clear.
-			continue;
-		}
-		else {
-
-			//using strncpy to only copy one byte at a time makes sure we don't get the
-			//new line character
-			strncpy(newOptionByte, newOptions, 1);
-			//It's really important not to just use equals here to put newOptionByte into
-			//the array. If we say argv[j] = newOptionByte, we give it newOptionByte's 
-			//address, then any subsequent changes to newOptionByte also change argv[j-1];
-			//strncpy give unique adresses.
+		while(nextArg != NULL) {
 
 			//In case vecalc was called with no arguments (not even a space), or gets more
-			//arguments than it had last time
-			
+			//arguments than it had last time, we'll have to check for null elements.
 			if(argv[j] == NULL) {
 
 				argv[j] = calloc(1, sizeof(char));
@@ -121,12 +105,21 @@ int refreshArgv(char *argv[]) {
 				argv[j] = calloc(1, sizeof(char));
 			}
 
-			strncpy(argv[j], newOptionByte, 1);
-			newOptions += 1;
+			strncpy(argv[j], nextArg, strlen(nextArg));
 			j++;
+			//With the null input string, strtok continues on from the old string, and
+			//keeps copying more characters until the next delimiter. If there are no
+			//more delimiters, strtok returns null
+			nextArg = strtok(NULL, delim);
 		}
-	}
 	return j;
+}
+
+bool ensureDigit(char *arg) {
+
+	//Function Stub	
+	return false;
+	//TODO: Implement.
 }
 
 struct Vector *alloc_vec() {
@@ -141,7 +134,15 @@ void dealloc_vec(struct Vector *vector) {
 
 	free(vector);
 }
-
+/*
+ * Extend an existing vecotr by 1 element
+ * param vector: The vector to be extened
+ * param Elem: The value placed in the new spot
+ * return: A vector (separate from the original) that is one element larger
+ * precond: input vector is not null.
+ * postcond: The input vector still exists, and there is a new larger vector.
+ * be sure to free memeory accordingly
+ */
 struct Vector *extend_vec(struct Vector *inputVector, Elem value) {
 
 	//Initialise the new vector
@@ -156,7 +157,7 @@ struct Vector *extend_vec(struct Vector *inputVector, Elem value) {
 		biggerVector->elements[i] = inputVector->elements[i];
 	}
 	//Add in the value for the additional element
-	biggerVector->elements[biggerVector->size] = value;
+	biggerVector->elements[(biggerVector->size) -1] = value;
 
 	return biggerVector;
 }
@@ -230,11 +231,17 @@ int main(int argc, char *argv[]) {
 						break;
 
 				case 'a':	tempVec = vec;
-						vec = extend_vec(vec, atof(argv[++i]));
-						dealloc_vec(tempVec);
-						//Notice that this skips over the next
-						//iteration, because it will just be 
-						//the value argument.
+						if(ensureDigit(argv[i + 1])) {
+
+							//Notice that the Elem value increments i, and takes the next value.
+							//this skips over the next iteration.
+							vec = extend_vec(vec, atof(argv[++i]));
+							dealloc_vec(tempVec);
+						}
+						else {
+
+							printf("Bad argument - Usage: [a] [value]\n");
+						}
 						break;
 
 				case '+':	scalar_plus(vec, atof(argv[++i]));
@@ -255,64 +262,7 @@ int main(int argc, char *argv[]) {
 
 			}
 		}
-		argc = refreshArgv(argv);
-	}
-
-#ifdef TESTING
-
-	//Test print_vec
-	struct Vector *vector = calloc(1, sizeof(struct Vector));
-	vector->size = 5;
-	vector->elements = calloc(vector->size, sizeof(Elem));
-	vector->elements[0] = 1;
-	vector->elements[1] = 2;
-	vector->elements[2] = 3;
-	vector->elements[3] = 4;
-	vector->elements[4] = 5;
-
-	print_vec(vector);
-
-	//Test extend_vec
-	//Extend vector by 5
-	for(int i = 0; i < 5; i++) {
-	
-		struct Vector *savedAddress = vector;
-
-		//The vectors are exteneded in this fashion to stop memory leaks.
-		vector = extend_vec(vector, 0);
-		dealloc_vec(savedAddress);
-	}
-	//Make sure the size increased
-	if(vector->size != 10) {
-		
-		fprintf(stderr, "The size of the vector is :%d. It should be: 10\n", vector->size); 
-		assert(vector->size == 10);
-	}
-	//Make sure that all the values from the previous vetctor carried over
-	for(int i = 0; i < 5; i++) {
-		
-		if( ( (vector->elements[i]) - (i+1) ) > ERROR) {
-					
-			fprintf(stderr, "The value of element %d is: %f, but should be %d\n", i, vector->elements[i], i+1);
-			assert( ( (vector->elements[i]) - (i+1) ) < ERROR);
-		}
-	}
-	//Test scalar_plus
-	//add 1 to all elements
-	vector = scalar_plus(vector, 1);
-	
-	for(int i = 0; i < vector->size; i++) {
-	
-		if( ( (vector->elements[i]) -  (i+2) )  > ERROR){
-
-			fprintf(stderr, "The value of element %d should be %d, but it is %f",i, i+2, vector->elements[i]);
-			assert( ( (vector->elements[i]) -  (i+2) )  < ERROR);
-
-		}	
-	}
-
-#endif //TESTING
-
-	return 0;
-
-}
+	argc = refreshArgv(argv);
+	} 
+return 0;
+} 

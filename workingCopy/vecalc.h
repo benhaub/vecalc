@@ -89,4 +89,12 @@ struct Vector *scalar_div(struct Vector *, Elem);
  */
 void getHelp();
 
+/*
+ * Checks to see if the argument is a digit or not
+ * param arg: The current argument that needs to be checked
+ * return: true if it is a digit, false otherwise
+ * precond: input parameter is not null
+ */
+bool ensureDigit(char *);
+
 #endif /*_VECALC_H_*/
