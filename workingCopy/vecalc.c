@@ -79,11 +79,11 @@ int refreshArgv(char *argv[]) {
 	char *newOptions = malloc(sizeof(char));
 	
 	/*
-	 * Using 20 as the maximum possible for no particular reason. Just
+	 * Using 100 as the maximum possible for no particular reason. Just
 	 * need enough to make sure we can handle any combination of args
 	 */	
 	printf("vecalc: ");
-        fgets(newOptions, 20, stdin);
+        fgets(newOptions, 100, stdin);
 	
 	/*
 	 * nextArg stores space delimited arguments from newOptions and is then 
@@ -105,7 +105,7 @@ int refreshArgv(char *argv[]) {
 		/* 
 		 * Pressing the enter key gives fgets a newline as input, so that's
 	 	 * when we stop. One the terribly unreasonable chance that we have naughty
-	 	 * users who enter more than 20 characters, fgets will add null to the end
+	 	 * users who enter more than 100 characters, fgets will add null to the end
 	 	 * of the string since there is no room for the newline
 		 * so we'll check for that too
 		 */
@@ -248,7 +248,14 @@ struct Vector *scalar_plus(struct Vector *vector, Elem addend) {
 
 return vector;
 }
-
+/*
+ * Divides a chosen value from each element of the vector
+ * param vector: The vector whose elements will be divided by Elem
+ * param Elem: The value that each element will be divided by
+ * return: A vector that has had all it's elements divided by Elem
+ * precond: Input vector is not null
+ * precond: divisor is not zero
+ */
 struct Vector *scalar_minus(struct Vector *vector, Elem difference) {
 
 	if(vector == NULL) {
