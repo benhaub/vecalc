@@ -140,7 +140,7 @@ int main(int argc, char *argv[]) {
 						}
 						break;
 
-				default:	fprintf(stderr, "Invalid option: %s", argv[i]);
+				default:	fprintf(stderr, "Invalid option: %s\n", argv[i]);
 						break;
 			}
 		}
