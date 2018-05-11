@@ -23,7 +23,7 @@ bool print_vec(struct Vector *vector) {
 
 	if(vector == NULL) {
 
-		fprintf(stderr, "There is no vector to print");
+		fprintf(stderr, "There is no vector to print\n");
 		return EXIT_FAILURE;
 	}
 	else if(vector->size == 0) {

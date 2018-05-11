@@ -32,12 +32,28 @@ int main(int argc, char *argv[]) {
 	  struct Vector *tempVec = vec;
 
 	 /*
-	  * option holds the current option being processed. Option never contains an
-	  * an argument to an option
+	  * option holds the current option being processed. Option never 
+	  * contains an argument to an option
 	  */
 	char *option;
 	
-	while(1) {	
+	while(1) {
+
+		#ifdef TESTING
+
+		/*
+		 * Testing is sort of tricky for this program given the
+		 * constant need for input from the user. If we did a regular
+		 * defined block of testing at the bottom, we would need to
+		 * be able to keep track of the current state of the program,
+		 * and what should change in the next state depending on what 
+		 * the user entered. This testing is going to rely on a 
+		 * pre-defined testing pattern that will come from a file. The 
+		 * testing will be broken up into if's that depend on the loop 
+		 * count, so we know what should change after each line of input
+		 */
+			int loopCount = 0;
+		#endif	
 		
 		/*Check vec in case the c option was given*/
 		if(vec == NULL) {
@@ -144,7 +160,101 @@ int main(int argc, char *argv[]) {
 						break;
 			}
 		}
+
+	#ifdef TESTING
+		
+		const Elem ERROR = 1E-6;
+
+		/*
+		 * The testing file is generated from the makefile. Refer to
+		 * is for the sequence of input
+		 */
+		
+		/*Test extend_vec*/
+		if(loopCount == 0) {
+		
+			if(vec[0] - 5 > ERROR) {
+				
+				printf("Element 0 should have value 5, but has value: %f\n", vec[0]);	
+				assert(vec[0] - 5 < ERROR);
+			}
+		}
+
+		if(loopCount == 1) {
+			
+			if(vec[1] - 55 > ERROR) {
+			
+				printf("Element 1 should have value 55, but has value: %f\n", vec[1]);	
+				assert(vec[1] - 55 < ERROR);
+			}
+		}
+		
+		if(loopCount == 2) {
+			
+			if(vec[2] - 4 > ERROR) {
+			
+				printf("Element 2 should have value 4, but has value: %f\n", vec[2]);	
+				assert(vec[2] - 4 < ERROR);
+			}
+		}
+
+		if(loopCount == 3) {
+			
+			if(vec[3] - 7 > ERROR) {
+			
+				printf("Element 1 should have value 7, but has value: %f\n", vec[3]);	
+				assert(vec[1] - 7 < ERROR);
+			}
+		}
+
+		if(loopCount == 4) { 
+
+			if(vec[2] != NULL) {
+				
+				printf("Element 2 should not have a value, but has value: %f\n", vec[2]);	
+				assert(vec[2] != NULL);
+			}
+		}
+
+		if(loopCount == 5) { 
+
+			if(vec[2] != NULL) {
+				
+				printf("Element 2 should not have a value, but has value: %f\n", vec[2]);	
+				assert(vec[2] != NULL);
+			}
+		}
+
+		if(loopCount == 6) { 
+
+			if(vec[2] != NULL) {
+				
+				printf("Element 2 should not have a value, but has value: %f\n", vec[2]);	
+				assert(vec[2] != NULL);
+			}
+		}
+
+		if(loopCount == 7) { 
+
+			if(vec[2] != NULL) {
+				
+				printf("Element 2 should not have a value, but has value: %f\n", vec[2]);	
+				assert(vec[2] != NULL);
+			}
+		}
+
+		if(loopCount == 8) { 
+
+			if(vec[2] != NULL) {
+				
+				printf("Element 2 should not have a value, but has value: %f\n", vec[2]);	
+				assert(vec[2] != NULL);
+			}
+		}
+	#endif /*TESTING*/
+
 	argc = refreshArgv(argv);
-	} 
+	}
+
 return 0;
 } 
