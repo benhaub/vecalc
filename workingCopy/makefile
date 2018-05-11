@@ -18,7 +18,8 @@ debug: 	vecalc.o vectorOps.o vectorOut.o vectorIn.o vectorMem.o
 	gcc $(CFLAGS) $(VECALC_OBJ) -o vecalc -g
 
 clean: 
-	rm *.o	
+	rm *.o
+	rm vecalcTestInput.txt	
 		
 vecalc.o: vecalc.c vecalc.h
 	gcc $(CFLAGS) -c vecalc.c
