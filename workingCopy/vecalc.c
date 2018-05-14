@@ -66,19 +66,15 @@ int main(int argc, char *argv[]) {
 		int i;
 		for(i = 1; i < argc; i++) {
 		
-			if(argv[i] == NULL) {
-
-				fprintf(stderr, "Invalid option or argument. Type 'h' for usage\n");
-				argc = refreshArgv(argv);
-			}
-
-			option = argv[i];
+	
+       			option = argv[i];
 
 			/*Any option should only be one character in length*/
 			if(strlen(option) > 1) {
 			
 				fprintf(stderr, "Invalid option or argument. Type 'h' for usage\n");
 				argc = refreshArgv(argv);
+				option = argv[i];
 			}
 
 
@@ -176,6 +172,8 @@ int main(int argc, char *argv[]) {
 		/*TODO:
 		 * add magnitude option
 		 * add option to repeat last option given, with or without addition arguments
+		 *
+		 * Clean up any memory leaks!
 		 */
 
 	#ifdef TESTING

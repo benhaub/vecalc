@@ -50,4 +50,4 @@ test:
 	printf "%s\n" "* 1" "* 2" "* 0.5" "** 6" "* *" "* 1.5" >> vecalcTestInput.txt 
 	printf "%s\n" "q" >> vecalcTestInput.txt
 	./vecalc < vecalcTestInput.txt
-	rm -f vecalcTestInput.txt
+	#rm -f vecalcTestInput.txt

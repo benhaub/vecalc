@@ -12,6 +12,9 @@
 #include <stdbool.h>
 #include <string.h> /*For string manipulation in refreshArgv()*/
 #include <ctype.h>  /*For isdigit()*/
+#include <unistd.h> /*For adjusting input when stdin comes from
+		     * a file, and not the terminal
+		     */
 
 /*Local headers*/
 
@@ -29,18 +32,31 @@ int refreshArgv(char *argv[]) {
 	char *newOptions = malloc(sizeof(char));
 	
 	/*
+	 * Check to see if stdin is coming from the terminal. If it's not, then
+	 * it will cause printf to buffer up, then dump when the file is out of
+	 * lines.
+	 */
+	if(isatty(STDIN_FILENO)) {
+		
+		printf("vecalc: ");
+	}
+	
+	/*
 	 * Using 100 as the maximum possible for no particular reason. Just
 	 * need enough to make sure we can handle any combination of args
-	 */	
-	printf("vecalc: ");
-        fgets(newOptions, 100, stdin);
+	 */
+	fgets(newOptions, 100, stdin);
 
 	/*
-	 * fgets recieves processes the string when the user presses enter, but
+	 * fgets processes the string when the user presses enter, but
 	 * pressing enter also sends in a newline character. It is not needed.
+	 * so we'll copy all but the last byte. 
 	 */
-	strncpy(newOptions, newOptions, (strlen(newOptions)) - 1);
-	
+
+	char *temp = malloc(sizeof(newOptions));
+	strncpy(temp, newOptions, (strlen(newOptions)) - 1);
+	newOptions = temp;
+
 	/*
 	 * nextArg stores space delimited arguments from newOptions and is then 
 	 * used to insert into argv. Using 11 since the largest single argument possible
@@ -94,6 +110,9 @@ int refreshArgv(char *argv[]) {
 			 */
 			nextArg = strtok(NULL, delim);
 		}
+	free(nextArg);
+	free(newOptions);
+
 return j;
 }
 
