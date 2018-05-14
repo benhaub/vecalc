@@ -34,6 +34,12 @@ int refreshArgv(char *argv[]) {
 	 */	
 	printf("vecalc: ");
         fgets(newOptions, 100, stdin);
+
+	/*
+	 * fgets recieves processes the string when the user presses enter, but
+	 * pressing enter also sends in a newline character. It is not needed.
+	 */
+	strncpy(newOptions, newOptions, (strlen(newOptions)) - 1);
 	
 	/*
 	 * nextArg stores space delimited arguments from newOptions and is then 
@@ -52,13 +58,7 @@ int refreshArgv(char *argv[]) {
 	  */ 
 	int j = 1;
 
-		/* 
-		 * Pressing the enter key gives fgets a newline as input, so that's
-	 	 * when we stop. One the terribly unreasonable chance that we have naughty
-	 	 * users who enter more than 100 characters, fgets will add null to the end
-	 	 * of the string since there is no room for the newline
-		 * so we'll check for that too
-		 */
+		/*Nothing to evaluate if this is true*/	
 		if(strcmp(newOptions, "") == 0) {
 
 			return j;
