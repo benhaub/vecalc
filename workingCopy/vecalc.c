@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 
 	 /*
 	  * option holds the current option being processed. Option never 
-	  * contains an argument to an option
+	  * contains an argument to an option for all valid input.
 	  */
 	char *option;
 	
@@ -66,7 +66,6 @@ int main(int argc, char *argv[]) {
 		int i;
 		for(i = 1; i < argc; i++) {
 		
-	
        			option = argv[i];
 
 			/*Any option should only be one character in length*/
@@ -76,7 +75,6 @@ int main(int argc, char *argv[]) {
 				argc = refreshArgv(argv);
 				option = argv[i];
 			}
-
 
 			switch(*option) {
 			
@@ -396,12 +394,115 @@ int main(int argc, char *argv[]) {
 				printf("scalar_minus subtracted from more elements than the size of the vector\n");
 			}
 		}
-		else if(loopCount == 17 || loopCount == 18 || loopCount == 19 || loopCount == 20) {
-			
+		else if(loopCount == 17) {
+
+			if(vec[0] != -4) {
+
+				printf("Element 0 should have a value of -4, but has value: %f\n", vec[0]);
+				assert(vec[0] == -4);
+			}
+			if(vec[1] != 46) {
+
+				printf("Element 1 should have a value of 46, but has value: %f\n", vec[1]);
+				assert(vec[1] == 46);
+			}
+			if(vec[2] != -5) {
+
+				printf("Element 2 should have a value of -5, but has value: %f\n", vec[2]);
+				assert(vec[2] == -5);
+			}
+			if(vec[3] != -2) {
+
+				printf("Element 3 should have a value of -2, but has value: %f\n", vec[3]);
+				assert(vec[3] == -2);
+			}
 			if(vec[4] != NULL) {
 
-				printf("Element 4 should not have a value, but has value: %f\n", vec[4]);
-				assert(vec[4] == NULL);
+				printf("scalar_minus subtracted from more elements than the size of the vector\n");
+			}
+		
+		}
+		else if(loopCount == 18) {
+
+			if(vec[0] != -4) {
+
+				printf("Element 0 should have a value of -4, but has value: %f\n", vec[0]);
+				assert(vec[0] == -4);
+			}
+			if(vec[1] != 46) {
+
+				printf("Element 1 should have a value of 46, but has value: %f\n", vec[1]);
+				assert(vec[1] == 46);
+			}
+			if(vec[2] != -5) {
+
+				printf("Element 2 should have a value of -5, but has value: %f\n", vec[2]);
+				assert(vec[2] == -5);
+			}
+			if(vec[3] != -2) {
+
+				printf("Element 3 should have a value of -2, but has value: %f\n", vec[3]);
+				assert(vec[3] == -2);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_minus subtracted from more elements than the size of the vector\n");
+			}
+		
+		}
+		else if(loopCount == 19) {
+
+			if(vec[0] != -4) {
+
+				printf("Element 0 should have a value of -4, but has value: %f\n", vec[0]);
+				assert(vec[0] == -4);
+			}
+			if(vec[1] != 46) {
+
+				printf("Element 1 should have a value of 46, but has value: %f\n", vec[1]);
+				assert(vec[1] == 46);
+			}
+			if(vec[2] != -5) {
+
+				printf("Element 2 should have a value of -5, but has value: %f\n", vec[2]);
+				assert(vec[2] == -5);
+			}
+			if(vec[3] != -2) {
+
+				printf("Element 3 should have a value of -2, but has value: %f\n", vec[3]);
+				assert(vec[3] == -2);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_minus subtracted from more elements than the size of the vector\n");
+			}
+		
+		}
+		else if(loopCount == 20) {
+
+			if(vec[0] != -4) {
+
+			printf("Element 0 should have a value of -4, but has value: %f\n", vec[0]);
+			assert(vec[0] == -4);
+			}
+			if(vec[1] != 46) {
+
+				printf("Element 1 should have a value of 46, but has value: %f\n", vec[1]);
+				assert(vec[1] == 46);
+			}
+			if(vec[2] != -5) {
+
+				printf("Element 2 should have a value of -5, but has value: %f\n", vec[2]);
+				assert(vec[2] == -5);
+			}
+			if(vec[3] != -2) {
+
+				printf("Element 3 should have a value of -2, but has value: %f\n", vec[3]);
+				assert(vec[3] == -2);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_minus subtracted from more elements than the size of the vector\n");
 			}
 		}
 		/*Test scalar_mult*/
@@ -486,16 +587,320 @@ int main(int argc, char *argv[]) {
 				printf("scalar_mult multiplied to more elements than the size of the vector\n");
 			}
 		}
-		else if(loopCount == 24 || loopCount == 25 || loopCount == 26) {
-			
+		else if(loopCount == 24) {
+		       
+			if(vec[0] != -4) {
+
+				printf("Element 0 should have a value of -4, but has value: %f\n", vec[0]);
+				assert(vec[0] == -4);
+			}
+			if(vec[1] != 46) {
+
+				printf("Element 1 should have a value of 46, but has value: %f\n", vec[1]);
+				assert(vec[1] == 46);
+			}
+			if(vec[2] != -5) {
+
+				printf("Element 2 should have a value of -5, but has value: %f\n", vec[2]);
+				assert(vec[2] == -5);
+			}
+			if(vec[3] != -2) {
+
+				printf("Element 3 should have a value of -2, but has value: %f\n", vec[3]);
+				assert(vec[3] == -2);
+			}
 			if(vec[4] != NULL) {
 
-				printf("Element 4 should not have a value, but has value: %f\n", vec[4]);
-				assert(vec[4] == NULL);
+				printf("scalar_mult multiplied to more elements than the size of the vector\n");
+			}		
+		}	
+		else if(loopCount == 25) {
+		       
+			if(vec[0] != -4) {
+
+				printf("Element 0 should have a value of -4, but has value: %f\n", vec[0]);
+				assert(vec[0] == -4);
+			}
+			if(vec[1] != 46) {
+
+				printf("Element 1 should have a value of 46, but has value: %f\n", vec[1]);
+				assert(vec[1] == 46);
+			}
+			if(vec[2] != -5) {
+
+				printf("Element 2 should have a value of -5, but has value: %f\n", vec[2]);
+				assert(vec[2] == -5);
+			}
+			if(vec[3] != -2) {
+
+				printf("Element 3 should have a value of -2, but has value: %f\n", vec[3]);
+				assert(vec[3] == -2);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_mult multiplied to more elements than the size of the vector\n");
 			}
 		}
-		/*Test scalar_div*/
+		else if(loopCount == 26) {
 			
+			if(vec[0] != -6) {
+
+				printf("Element 0 should have a value of -6, but has value: %f\n", vec[0]);
+				assert(vec[0] == -6);
+			}
+			if(vec[1] != 69) {
+
+				printf("Element 1 should have a value of 69, but has value: %f\n", vec[1]);
+				assert(vec[0] == 69);
+			}
+			if((vec[2] + 7.5) > ERROR) {
+
+				printf("Element 0 should have a value of -7.5, but has value: %f\n", vec[2]);
+				assert((vec[2] + 7.5) < ERROR);
+			}
+			if(vec[3] != -3) {
+
+				printf("Element 3 should have a value of -3, but has value: %f\n", vec[3]);
+				assert(vec[3] == -3);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_mult multplied to more elements than the size of the vector%f\n", vec[4]);
+			}		
+		}
+		printf("%d", loopCount);
+		/*Test scalar_div*/
+		else if(loopCount == 27) {
+
+			if(vec[0] != -2) {
+
+				printf("Element 0 should have a value of -2, but has value: %f\n", vec[0]);
+				assert(vec[0] == -2);
+			}
+			if(vec[1] != 23) {
+
+				printf("Element 1 should have a value of 23, but has value: %f\n", vec[1]);
+				assert(vec[1] == 23);
+			}
+			if((vec[2] + 2.5) > ERROR) {
+
+				printf("Element 0 should have a value of -2.5, but has value: %f\n", vec[2]);
+				assert((vec[2] + 2.5) < ERROR);
+			}
+			if(vec[3] != -1) {
+
+				printf("Element 3 should have a value of -1, but has value: %f\n", vec[3]);
+				assert(vec[3] == -1);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_mult multplied to more elements than the size of the vector%f\n", vec[4]);
+			}		
+		}
+		else if(loopCount == 28) {
+
+			if((vec[0] + 0.333333) > ERROR) {
+
+				printf("Element 0 should have a value of -0.333333, but has value: %f\n", vec[0]);
+				assert((vec[0] + 0.333333) < ERROR);
+			}
+			if((vec[1] - 3.833333) > ERROR) {
+
+				printf("Element 1 should have a value of 3.833333, but has value: %f\n", vec[1]);
+				assert((vec[1] - 3.833333) < ERROR);
+			}
+			if((vec[2] + 0.416666) > ERROR) {
+
+				printf("Element 0 should have a value of -0.416666, but has value: %f\n", vec[2]);
+				assert((vec[2] + 0.416666) < ERROR);
+			}
+			if((vec[3] + 0.166666) > ERROR) {
+
+				printf("Element 3 should have a value of -0.166666, but has value: %f\n", vec[3]);
+				assert(vec[3] == -0.166666);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_mult multplied to more elements than the size of the vector%f\n", vec[4]);
+			}		
+		}
+		else if(loopCount == 29) {
+
+			if((vec[0] + 0.666666) > ERROR) {
+
+				printf("Element 0 should have a value of -0.666666, but has value: %f\n", vec[0]);
+				assert((vec[0] + 0.666666) < ERROR);
+			}
+			if((vec[1] - 7.666666) > ERROR) {
+
+				printf("Element 1 should have a value of 7.666666, but has value: %f\n", vec[1]);
+				assert((vec[1] - 7.666666) < ERROR);
+			}
+			if((vec[2] + 0.833332) > ERROR) {
+
+				printf("Element 0 should have a value of -0.833332, but has value: %f\n", vec[2]);
+				assert((vec[2] + 0.833332) < ERROR);
+			}
+			if((vec[3] + 0.333332) > ERROR) {
+
+				printf("Element 3 should have a value of -0.333332, but has value: %f\n", vec[3]);
+				assert(vec[3] == 0.333332);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_mult multplied to more elements than the size of the vector%f\n", vec[4]);
+			}		
+		}
+		else if(loopCount == 30) {
+
+			if((vec[0] + 0.666666) > ERROR) {
+
+				printf("Element 0 should have a value of -0.666666, but has value: %f\n", vec[0]);
+				assert((vec[0] + 0.666666) < ERROR);
+			}
+			if((vec[1] - 7.666666) > ERROR) {
+
+				printf("Element 1 should have a value of 7.666666, but has value: %f\n", vec[1]);
+				assert((vec[1] - 7.666666) < ERROR);
+			}
+			if((vec[2] + 0.833332) > ERROR) {
+
+				printf("Element 0 should have a value of -0.833332, but has value: %f\n", vec[2]);
+				assert((vec[2] + 0.833332) < ERROR);
+			}
+			if((vec[3] + 0.333332) > ERROR) {
+
+				printf("Element 3 should have a value of -0.333332, but has value: %f\n", vec[3]);
+				assert(vec[3] == 0.333332);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_mult multplied to more elements than the size of the vector%f\n", vec[4]);
+			}	
+
+		}
+		else if(loopCount == 31) {
+
+			if((vec[0] + 0.666666) > ERROR) {
+
+				printf("Element 0 should have a value of -0.666666, but has value: %f\n", vec[0]);
+				assert((vec[0] + 0.666666) < ERROR);
+			}
+			if((vec[1] - 7.666666) > ERROR) {
+
+				printf("Element 1 should have a value of 7.666666, but has value: %f\n", vec[1]);
+				assert((vec[1] - 7.666666) < ERROR);
+			}
+			if((vec[2] + 0.833332) > ERROR) {
+
+				printf("Element 0 should have a value of -0.833332, but has value: %f\n", vec[2]);
+				assert((vec[2] + 0.833332) < ERROR);
+			}
+			if((vec[3] + 0.333332) > ERROR) {
+
+				printf("Element 3 should have a value of -0.333332, but has value: %f\n", vec[3]);
+				assert(vec[3] == 0.333332);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_mult multplied to more elements than the size of the vector%f\n", vec[4]);
+			}	
+
+		}
+		else if(loopCount == 32) {
+		
+			if((vec[0] + 0.666666) > ERROR) {
+
+				printf("Element 0 should have a value of -0.666666, but has value: %f\n", vec[0]);
+				assert((vec[0] + 0.666666) < ERROR);
+			}
+			if((vec[1] - 7.666666) > ERROR) {
+				
+				print_vec(vec);
+
+				printf("Element 1 should have a value of 7.666666, but has value: %f\n", vec[1]);
+				assert((vec[1] - 7.666666) < ERROR);
+			}
+			if((vec[2] + 0.833332) > ERROR) {
+
+				printf("Element 0 should have a value of -0.833332, but has value: %f\n", vec[2]);
+				assert((vec[2] + 0.833332) < ERROR);
+			}
+			if((vec[3] + 0.333332) > ERROR) {
+
+				printf("Element 3 should have a value of -0.333332, but has value: %f\n", vec[3]);
+				assert(vec[3] == 0.333332);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_mult multplied to more elements than the size of the vector%f\n", vec[4]);
+			}
+		}
+		else if(loopCount == 33) {
+
+			if((vec[0] + 0.666666) > ERROR) {
+
+				printf("Element 0 should have a value of -0.666666, but has value: %f\n", vec[0]);
+				assert((vec[0] + 0.666666) < ERROR);
+			}
+			if((vec[1] - 7.666666) > ERROR) {
+				
+				print_vec(vec);
+
+				printf("Element 1 should have a value of 7.666666, but has value: %f\n", vec[1]);
+				assert((vec[1] - 7.666666) < ERROR);
+			}
+			if((vec[2] + 0.833332) > ERROR) {
+
+				printf("Element 0 should have a value of -0.833332, but has value: %f\n", vec[2]);
+				assert((vec[2] + 0.833332) < ERROR);
+			}
+			if((vec[3] + 0.333332) > ERROR) {
+
+				printf("Element 3 should have a value of -0.333332, but has value: %f\n", vec[3]);
+				assert(vec[3] == 0.333332);
+			}
+			if(vec[4] != NULL) {
+
+				printf("scalar_mult multplied to more elements than the size of the vector%f\n", vec[4]);
+			}
+		}
+		else if(loopCount == 34 || loopCount == 35 || loopCount == 36||\
+			loopCount == 37 || loopCount == 36 || loopCount == 37||\
+			loopCount == 38 || loopCount == 39 || loopCount == 40) {
+			
+			if(vec[0] != 1) {
+
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+
+			if(vec[1] != 2) {
+
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+			if(vec[2] != 3) {
+			
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+			if(vec[3] != 4) {
+			
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+			if(vec[4] != 5) {
+			
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+			if(vec[5] != NULL) {
+
+				printf("Element 5 should not have a value, but has value %f\n", vec[5]);
+			}
+		}
+
 	#endif /*TESTING*/
 
 	argc = refreshArgv(argv);

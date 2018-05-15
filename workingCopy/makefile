@@ -13,8 +13,8 @@ CFLAGS = -Wall -Wextra -std=c89
 vecalc:	vecalc.o vectorOps.o vectorOut.o vectorIn.o vectorMem.o
 	gcc $(CFLAGS) $(VECALC_OBJ) -o vecalc 
 
-debug:  #In order to use gdb, the program has to be compiled from beginning to
-	#end, and not just linked with .o's.	
+debug:  #In order to use gdb, the program has to be totally recompiled for the
+	#symbol table to properly generate	
 	gcc $(CFLAGS) $(VECALC_C) -o vecalc -g
 
 clean: 
@@ -35,8 +35,9 @@ vectorMem.o: vectorMem.c vectorMem.h
 test: 
 	#To add additional testing, give vecalc the clear option, and add start
 	#additional testing onto the text file, continuing off from the 
-	#loopCount again. The loop count makes it too difficult to add more
+	#loopCount. The loop count makes it too difficult to add more
 	#testing in between existing tests.
+	#You may want to consider discarding stderr when running tests
 	gcc $(CFLAGS) $(VECALC_OBJ) -o vecalc -DTESTING
 	#make input file
 	touch vecalcTestInput.txt
@@ -47,7 +48,14 @@ test:
 	#Test scalar_minus. [14, 20]
 	printf "%s\n" "- 2" "- 4" "- 6" "-6" "6 -" "- -" "- +" >> vecalcTestInput.txt
 	#Test scalar_mult. [21, 26]
-	printf "%s\n" "* 1" "* 2" "* 0.5" "** 6" "* *" "* 1.5" >> vecalcTestInput.txt 
+	printf "%s\n" "* 1" "* 2" "* 0.5" "** 6" "* *" "* 1.5" >> vecalcTestInput.txt
+	#Test scalar_div. [27, 33]
+	printf "%s\n" "/ 3" "/ 6" "/ 0.5" "// 1" "/+* 6/" "7 /" "/ 0" >> vecalcTestInput.txt
+	#Clear the current vector and start a new one
+	printf "%s\n" "c" >> vecalcTestInput.txt
+	printf "%s\n" "a 1" "a 2" "a 3" "a 4" "a 5" >> vecalcTestInput.txt
+	#Test various illegal input [34, 40]. None of these should change the vector in any way
+	printf "%s\n" " " "\0" "\"						" "./vecalc" ".*" "[ ]" >> vecalcTestInput.txt
 	printf "%s\n" "q" >> vecalcTestInput.txt
-	./vecalc < vecalcTestInput.txt
-	#rm -f vecalcTestInput.txt
+	./vecalc < vecalcTestInput.txt #2> /dev/null
+	rm -f vecalcTestInput.txt
