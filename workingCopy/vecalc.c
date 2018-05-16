@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <string.h> /*To check length of option*/
 #include <assert.h> /*For conidtionally compiled testing*/
+#include <unistd.h> /*For returning stdin to the terminal*/
 
 /*Local Headers*/
 #include "vecalc.h"
@@ -62,7 +63,27 @@ int main(int argc, char *argv[]) {
 
 			vec = alloc_vec();
 		}
+		/*
+		 * This can sometimes happen with redirected input, known for
+		 * certain that this happens with here-strings.
+		 */
+		if(argv[1] == NULL) {
 
+			argc = refreshArgv(argv);
+		}
+
+		/*
+		 * If the user forgets to add a q to the end of their
+		 * redirected input, then fgets will recieve the empty
+		 * string and send it back here infinitely. The program
+		 * will close if this happens iff the input has been
+		 * redirected
+		 */
+		if(isatty(STDIN_FILENO) == 0 && strcmp(argv[1], "") == 0) {
+
+			return EXIT_SUCCESS;	
+		}
+		
 		int i;
 		for(i = 1; i < argc; i++) {
 		
@@ -75,6 +96,8 @@ int main(int argc, char *argv[]) {
 				argc = refreshArgv(argv);
 				option = argv[i];
 			}
+
+			
 
 			switch(*option) {
 			
@@ -900,7 +923,39 @@ int main(int argc, char *argv[]) {
 				printf("Element 5 should not have a value, but has value %f\n", vec[5]);
 			}
 		}
+		else if(loopCount == 41) {
 
+			if(vec[0] != 1) {
+
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+
+			if(vec[1] != 2) {
+
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+			if(vec[2] != 3) {
+			
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+			if(vec[3] != 4) {
+			
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+			if(vec[4] != 5) {
+			
+				printf("Element 0 should have a value of 1, but has value: %f\n", vec[0]);
+				assert(vec[0] == 1);
+			}
+			if(vec[5] != NULL) {
+
+				printf("Element 5 should not have a value, but has value %f\n", vec[5]);
+			}
+		}
 	#endif /*TESTING*/
 
 	argc = refreshArgv(argv);

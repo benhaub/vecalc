@@ -14,7 +14,7 @@ vecalc:	vecalc.o vectorOps.o vectorOut.o vectorIn.o vectorMem.o
 	gcc $(CFLAGS) $(VECALC_OBJ) -o vecalc 
 
 debug:  #In order to use gdb, the program has to be totally recompiled for the
-	#symbol table to properly generate	
+	#symbol table to properly generate
 	gcc $(CFLAGS) $(VECALC_C) -o vecalc -g
 
 clean: 
@@ -56,6 +56,8 @@ test:
 	printf "%s\n" "a 1" "a 2" "a 3" "a 4" "a 5" >> vecalcTestInput.txt
 	#Test various illegal input [34, 40]. None of these should change the vector in any way
 	printf "%s\n" " " "\0" "\"						" "./vecalc" ".*" "[ ]" >> vecalcTestInput.txt
+	#501 character input [41, 41] - Test is 6 empty chars long.
+	printf "%s\n" "     " >> vecalcTestInput.txt
 	printf "%s\n" "q" >> vecalcTestInput.txt
 	./vecalc < vecalcTestInput.txt #2> /dev/null
 	rm -f vecalcTestInput.txt

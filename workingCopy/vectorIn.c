@@ -16,8 +16,6 @@
 		     * a file, and not the terminal
 		     */
 
-/*Local headers*/
-
 /* 
  * gets new options from standard in and places them back in argv for
  * processing
@@ -28,34 +26,35 @@
  */
 int refreshArgv(char *argv[]) {
 
-	/*get new arguments from stdin (next 9 lines)*/
-	char *newOptions = malloc(sizeof(char));
+	/*get new arguments from stdin (Process goes from here to fgets)*/
+	char *newOptions = malloc(500*sizeof(char));
+	/*500 to be safe*/
 	
 	/*
 	 * Check to see if stdin is coming from the terminal. If it's not, then
 	 * it will cause printf to buffer up, then dump when the file is out of
 	 * lines.
+	 *
+	 * It's also not very useful to print the vecalc prompt if recieving input
+	 * from a file
 	 */
-	printf("vecalc: ");
-	
-	if(!isatty(STDIN_FILENO)) {
+	if(isatty(STDIN_FILENO) == 0) {
 		
 		fflush(stdout);
 	}
-	/*
-	 * Using 100 as the maximum possible for no particular reason. Just
-	 * need enough to make sure we can handle any combination of args
-	 */
-	fgets(newOptions, 100, stdin);
+	else {
+
+		printf("vecalc: ");
+	}
 
 	/*
-	 * fgets processes the string when the user presses enter, but
-	 * pressing enter also sends in a newline character. It is not needed.
-	 * so we'll copy all but the last byte. 
+	 * Using 500 as the maximum possible for no particular reason. Just
+	 * need enough to make sure we can handle any combination of args.
+	 * I'm doubting honest intent on a 1kb input to vecalc, so this will
+	 * quietly discard it and ask again for input.
 	 */
-	char *temp = malloc(sizeof(newOptions));
-	strncpy(temp, newOptions, (strlen(newOptions)) - 1);
-	newOptions = temp;
+	fgets(newOptions, 500, stdin);
+	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
 
 	/*
 	 * The first argument of argv is taken by then name of the program. 
@@ -69,16 +68,26 @@ int refreshArgv(char *argv[]) {
 	/*Nothing to evaluate if this is true*/	
 	if(strcmp(newOptions, "") == 0) {
 
+		/*strcpy(argv[j], newOptions);*/
+		argv[j] = "";
 		return j;
+
 	}
-	
+
 	/*
-	 * nextArg stores space delimited arguments from newOptions and is then 
-	 * used to insert into argv. Using 11 since the largest single argument
-	 * possible is the largest possible number - UINT_MAX. which is 10 
-	 * characters long, plus a newline.
+	 * fgets processes the string when the user presses enter, but
+	 * pressing enter also sends in a newline character. It is not needed.
+	 * so we'll copy all but the last byte. 
 	 */
-	char *nextArg = malloc(11*sizeof(char));
+	char *temp = malloc(strlen(newOptions)*sizeof(newOptions));
+	strncpy(temp, newOptions, (strlen(newOptions)) - 1);
+	newOptions = temp;
+
+	/*
+	 * nextArg takes the next space delimited string and stores it in the
+	 * next open spot in argv
+	 */
+	char *nextArg = malloc(500*sizeof(char));
 
 	/*get all the space delimited arguments and put them in argv*/
 	char *delim = " ";
@@ -86,10 +95,16 @@ int refreshArgv(char *argv[]) {
 
 	while(nextArg != NULL) {
 
+		/*re-size nextArg*/
+		/*nextArg = realloc(nextArg, strlen(nextArg)*sizeof(nextArg));
+*/
 		/*
 		 * In case vecalc was called with no arguments 
 		 * (not even a space), or gets more arguments than it had last 
 		 * time, we'll have to check for null elements.
+		 *
+		 * main() only takes one character options, so that's all we'll
+		 * give space for
 		 */
 		if(argv[j] == NULL) {
 
@@ -114,7 +129,6 @@ int refreshArgv(char *argv[]) {
 	
 	free(nextArg);
 	free(newOptions);
-
 return j;
 }
 
