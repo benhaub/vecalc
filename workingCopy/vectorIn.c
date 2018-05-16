@@ -26,35 +26,10 @@
  */
 int refreshArgv(char *argv[]) {
 
-	/*get new arguments from stdin (Process goes from here to fgets)*/
 	char *newOptions = malloc(500*sizeof(char));
 	/*500 to be safe*/
 	
-	/*
-	 * Check to see if stdin is coming from the terminal. If it's not, then
-	 * it will cause printf to buffer up, then dump when the file is out of
-	 * lines.
-	 *
-	 * It's also not very useful to print the vecalc prompt if recieving input
-	 * from a file
-	 */
-	if(isatty(STDIN_FILENO) == 0) {
-		
-		fflush(stdout);
-	}
-	else {
-
-		printf("vecalc: ");
-	}
-
-	/*
-	 * Using 500 as the maximum possible for no particular reason. Just
-	 * need enough to make sure we can handle any combination of args.
-	 * I'm doubting honest intent on a 1kb input to vecalc, so this will
-	 * quietly discard it and ask again for input.
-	 */
-	fgets(newOptions, 500, stdin);
-	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
+	userIn(newOptions);
 
 	/*
 	 * The first argument of argv is taken by then name of the program. 
@@ -95,9 +70,6 @@ int refreshArgv(char *argv[]) {
 
 	while(nextArg != NULL) {
 
-		/*re-size nextArg*/
-		/*nextArg = realloc(nextArg, strlen(nextArg)*sizeof(nextArg));
-*/
 		/*
 		 * In case vecalc was called with no arguments 
 		 * (not even a space), or gets more arguments than it had last 
@@ -153,4 +125,40 @@ bool ensureDigit(char *arg) {
 
 		return false;
 	}
+}
+
+/*
+ * Handles input from the user to make sure that it is safe to be further
+ * processed by vecalc and that it's take up as little memory as possible.
+ * param char *: string to hold the users new input
+ * precond: char * is not null
+ */
+void userIn(char *newOptions) {
+
+	/*
+	 * Check to see if stdin is coming from the terminal. If it's not, then
+	 * it will cause printf to buffer up, then dump when the file is out of
+	 * lines.
+	 *
+	 * It's also not very useful to print the vecalc prompt if recieving 
+	 * input from a file. Printing vecalc helps the user know that the
+	 * program is still running and awaiting input
+	 */
+	if(isatty(STDIN_FILENO) == 0) {
+		
+		fflush(stdout);
+	}
+	else {
+
+		printf("vecalc: ");
+	}
+
+	/*
+	 * Using 500 as the maximum possible for no particular reason. Just
+	 * need enough to make sure we can handle any combination of args.
+	 * I'm doubting honest intent on a 1kb input to vecalc, so this will
+	 * quietly discard it and ask again for input.
+	 */
+	fgets(newOptions, 500, stdin);
+	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
 }

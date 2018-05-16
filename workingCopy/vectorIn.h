@@ -22,4 +22,12 @@ bool ensureDigit(char *);
  */
 int refreshArgv(char *[]);
 
+/*
+ * Handles input from the user to make sure that it is safe to be further
+ * processed by vecalc and that it's take up as little memory as possible.
+ * param char *: string to hold the users new input
+ * precond: char * is not null
+ */
+void userIn(char *);
+
 #endif /*_VECTORIN_H_*/

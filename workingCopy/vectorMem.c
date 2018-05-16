@@ -9,6 +9,7 @@
 /*Standard Headers*/
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 /*Local Headers*/
 #include "vecalc.h" /*For definition of Vector*/
@@ -63,5 +64,20 @@ void dealloc_vec(struct Vector *vector) {
 	free(vector);
 }
 
+/*
+ * Checks malloc calls to make sure the succeeded
+ * param void *: The newly allocated pointer
+ * return: true if void * is not null, false otherwise
+ */
+bool checkMalloc(void * ptr) {
 
+	if(ptr == NULL) {
 
+		fprintf(stderr, "Call to malloc failed\n");
+		return false;
+	}
+	else {
+		
+		return true;
+	}
+}

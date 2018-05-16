@@ -34,4 +34,11 @@ void dealloc_vec(struct Vector *);
  */
 struct Vector *extend_vec(struct Vector *, Elem);
 
+/*
+ * Checks malloc calls to make sure the succeeded
+ * param void *: The newly allocated pointer
+ * return: true if void * is not null, false otherwise
+ */
+bool checkMalloc(void * ptr)
+
 #endif /*_VECTORMEM_H_*/
