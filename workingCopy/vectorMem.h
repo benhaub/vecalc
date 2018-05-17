@@ -39,6 +39,6 @@ struct Vector *extend_vec(struct Vector *, Elem);
  * param void *: The newly allocated pointer
  * return: true if void * is not null, false otherwise
  */
-bool checkMalloc(void * ptr)
+bool checkMalloc(void * ptr);
 
 #endif /*_VECTORMEM_H_*/

@@ -1,6 +1,9 @@
 #ifndef _VECTORIN_H_
 #define _VECTORIN_H
 
+#define MAX_INPUT_LENGTH 185 /*Arbritray choice based on how many characters
+			       fit the width of my screen*/
+
 /*Standard Headers*/
 #include <stdbool.h>
 

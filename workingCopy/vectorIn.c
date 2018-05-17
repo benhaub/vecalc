@@ -16,6 +16,10 @@
 		     * a file, and not the terminal
 		     */
 
+/*Local Headers*/
+#include "vectorMem.h"
+#include "vectorIn.h"
+
 /* 
  * gets new options from standard in and places them back in argv for
  * processing
@@ -26,8 +30,7 @@
  */
 int refreshArgv(char *argv[]) {
 
-	char *newOptions = malloc(500*sizeof(char));
-	/*500 to be safe*/
+	char *newOptions = calloc(185 ,sizeof(char));
 	
 	userIn(newOptions);
 
@@ -54,7 +57,7 @@ int refreshArgv(char *argv[]) {
 	 * pressing enter also sends in a newline character. It is not needed.
 	 * so we'll copy all but the last byte. 
 	 */
-	char *temp = malloc(strlen(newOptions)*sizeof(newOptions));
+	char *temp = calloc(strlen(newOptions), sizeof(newOptions));
 	strncpy(temp, newOptions, (strlen(newOptions)) - 1);
 	newOptions = temp;
 
@@ -62,7 +65,7 @@ int refreshArgv(char *argv[]) {
 	 * nextArg takes the next space delimited string and stores it in the
 	 * next open spot in argv
 	 */
-	char *nextArg = malloc(500*sizeof(char));
+	char *nextArg = calloc(185, sizeof(char));
 
 	/*get all the space delimited arguments and put them in argv*/
 	char *delim = " ";
@@ -153,12 +156,7 @@ void userIn(char *newOptions) {
 		printf("vecalc: ");
 	}
 
-	/*
-	 * Using 500 as the maximum possible for no particular reason. Just
-	 * need enough to make sure we can handle any combination of args.
-	 * I'm doubting honest intent on a 1kb input to vecalc, so this will
-	 * quietly discard it and ask again for input.
-	 */
-	fgets(newOptions, 500, stdin);
+	
+	fgets(newOptions, 185, stdin);
 	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
 }
