@@ -69,7 +69,7 @@ void dealloc_vec(struct Vector *vector) {
  * param void *: The newly allocated pointer
  * return: true if void * is not null, false otherwise
  */
-bool checkMalloc(void * ptr) {
+bool checkAlloc(void * ptr) {
 
 	if(ptr == NULL) {
 

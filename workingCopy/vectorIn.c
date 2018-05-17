@@ -31,7 +31,8 @@
 int refreshArgv(char *argv[]) {
 
 	char *newOptions = calloc(MAX_INPUT_LENGTH ,sizeof(char));
-	
+	checkAlloc(newOptions);
+
 	userIn(newOptions);
 
 	/*
@@ -95,7 +96,6 @@ int refreshArgv(char *argv[]) {
 		/*Clear and allocate anyway for copying*/
 		else {
 
-			argv[j] = NULL;
 			argv[j] = calloc(1, sizeof(char));
 		}
 
@@ -146,20 +146,11 @@ bool ensureDigit(char *arg) {
 void userIn(char *newOptions) {
 
 	/*
-	 * Check to see if stdin is coming from the terminal. If it's not, then
-	 * it will cause printf to buffer up, then dump when the file is out of
-	 * lines.
-	 *
-	 * It's also not very useful to print the vecalc prompt if recieving 
-	 * input from a file. Printing vecalc helps the user know that the
-	 * program is still running and awaiting input
+	 * Check to see if stdin is coming from the terminal, and only print
+	 * the vecalc prompt if it is.
 	 */
-	if(isatty(STDIN_FILENO) == 0) {
+	if(isatty(STDIN_FILENO) == 1) {
 		
-		fflush(stdout);
-	}
-	else {
-
 		printf("vecalc: ");
 	}
 
@@ -168,5 +159,7 @@ void userIn(char *newOptions) {
 	 * What happens for input greater than or equal to MAX_INPUT_LENGTH
 	 */	
 	fgets(newOptions, MAX_INPUT_LENGTH, stdin);
+	/*Re-size newOptions to fit the input more optimally*/
 	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
+	checkAlloc(newOptions);
 }

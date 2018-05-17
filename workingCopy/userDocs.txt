@@ -7,6 +7,10 @@
 vecalc is a vector calculator written in c that can perform mathematical 
 operations on a one dimensional array (vector).
 
+///Installation///
+
+- Not sure how installation will work yet
+
 ///Running vecalc///
 
 vecalc is a terminal program. It's interface is completely text based.
