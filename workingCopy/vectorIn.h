@@ -3,7 +3,6 @@
 
 #define MAX_INPUT_LENGTH 185 /*Arbritray choice based on how many characters
 			       fit the width of my screen*/
-
 /*Standard Headers*/
 #include <stdbool.h>
 

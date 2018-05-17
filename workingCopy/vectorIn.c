@@ -30,7 +30,7 @@
  */
 int refreshArgv(char *argv[]) {
 
-	char *newOptions = calloc(185 ,sizeof(char));
+	char *newOptions = calloc(MAX_INPUT_LENGTH ,sizeof(char));
 	
 	userIn(newOptions);
 
@@ -51,7 +51,6 @@ int refreshArgv(char *argv[]) {
 		return j;
 
 	}
-
 	/*
 	 * fgets processes the string when the user presses enter, but
 	 * pressing enter also sends in a newline character. It is not needed.
@@ -63,9 +62,10 @@ int refreshArgv(char *argv[]) {
 
 	/*
 	 * nextArg takes the next space delimited string and stores it in the
-	 * next open spot in argv
+	 * next open spot in argv. Any string placed in nextArg will be no
+	 * greater than the size of newOptions
 	 */
-	char *nextArg = calloc(185, sizeof(char));
+	char *nextArg = calloc(strlen(newOptions), sizeof(char));
 
 	/*get all the space delimited arguments and put them in argv*/
 	char *delim = " ";
@@ -80,6 +80,13 @@ int refreshArgv(char *argv[]) {
 		 *
 		 * main() only takes one character options, so that's all we'll
 		 * give space for
+		 */
+
+		/*
+		 * TODO:
+		 * argv[j] definitely needs support for more than one byte
+		 * Also would rather not ditch what's there and grab more
+		 * memory, i'd like to just overwrite the positions.
 		 */
 		if(argv[j] == NULL) {
 
@@ -156,7 +163,10 @@ void userIn(char *newOptions) {
 		printf("vecalc: ");
 	}
 
-	
-	fgets(newOptions, 185, stdin);
+	/*
+	 * TODO:
+	 * What happens for input greater than or equal to MAX_INPUT_LENGTH
+	 */	
+	fgets(newOptions, MAX_INPUT_LENGTH, stdin);
 	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
 }

@@ -195,6 +195,9 @@ int main(int argc, char *argv[]) {
 		 * add option to repeat last option given, with or without addition arguments
 		 *
 		 * Clean up any memory leaks!
+		 *
+		 * Make sure it is known what happens for entries that are near
+		 * max length
 		 */
 
 	#ifdef TESTING
