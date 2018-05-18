@@ -22,13 +22,16 @@
 
 /* 
  * gets new options from standard in and places them back in argv for
- * processing
+ * processing. Also ensures as little memory allocation for new args as
+ * possible.
  * param argv: The argument vector that contains all the arguments
+ * param int *: The maximum number of arguments that has been used
+ * param int *: The initial amount of arguments the program was ran with
  * return: The new number of arguments
  * postcond: argv is refreshed with new arguments. The old ones are overwritten.
  * if there place needs to be taken
  */
-int refreshArgv(char *argv[]) {
+int refreshArgv(char *argv[], int *maxArgc, int *initialArgc) {
 
 	char *newOptions = calloc(MAX_INPUT_LENGTH ,sizeof(char));
 	checkAlloc(newOptions);
@@ -50,7 +53,6 @@ int refreshArgv(char *argv[]) {
 		/*strcpy(argv[j], newOptions);*/
 		argv[j] = "";
 		return j;
-
 	}
 	/*
 	 * fgets processes the string when the user presses enter, but
@@ -72,33 +74,43 @@ int refreshArgv(char *argv[]) {
 	char *delim = " ";
 	nextArg = strtok(newOptions, delim);
 
+	/*Holds memory locations from argv to be freed before overwriting them*/
+	char *holdMem;
+
 	while(nextArg != NULL) {
 
-		/*
-		 * In case vecalc was called with no arguments 
-		 * (not even a space), or gets more arguments than it had last 
-		 * time, we'll have to check for null elements.
-		 *
-		 * main() only takes one character options, so that's all we'll
-		 * give space for
-		 */
-
-		/*
-		 * TODO:
-		 * argv[j] definitely needs support for more than one byte
-		 * Also would rather not ditch what's there and grab more
-		 * memory, i'd like to just overwrite the positions.
-		 */
 		if(argv[j] == NULL) {
 
-			argv[j] = calloc(1, sizeof(char));
+			argv[j] = calloc(strlen(nextArg), sizeof(char));
 		}
-		/*Clear and allocate anyway for copying*/
-		else {
+		/*
+		 * If j is less than the maximum args we've used and greater
+		 * than the number of arguments vecalc was initialized with, 
+		 * then we are dealing with memory that we've allocated
+		 */
+		else if(j >= *initialArgc && j < *maxArgc) {
 
-			argv[j] = calloc(1, sizeof(char));
+			holdMem = malloc(strlen(argv[j])*sizeof(char));
+			holdMem = argv[j];	
+			argv[j] = calloc(strlen(nextArg), sizeof(char));
+			free(holdMem);
 		}
+		/*
+		 * We don't own this memory, we should overwrite the location
+		 * with one that we do own
+		 */
+		else if(j >= *maxArgc) {
 
+			argv[j] = calloc(strlen(nextArg), sizeof(char));
+		}
+		/*
+		 * We can't realloc this memory, so we'll clear it's contents
+		 * for new arguments
+		 */
+		else if(j < *initialArgc) {
+			
+			argv[j] = memset(argv[j], 0, strlen(argv[j]));
+		}
 		strncpy(argv[j], nextArg, strlen(nextArg));
 		j++;
 		/*

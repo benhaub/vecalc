@@ -40,6 +40,22 @@ int main(int argc, char *argv[]) {
 	  */
 	char *option;
 	
+	/*
+	 * In order to manage memory usage properly, we need to know how
+	 * much of argv has been dynamically allocated and how much hasn't, so 
+	 * this will keep track of the max number of elements that were 
+	 * dynamically allocated to our program.
+	 *
+	 * If argv was given any arguments as it started, those are not
+	 * dynamically allocated elements.
+	 */
+
+	int *initialArgc = malloc(sizeof(argc));
+	*initialArgc = argc;
+	
+	int *maxArgc = malloc(sizeof(argc));
+	*maxArgc = argc;
+	
 	while(1) {
 
 		#ifdef TESTING
@@ -56,20 +72,27 @@ int main(int argc, char *argv[]) {
 		 * count, so we know what should change after each line of input
 		 */
 			int loopCount = 0;
-		#endif	
-		
+		#endif
+
 		/*Check vec in case the c option was given*/
 		if(vec == NULL) {
 
 			vec = alloc_vec();
 		}
+
+		/*Is this the most space we've needed so far?*/
+		if(*maxArgc < argc) {
+
+			*maxArgc = argc;
+		}
+
 		/*
 		 * This can sometimes happen with redirected input, known for
 		 * certain that this happens with here-strings.
 		 */
 		if(argv[1] == NULL) {
 
-			argc = refreshArgv(argv);
+			argc = refreshArgv(argv, maxArgc, initialArgc);
 		}
 
 		/*
@@ -93,7 +116,7 @@ int main(int argc, char *argv[]) {
 			if(strlen(option) > 1) {
 			
 				fprintf(stderr, "Invalid option or argument. Type 'h' for usage\n");
-				argc = refreshArgv(argv);
+				argc = refreshArgv(argv, maxArgc, initialArgc);
 				option = argv[i];
 			}
 
@@ -961,7 +984,7 @@ int main(int argc, char *argv[]) {
 		}
 	#endif /*TESTING*/
 
-	argc = refreshArgv(argv);
+	argc = refreshArgv(argv, maxArgc, initialArgc);
 	}
 
 return 0;
