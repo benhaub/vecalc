@@ -19,6 +19,7 @@ debug:  #In order to use gdb, the program has to be totally recompiled for the
 
 clean: 
 	rm *.o
+	rm core.*
 		
 vecalc.o: vecalc.c vecalc.h
 	gcc $(CFLAGS) -c vecalc.c
@@ -38,7 +39,7 @@ test:
 	#loopCount. The loop count makes it too difficult to add more
 	#testing in between existing tests.
 	#You may want to consider discarding stderr when running tests
-	gcc $(CFLAGS) $(VECALC_OBJ) -o vecalc -DTESTING
+	gcc $(CFLAGS) $(VECALC_C) -o vecalc -DTESTING
 	#make input file
 	touch vecalcTestInput.txt
 	#Test extend_vec. "a 5" is for loopCount 0, "a 55" is for loopCount 1, etc. [0, 8]
@@ -59,5 +60,5 @@ test:
 	#501 character input [41, 41] - Test is 6 empty chars long.
 	printf "%s\n" "     " >> vecalcTestInput.txt
 	printf "%s\n" "q" >> vecalcTestInput.txt
-	./vecalc < vecalcTestInput.txt #2> /dev/null
+	./vecalc < vecalcTestInput.txt 
 	rm -f vecalcTestInput.txt
