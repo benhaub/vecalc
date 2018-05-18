@@ -139,14 +139,19 @@ bool ensureDigit(char *arg) {
 		return false;
 	}
 
-	if(isdigit(*arg) > 0) {
+	size_t i;
+	for(i = 0; i < strlen(arg); i++) {
+	
+		if(isdigit(arg[i]) > 0) {
 
-		return true;
-	}
-	else {
+			continue;	
+		}	
+		else {
 
-		return false;
+			return false;
+		}
 	}
+return true;
 }
 
 /*

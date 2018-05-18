@@ -29,15 +29,15 @@
 int main(int argc, char *argv[]) {
 
 	/*The main vector on which operation are performed*/
-	  struct Vector *vec = alloc_vec();
+	struct Vector *vec = alloc_vec();
 
-	 /*Temporary vector when the extend_vec function is called*/
-	  struct Vector *tempVec = vec;
+	/*Temporary vector when the extend_vec function is called*/
+	struct Vector *tempVec = vec;
 
-	 /*
-	  * option holds the current option being processed. Option never 
-	  * contains an argument to an option for all valid input.
-	  */
+	/*
+	 * option holds the current option being processed. Option never 
+	 * contains an argument to an option for all valid input.
+	 */
 	char *option;
 	
 	/*
@@ -56,23 +56,13 @@ int main(int argc, char *argv[]) {
 	int *maxArgc = malloc(sizeof(argc));
 	*maxArgc = argc;
 	
+	#ifdef TESTING
+
+	int loopCount = 0;
+	
+	#endif
+
 	while(1) {
-
-		#ifdef TESTING
-
-		/*
-		 * Testing is sort of tricky for this program given the
-		 * constant need for input from the user. If we did a regular
-		 * defined block of testing at the bottom, we would need to
-		 * be able to keep track of the current state of the program,
-		 * and what should change in the next state depending on what 
-		 * the user entered. This testing is going to rely on a 
-		 * pre-defined testing pattern that will come from a file. The 
-		 * testing will be broken up into if's that depend on the loop 
-		 * count, so we know what should change after each line of input
-		 */
-			int loopCount = 0;
-		#endif
 
 		/*Check vec in case the c option was given*/
 		if(vec == NULL) {
@@ -80,7 +70,7 @@ int main(int argc, char *argv[]) {
 			vec = alloc_vec();
 		}
 
-		/*Is this the most space we've needed so far?*/
+		/*Check if this is the most space we've needed so far*/
 		if(*maxArgc < argc) {
 
 			*maxArgc = argc;
@@ -113,14 +103,12 @@ int main(int argc, char *argv[]) {
        			option = argv[i];
 
 			/*Any option should only be one character in length*/
-			if(strlen(option) > 1) {
+			while(strlen(option) > 1) {
 			
-				fprintf(stderr, "Invalid option or argument. Type 'h' for usage\n");
+				fprintf(stderr, "Invalid option. Type 'h' for usage\n");
 				argc = refreshArgv(argv, maxArgc, initialArgc);
 				option = argv[i];
 			}
-
-			
 
 			switch(*option) {
 			
@@ -871,6 +859,7 @@ int main(int argc, char *argv[]) {
 				assert(vec->elements[0] == 1);
 			}
 		}
+	loopCount++;
 	#endif /*TESTING*/
 
 	argc = refreshArgv(argv, maxArgc, initialArgc);

@@ -17,6 +17,10 @@ vecalc.c		Main menu - Analyses user input first, then tells vecalc
 			operator what to do with it. This is an infinitely
 			looping operation that continue until the 'e' or 'q'
 			command is issued.
+
+			Includes all the regression testing, which is conditionally
+			compiled with -DTESTING or by using the test target within
+			the makefile
 			
 			
 			Functions:
@@ -76,6 +80,13 @@ test - create a line by line test document that is customizable in the makefile.
 
 ///Testing///
 
+Testing is a little different for this program given the
+constant need for input from the user. If we did a regular
+defined block of testing at the bottom, we would need to
+be able to keep track of the current state of the program,
+and what should change in the next state depending on what 
+the user entered.
+
 Testing is automatically handled when the test target is called with make.
 The document is built using printf commands that are redirected into a file.
 vecalc is then compiled with -DTESTING and ran with the test file redirected as
@@ -85,4 +96,5 @@ DO NOT CHANGE THE ORDERING OF TESTS
 
 vecalc tests the commands in a known order, if you wish to add more testing,
 do so by appending tests onto the end of the test document and continue on
-from there.
+from there (i.e just add more printf commands into the makefile, AFTER the
+exisiting ones). 
