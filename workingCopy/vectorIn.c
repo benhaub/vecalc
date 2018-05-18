@@ -180,3 +180,30 @@ void userIn(char *newOptions) {
 	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
 	checkAlloc(newOptions);
 }
+
+/*
+ * Clean argv removes values from argv greater than the current argc
+ * param char[] *: the argument vector to be cleaned of unwanted values
+ * param int: The current amount of arguments in argv
+ * param int: The maximum amount of arguments in argv
+ * precond: argv is not null
+ * postcond: elements in argv greater that argc and less than the maximum
+ * arguments used are cleared of existing values
+ */
+void cleanArgv(char *argv[], int argc, int maxArgc) {
+
+	if(argv == NULL) {
+
+		fprintf(stderr, "cleanArgv was given null argument vector\n");
+	}
+
+	int i;
+	/*
+	 * Remember that the first argument is the name of the program, hence
+	 * maxArgc - 1
+	 */
+	for(i = argc; i < maxArgc-1; i++) {
+
+		argv[i] = memset(argv[i], 0, strlen(argv[i]));
+	}
+}	

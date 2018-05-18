@@ -33,5 +33,15 @@ int refreshArgv(char *[], int *, int *);
  * precond: char * is not null
  */
 void userIn(char *);
+/*
+ * Clean argv removes values from argv greater than the current argc
+ * param char[] *: the argument vector to be cleaned of unwanted values
+ * param int: The current amount of arguments in argv
+ * param int: The maximum amount of arguments in argv
+ * precond: argv is not null
+ * postcond: elements in argv greater that argc and less than the maximum
+ * arguments used are cleared of existing values
+ */
+void cleanArgv(char *[], int, int);
 
 #endif /*_VECTORIN_H_*/

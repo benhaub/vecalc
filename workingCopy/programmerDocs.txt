@@ -39,6 +39,7 @@ vectorIn.c		Format and check user entered data - Accepts new input
 			userIn()
 			refreshArgv()
 			ensureDigit()
+			cleanArgv()
 
 
 vectorIn.h		Defines MAX_INPUT_LENGTH	
