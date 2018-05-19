@@ -911,6 +911,9 @@ int main(int argc, char *argv[]) {
 				assert(vec->elements[0] == 1);
 			}
 		}
+		/*TODO:
+		 * Add test for loop 42
+		 */
 	loopCount++;
 	#endif /*TESTING*/
 

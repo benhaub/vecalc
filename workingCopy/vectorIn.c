@@ -134,15 +134,36 @@ return j;
  */
 bool ensureDigit(char *arg) {
 
-	/*isdigit considers blank string numbers apparently*/
+	int decimalCount = 0;
+	
+	/*
+	 * isdigit considers blank string numbers apparently. This is probably
+	 * caused by using memset
+	 * 
+	 */
 	if(arg == NULL || strcmp(arg, "" ) == 0) {
 
 		return false;
 	}
+	
 
 	size_t i;
 	for(i = 0; i < strlen(arg); i++) {
 	
+		/*
+		* isdigit obviously doesn't count decimals as digits, so we'll
+		* allow at least one decimal to be there, but any more than 
+		* that wouldn't be and actualy floating point number.
+		*/	
+		if(arg[i] == '.') {
+
+			decimalCount++;
+			continue;
+		}
+		if(decimalCount > 1) {
+
+			return false;
+		}
 		if(isdigit(arg[i]) > 0) {
 
 			continue;	
