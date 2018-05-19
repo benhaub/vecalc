@@ -134,7 +134,8 @@ return j;
  */
 bool ensureDigit(char *arg) {
 
-	if(arg == NULL) {
+	/*isdigit considers blank string numbers apparently*/
+	if(arg == NULL || strcmp(arg, "" ) == 0) {
 
 		return false;
 	}
