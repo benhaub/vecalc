@@ -15,8 +15,6 @@ vecalc:	vecalc.o vectorOps.o vectorOut.o vectorIn.o vectorMem.o
 
 debug:  
 	gcc $(CFLAGS) $(VECALC_C) -o vecalc -g
-	#In order to use gdb, the program has to be totally recompiled for the
-	#symbol table to properly generate
 
 clean: 
 	rm *.o
@@ -35,11 +33,6 @@ vectorMem.o: vectorMem.c vectorMem.h
 	gcc $(CFLAGS) -c vectorMem.c
 
 test: 
-	#To add additional testing, give vecalc the clear option, and add start
-	#additional testing onto the text file, continuing off from the 
-	#loopCount. The loop count makes it too difficult to add more
-	#testing in between existing tests.
-	#You may want to consider discarding stderr when running tests
 	gcc $(CFLAGS) $(VECALC_C) -o vecalc -DTESTING -g
 	#make input file
 	touch vecalcTestInput.txt
@@ -58,7 +51,7 @@ test:
 	printf "%s\n" "a 1" "a 2" "a 3" "a 4" "a 5" >> vecalcTestInput.txt
 	#Test various illegal input [34, 40]. None of these should change the vector in any way
 	printf "%s\n" " " "\0" "\"						" "./vecalc" ".*" "[ ]" >> vecalcTestInput.txt
-	#501 character input [41, 41] - Test is 6 empty chars long.
+	#Blank input [41, 41] - Test is 6 empty chars long.
 	printf "%s\n" "     " >> vecalcTestInput.txt
 	printf "%s\n" "q" >> vecalcTestInput.txt
 	./vecalc < vecalcTestInput.txt 

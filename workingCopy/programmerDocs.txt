@@ -73,11 +73,13 @@ Compiling can be done with the provided make file which has the following target
 
 vecalc - Compile the vector calculator
 
-debug - compile vector calculator with symbol table
+debug - compile vector calculator with symbol table. The dependancies for debug
+use the .c files because .o files will not generate the symbol table properly
 
 clean - remove all object files from cwd
 
 test - create a line by line test document that is customizable in the makefile.
+test uses .c files to generate the symbol table properly
 
 ///Testing///
 

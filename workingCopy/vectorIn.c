@@ -31,7 +31,7 @@
  * postcond: argv is refreshed with new arguments. The old ones are overwritten.
  * if there place needs to be taken
  */
-int refreshArgv(char *argv[], int *maxArgc, int *initialArgc) {
+int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 
 	char *newOptions = calloc(MAX_INPUT_LENGTH ,sizeof(char));
 	checkAlloc(newOptions);
@@ -88,7 +88,7 @@ int refreshArgv(char *argv[], int *maxArgc, int *initialArgc) {
 		 * than the number of arguments vecalc was initialized with, 
 		 * then we are dealing with memory that we've allocated
 		 */
-		else if(j >= *initialArgc && j < *maxArgc) {
+		else if(j >= initialArgc && j < maxArgc) {
 
 			holdMem = malloc(strlen(argv[j])*sizeof(char));
 			holdMem = argv[j];	
@@ -99,7 +99,7 @@ int refreshArgv(char *argv[], int *maxArgc, int *initialArgc) {
 		 * We don't own this memory, we should overwrite the location
 		 * with one that we do own
 		 */
-		else if(j >= *maxArgc) {
+		else if(j >= maxArgc) {
 
 			argv[j] = calloc(strlen(nextArg), sizeof(char));
 		}
@@ -107,7 +107,7 @@ int refreshArgv(char *argv[], int *maxArgc, int *initialArgc) {
 		 * We can't realloc this memory, so we'll clear it's contents
 		 * for new arguments
 		 */
-		else if(j < *initialArgc) {
+		else if(j < initialArgc) {
 			
 			argv[j] = memset(argv[j], 0, strlen(argv[j]));
 		}
@@ -182,7 +182,7 @@ void userIn(char *newOptions) {
 }
 
 /*
- * Clean argv removes values from argv greater than the current argc
+ * Clean argv removes values from argv from argv[arc] to argv[maxArgc]
  * param char[] *: the argument vector to be cleaned of unwanted values
  * param int: The current amount of arguments in argv
  * param int: The maximum amount of arguments in argv
@@ -198,11 +198,7 @@ void cleanArgv(char *argv[], int argc, int maxArgc) {
 	}
 
 	int i;
-	/*
-	 * Remember that the first argument is the name of the program, hence
-	 * maxArgc - 1
-	 */
-	for(i = argc; i < maxArgc-1; i++) {
+	for(i = argc; i < maxArgc; i++) {
 
 		argv[i] = memset(argv[i], 0, strlen(argv[i]));
 	}

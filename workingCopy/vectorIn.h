@@ -24,7 +24,7 @@ bool ensureDigit(char *);
  * postcond: argv is refreshed with new arguments. The old ones are overwritten.
  * if their place needs to be taken
  */
-int refreshArgv(char *[], int *, int *);
+int refreshArgv(char *[], int, int);
 
 /*
  * Handles input from the user to make sure that it is safe to be further

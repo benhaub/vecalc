@@ -50,11 +50,11 @@ int main(int argc, char *argv[]) {
 	 * dynamically allocated elements.
 	 */
 
-	int *initialArgc = malloc(sizeof(argc));
-	*initialArgc = argc;
+	int initialArgc;
+	initialArgc = argc;
 	
-	int *maxArgc = malloc(sizeof(argc));
-	*maxArgc = argc;
+	int maxArgc;
+	maxArgc = argc;
 	
 	#ifdef TESTING
 
@@ -71,9 +71,9 @@ int main(int argc, char *argv[]) {
 		}
 
 		/*Check if this is the most space we've needed so far*/
-		if(*maxArgc < argc) {
+		if(maxArgc < argc) {
 
-			*maxArgc = argc;
+			maxArgc = argc;
 		}
 
 		/*
@@ -83,7 +83,16 @@ int main(int argc, char *argv[]) {
 		if(argv[1] == NULL) {
 
 			argc = refreshArgv(argv, maxArgc, initialArgc);
-			cleanArgv(argv, argc, *maxArgc);
+			
+			/*
+			 * The only problematic values are the values
+			 * that follow the current command left over from a 
+			 * previously larger command, if it exists.
+			 */
+			if(argc != maxArgc) {
+			
+				cleanArgv(argv, argc, argc+1);
+			}
 		}
 
 		/*
@@ -104,12 +113,11 @@ int main(int argc, char *argv[]) {
        			option = argv[i];
 
 			/*Any option should only be one character in length*/
-			while(strlen(option) > 1) {
+			if(strlen(option) > 1) {
 			
-				fprintf(stderr, "Invalid option. Type 'h' for usage\n");
-				argc = refreshArgv(argv, maxArgc, initialArgc);
-				cleanArgv(argv, argc, *maxArgc);
-
+				fprintf(stderr, "Invalid option: %s Type 'h' for usage\n", argv[i]);
+				continue;
+				
 				#ifdef TESTING
 
 				loopCount++;
@@ -208,8 +216,9 @@ int main(int argc, char *argv[]) {
 
 				default:	fprintf(stderr, "Invalid option: %s\n", argv[i]);
 						break;
-			}
-		}
+			}/*delimits case*/
+		}/*delimits for*/
+		
 		/*TODO:
 		 * add magnitude option
 		 * add option to repeat last option given, with or without addition arguments
@@ -906,8 +915,11 @@ int main(int argc, char *argv[]) {
 	#endif /*TESTING*/
 
 	argc = refreshArgv(argv, maxArgc, initialArgc);
-	cleanArgv(argv, argc, *maxArgc);
-	}
+	
+		if(argc != maxArgc) {
 
+			cleanArgv(argv, argc, argc+1);
+		}
+	}/*delimits while(1)*/
 return 0;
 } 
