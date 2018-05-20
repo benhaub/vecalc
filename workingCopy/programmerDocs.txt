@@ -1,0 +1,105 @@
+//////////////////////////////////////////////////////////////////
+//Author	:	Ben Haubrich				//
+//File		:	programmerDocs.txt			//
+//Synopsis	:	Information for programming vecalc	//
+//////////////////////////////////////////////////////////////////
+
+vecalc is a vector calculator written in c that can perform mathematical 
+operations on a one dimensional array (vector).
+
+///Structure///
+vecalc is a multi file program where each .c contains functions that perform
+related tasks. The structure is as follows:
+
+File			Purpose
+
+vecalc.c		Main menu - Analyses user input first, then tells vecalc
+			operator what to do with it. This is an infinitely
+			looping operation that continue until the 'e' or 'q'
+			command is issued.
+
+			Includes all the regression testing, which is conditionally
+			compiled with -DTESTING or by using the test target within
+			the makefile
+			
+			
+			Functions:
+			main()
+
+vecalc.h		Defines a Vector and an Elem
+			
+
+vectorIn.c		Format and check user entered data - Accepts new input 
+			from the user. Makes adjustments to entered data so 
+			that it can be placed back into argv and sent back to 
+			the main menu. Checks for numbers when numbers should
+			be present.
+			
+			Functions:
+			userIn()
+			refreshArgv()
+			ensureDigit()
+			cleanArgv()
+
+
+vectorIn.h		Defines MAX_INPUT_LENGTH	
+
+vectorOut.c		Prints output for the user
+
+			Functions:
+			getHelp()
+			print_vec()
+	
+vectorMem.c		Handles memory allocation and deletion
+
+			Functions:
+			checkalloc()
+			extend_vec()
+			dealloc_vec()
+			alloc_vec()
+	
+			
+vectorOps.c		Provides all the mathematical operations that can be
+			performed on a vector
+
+			Functions:
+			scalar_plus()
+			scalar_minus()
+			scalar_div()
+			scalar_mult()
+
+///Makefile///
+Compiling can be done with the provided make file which has the following targets:
+
+vecalc - Compile the vector calculator
+
+debug - compile vector calculator with symbol table. The dependancies for debug
+use the .c files because .o files will not generate the symbol table properly
+
+clean - remove all object files from cwd
+
+test - create a line by line test document that is customizable in the makefile.
+test uses .c files to generate the symbol table properly
+
+///Testing///
+
+Testing is a little different for this program given the
+constant need for input from the user. If we did a regular
+defined block of testing at the bottom, we would need to
+be able to keep track of the current state of the program,
+and what should change in the next state depending on what 
+the user entered.
+
+Testing is automatically handled when the test target is called with make.
+The document is built using printf commands that are redirected into a file.
+vecalc is then compiled with -DTESTING and ran with the test file redirected as
+stdin.
+
+DO NOT CHANGE THE ORDERING OF TESTS
+
+vecalc tests the commands in a known order. The order is kept track of using a
+loopCount that dictates which tests should be performed. The loopCount
+corresponds to the line number in the test document. If you wish to add more 
+testing, do so by appending tests onto the end of the test document and continue
+on from there (i.e just add more printf commands into the makefile, AFTER the
+exisiting ones). 
