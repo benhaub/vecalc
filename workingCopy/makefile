@@ -46,13 +46,14 @@ test:
 	printf "%s\n" "* 1" "* 2" "* 0.5" "** 6" "* *" "* 1.5" >> vecalcTestInput.txt
 	#Test scalar_div. [27, 33]
 	printf "%s\n" "/ 3" "/ 6" "/ 0.5" "// 1" "/+* 6/" "7 /" "/ 0" >> vecalcTestInput.txt
-	#Clear the current vector and start a new one
+	#Clear the current vector and start a new one [34]
 	printf "%s\n" "c" >> vecalcTestInput.txt
+	#Extend to five elements [35, 39]
 	printf "%s\n" "a 1" "a 2" "a 3" "a 4" "a 5" >> vecalcTestInput.txt
-	#Test various illegal input [34, 40]. None of these should change the vector in any way
-	printf "%s\n" " " "\0" "\"						" "./vecalc" ".*" "[ ]" >> vecalcTestInput.txt
-	#Blank input [41, 42] - Test is 6 empty chars long.
-	printf "%s\n" "     " "0.567.8" >> vecalcTestInput.txt
-	printf "%s\n" "q" >> vecalcTestInput.txt
+	#Test various illegal input [40, 44]. None of these should change the vector in any way
+	printf "%s\n" "\0" "\\/" "./vecalc" ".*" "[ ]" >> vecalcTestInput.txt
+	#More illegal input [45, 50] - Test is 6 empty chars long.
+	printf "%s\n" "0.567.1.0000008" "          + 7        * 9    /8/       - 1000         / -0.25" >> vecalcTestInput.txt
+	printf "%s\n" "                                                  " >> vecalcTestInput.txt
 	./vecalc < vecalcTestInput.txt 
 	#rm -f vecalcTestInput.txt

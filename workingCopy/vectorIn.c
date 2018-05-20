@@ -135,6 +135,7 @@ return j;
 bool ensureDigit(char *arg) {
 
 	int decimalCount = 0;
+	int subtractCount = 0;
 	
 	/*
 	 * isdigit considers blank string numbers apparently. This is probably
@@ -151,16 +152,22 @@ bool ensureDigit(char *arg) {
 	for(i = 0; i < strlen(arg); i++) {
 	
 		/*
-		* isdigit obviously doesn't count decimals as digits, so we'll
-		* allow at least one decimal to be there, but any more than 
-		* that wouldn't be and actualy floating point number.
-		*/	
+		* isdigit obviously doesn't count decimal poits or negative signs
+		* as digits, so we'll allow at least one decimal or negative sign to
+		* be there, but any more than that wouldn't be an actual floating 
+		* point number or negative number.
+		*/
+
+		if(arg[i] == '-') {
+
+			subtractCount++;
+		}	
 		if(arg[i] == '.') {
 
 			decimalCount++;
 			continue;
 		}
-		if(decimalCount > 1) {
+		if(decimalCount > 1 || subtractCount > 1) {
 
 			return false;
 		}
