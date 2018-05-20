@@ -58,4 +58,4 @@ test:
 	printf "%s\n" "- -1" "+ -2" " - -1-" " - --3" >> vecalcTestInput.txt
 	printf "%s\n" "                                                  " >> vecalcTestInput.txt
 	./vecalc < vecalcTestInput.txt 
-	#rm -f vecalcTestInput.txt
+	rm -f vecalcTestInput.txt

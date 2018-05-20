@@ -933,23 +933,23 @@ int main(int argc, char *argv[]) {
 			}
 			if(vec->elements[1] != 2) {
 
-				printf("Element 0 should have a value of 1, but has value: %f\n", vec->elements[0]);
-				assert(vec->elements[0] == 1);
+				printf("Element 0 should have a value of 2, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 2);
 			}
 			if(vec->elements[2] != 3) {
 			
-				printf("Element 0 should have a value of 1, but has value: %f\n", vec->elements[0]);
-				assert(vec->elements[0] == 1);
+				printf("Element 0 should have a value of 2, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 2);
 			}
 			if(vec->elements[3] != 4) {
 			
-				printf("Element 0 should have a value of 1, but has value: %f\n", vec->elements[0]);
-				assert(vec->elements[0] == 1);
+				printf("Element 0 should have a value of 4, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 4);
 			}
 			if(vec->elements[4] != 5) {
 			
-				printf("Element 0 should have a value of 1, but has value: %f\n", vec->elements[0]);
-				assert(vec->elements[0] == 1);
+				printf("Element 0 should have a value of 5, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
 			}
 		}
 		/* / -0.25 */
@@ -962,7 +962,7 @@ int main(int argc, char *argv[]) {
 			}
 			if(vec->elements[1] != 3676) {
 
-				printf("Element 1 should have a value of -3676, but has value: %f\n", vec->elements[0]);
+				printf("Element 1 should have a value of 3676, but has value: %f\n", vec->elements[0]);
 				assert(vec->elements[0] == 3676);
 			}
 			if(vec->elements[2] != 3640) {
@@ -979,6 +979,92 @@ int main(int argc, char *argv[]) {
 			
 				printf("Element 4 should have a value of 3568, but has value: %f\n", vec->elements[0]);
 				assert(vec->elements[0] == 3568);
+			}
+		}
+		/* - -1 */
+		else if(loopCount == 47) {
+
+			if(vec->elements[0] != 3713) {
+
+				printf("Element 0 should have a value of 3713, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3713);
+			}
+			if(vec->elements[1] != 3677) {
+
+				printf("Element 1 should have a value of 3677, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3677);
+			}
+			if(vec->elements[2] != 3641) {
+			
+				printf("Element 2 should have a value of 3641, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3641);
+			}
+			if(vec->elements[3] != 3605) {
+			
+				printf("Element 3 should have a value of 3605, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3605);
+			}
+			if(vec->elements[4] != 3569) {
+			
+				printf("Element 4 should have a value of 3569, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3569);
+			}
+		}
+		/* + -2 */
+		else if(loopCount == 48) {
+		
+			if(vec->elements[0] != 3711) {
+
+				printf("Element 0 should have a value of 3711, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3711);
+			}
+			if(vec->elements[1] != 3675) {
+
+				printf("Element 1 should have a value of 3675, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3675);
+			}
+			if(vec->elements[2] != 3639) {
+			
+				printf("Element 2 should have a value of 3639, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3639);
+			}
+			if(vec->elements[3] != 3603) {
+			
+				printf("Element 3 should have a value of 3603, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3603);
+			}
+			if(vec->elements[4] != 3567) {
+			
+				printf("Element 4 should have a value of 3567, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3567);
+			}
+		}
+		else if(loopCount == 49 || loopCount == 50) {
+
+			if(vec->elements[0] != 3711) {
+
+				printf("Element 0 should have a value of 3711, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3711);
+			}
+			if(vec->elements[1] != 3675) {
+
+				printf("Element 1 should have a value of 3675, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3675);
+			}
+			if(vec->elements[2] != 3639) {
+			
+				printf("Element 2 should have a value of 3639, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3639);
+			}
+			if(vec->elements[3] != 3603) {
+			
+				printf("Element 3 should have a value of 3603, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3603);
+			}
+			if(vec->elements[4] != 3567) {
+			
+				printf("Element 4 should have a value of 3567, but has value: %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 3567);
 			}
 		}
 	loopCount++;

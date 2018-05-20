@@ -161,17 +161,25 @@ bool ensureDigit(char *arg) {
 		if(arg[i] == '-') {
 
 			subtractCount++;
+		
+			if(decimalCount > 1 || subtractCount > 1) {
+
+				return false;
+			}
 			continue;
 		}	
 		if(arg[i] == '.') {
 
 			decimalCount++;
+		
+			if(decimalCount > 1 || subtractCount > 1) {
+
+				return false;
+			}
+			
 			continue;
 		}
-		if(decimalCount > 1 || subtractCount > 1) {
-
-			return false;
-		}
+	
 		if(isdigit(arg[i]) > 0) {
 
 			continue;	
