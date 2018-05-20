@@ -135,3 +135,14 @@ struct Vector *scalar_div(struct Vector *vector, Elem divisor) {
 	}
 return vector;
 }
+/*
+ * Sums up all the values in the vector and returns the magnitude
+ * param struct Vector *: point to vector whose elements are to be summed
+ * return: The magnitude of the vector
+ * precond: Input vector is not null
+ */
+float magnitude(struct Vector *vector) {
+
+	/*Function Stub*/
+	return 0;
+}

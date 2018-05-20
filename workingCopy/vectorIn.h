@@ -43,5 +43,16 @@ void userIn(char *);
  * arguments used are cleared of existing values
  */
 void cleanArgv(char *[], int, int);
+/*
+ * re-issue the last set of commands and add any new ones
+ * param char *[]: The argument vector currently in use
+ * param char *: string that hold the previous set of commands that is being
+ * re-used
+ * precond: char *[] is not null
+ * char * is not null
+ * postcond: The old arguments from char * will be placed at the beginning of
+ * the argument vector in use, and the new ones will follow it
+ */
+void repeatArgv(char *[], char *); 
 
 #endif /*_VECTORIN_H_*/

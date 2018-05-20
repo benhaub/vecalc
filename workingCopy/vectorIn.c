@@ -55,14 +55,14 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 		return j;
 	}
 	/*
-	 * fgets processes the string when the user presses enter, but
-	 * pressing enter also sends in a newline character. It is not needed.
-	 * so we'll copy all but the last byte. 
+	 * fgets (from the userIn function processes the string when the user
+	 * presses enter, but pressing enter also sends in a newline character.
+	 * It is not needed. so we'll copy all but the last byte. 
 	 */
 	char *temp = calloc(strlen(newOptions), sizeof(newOptions));
+	checkAlloc(temp);
 	strncpy(temp, newOptions, (strlen(newOptions)) - 1);
 	newOptions = temp;
-
 	/*
 	 * nextArg takes the next space delimited string and stores it in the
 	 * next open spot in argv. Any string placed in nextArg will be no
@@ -210,10 +210,11 @@ void userIn(char *newOptions) {
 	}
 
 	/*
-	 * TODO:
-	 * What happens for input greater than or equal to MAX_INPUT_LENGTH
+	 * If the user enters in more than the max input length, fgets buffers
+	 * the input and enters it on the next call for input from stdin.
 	 */	
 	fgets(newOptions, MAX_INPUT_LENGTH, stdin);
+	
 	/*Re-size newOptions to fit the input more optimally*/
 	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
 	checkAlloc(newOptions);
@@ -240,4 +241,18 @@ void cleanArgv(char *argv[], int argc, int maxArgc) {
 
 		argv[i] = memset(argv[i], 0, strlen(argv[i]));
 	}
-}	
+}
+/*
+ * re-issue the last set of commands and add any new ones
+ * param char *[]: The argument vector currently in use
+ * param char *: string that hold the previous set of commands that is being
+ * re-used
+ * precond: char *[] is not null
+ * char * is not null
+ * postcond: The old arguments from char * will be placed at the beginning of
+ * the argument vector in use, and the new ones will follow it
+ */
+void repeatArgv(char *argv[], char *prevArgv) {
+
+
+}

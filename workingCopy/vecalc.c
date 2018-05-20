@@ -39,6 +39,13 @@ int main(int argc, char *argv[]) {
 	 * contains an argument to an option for all valid input.
 	 */
 	char *option;
+
+	/*
+	 * string to save argv if we need to re-use it. Especially
+	 * useful in the case that the r option is given. Remember that any
+	 * valid option is only one character in size.
+	 */ 
+	char* saveArgv;
 	
 	/*
 	 * In order to manage memory usage properly, we need to know how
@@ -82,6 +89,10 @@ int main(int argc, char *argv[]) {
 		 */
 		if(argv[1] == NULL) {
 
+			/*
+			 * TODO:
+			 * add saveArgv into argument list
+			 */
 			argc = refreshArgv(argv, maxArgc, initialArgc);
 			
 			/*
@@ -214,19 +225,27 @@ int main(int argc, char *argv[]) {
 						}
 						break;
 
+		/*		case 'm'	magnitude(vec);
+
+						break;
+
+				case 'r'	repeatArgv(argv, saveArgv);
+
+						break;
+*/
 				default:	fprintf(stderr, "Invalid option: %s\n", argv[i]);
 						break;
 			}/*delimits case*/
 		}/*delimits for*/
 		
 		/*TODO:
-		 * add magnitude option
+		 * implement magnitude option
 		 * add option to repeat last option given, with or without addition arguments
-		 *
-		 * Clean up any memory leaks!
 		 *
 		 * Make sure it is known what happens for entries that are near
 		 * max length
+		 *
+		 * Assignment spec says the vector has a max length of 65 thousand something
 		 */
 
 	#ifdef TESTING
@@ -1065,6 +1084,11 @@ int main(int argc, char *argv[]) {
 			
 				printf("Element 4 should have a value of 3567, but has value: %f\n", vec->elements[0]);
 				assert(vec->elements[0] == 3567);
+			}
+			if(magnitude(vec) != 18195) {
+
+				printf("The magnitude of the vector should be 18195, but it is %f\n", magnitude(vec));
+				assert(magnitude(vec) == 18195);
 			}
 		}
 	loopCount++;
