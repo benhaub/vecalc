@@ -161,6 +161,7 @@ bool ensureDigit(char *arg) {
 		if(arg[i] == '-') {
 
 			subtractCount++;
+			continue;
 		}	
 		if(arg[i] == '.') {
 

@@ -41,7 +41,8 @@ vecalc may also be given intial arguments when running the program:
 (i.e the multiply command)
 
 You may also send commands in via input redirection. All redirected input
-should end with a q option, although it doesn't need to.
+should end with a q option, although it doesn't need to. If you send in a
+blank line from a file or here-string, vecalc will close.
 
 
 

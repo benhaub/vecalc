@@ -97,7 +97,9 @@ stdin.
 
 DO NOT CHANGE THE ORDERING OF TESTS
 
-vecalc tests the commands in a known order, if you wish to add more testing,
-do so by appending tests onto the end of the test document and continue on
-from there (i.e just add more printf commands into the makefile, AFTER the
+vecalc tests the commands in a known order. The order is kept track of using a
+loopCount that dictates which tests should be performed. The loopCount
+corresponds to the line number in the test document. If you wish to add more 
+testing, do so by appending tests onto the end of the test document and continue
+on from there (i.e just add more printf commands into the makefile, AFTER the
 exisiting ones). 

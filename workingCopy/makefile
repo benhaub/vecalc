@@ -52,8 +52,10 @@ test:
 	printf "%s\n" "a 1" "a 2" "a 3" "a 4" "a 5" >> vecalcTestInput.txt
 	#Test various illegal input [40, 44]. None of these should change the vector in any way
 	printf "%s\n" "\0" "\\/" "./vecalc" ".*" "[ ]" >> vecalcTestInput.txt
-	#More illegal input [45, 50] - Test is 6 empty chars long.
+	#More illegal input [45, 46]
 	printf "%s\n" "0.567.1.0000008" "          + 7        * 9    /8/       - 1000         / -0.25" >> vecalcTestInput.txt
+	#More illegal input [47, 50]
+	printf "%s\n" "- -1" "+ -2" " - -1-" " - --3" >> vecalcTestInput.txt
 	printf "%s\n" "                                                  " >> vecalcTestInput.txt
 	./vecalc < vecalcTestInput.txt 
 	#rm -f vecalcTestInput.txt
