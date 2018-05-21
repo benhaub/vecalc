@@ -44,7 +44,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 	 * The first is keeping track of which element of argv we should insert 
 	 * into. The second is counting how many arguments were added, so that 
 	 * we can use it to update argc.
-	 */ 
+	 */
 	int j = 1;
 
 	/*Nothing to evaluate if this is true*/	
@@ -120,7 +120,6 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 		 */
 		nextArg = strtok(NULL, delim);
 	}
-	
 	free(nextArg);
 	free(newOptions);
 return j;
@@ -243,16 +242,26 @@ void cleanArgv(char *argv[], int argc, int maxArgc) {
 	}
 }
 /*
- * re-issue the last set of commands and add any new ones
+ * Add more arguments onto an argument vector
  * param char *[]: The argument vector currently in use
- * param char *: string that hold the previous set of commands that is being
- * re-used
+ * param int: The maximum amount of arguments the vector currently has
+ * param int: The inital amount of arguments that argv was called with 
  * precond: char *[] is not null
- * char * is not null
- * postcond: The old arguments from char * will be placed at the beginning of
- * the argument vector in use, and the new ones will follow it
+ * postcond: a new set of arguments will be appeneded on argv
+ *
+ * NOTE: This is basically the same function as refreshArgv, except j starts at
+ * the maxArgc instead of 1.
  */
-void repeatArgv(char *argv[], char *prevArgv) {
+void appendArgv(char *argv[], int maxArgc, int initialArgc ) {
+
+	char *newOptions = calloc(MAX_INPUT_LENGTH ,sizeof(char));
+	checkAlloc(newOptions);
+
+	userIn(newOptions);
+
+	/*Only append new arguments if the user specified them*/
+	if(strcmp(newOptions, "") != 0) {
 
 
+	}
 }

@@ -143,6 +143,13 @@ return vector;
  */
 float magnitude(struct Vector *vector) {
 
-	/*Function Stub*/
-	return 0;
+	float magnitude = 0;
+
+	int i;
+	for(i = 0; i < vector->size; i++) {
+
+		magnitude += vector->elements[i];
+	}
+	printf("Magnitude: %f\n", magnitude);
+	return magnitude;
 }

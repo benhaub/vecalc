@@ -54,6 +54,8 @@ void getHelp() {
 	printf("[c] : clear; Delete the current vector and start a new one\n");
 	printf("[p] : print; Output the contents of the vector to the console \n");
 	printf("[h] : help; Output the list of commands and the usage\n");
+	printf("[m] : magnitude; Output the magnitude to the console\n");
+	printf("[r] [option] [value] : repeat the last command given with a new set of commands.\n");
 	printf("[a] [value] : append; extend the vector by one element and fill the element with the value \n");
 	printf("[+] [value] : scalar plus;  add [value] to each element of the vector\n");
 	printf("[-] [value] : scalar minus subtract [value] from each element of the vector\n");

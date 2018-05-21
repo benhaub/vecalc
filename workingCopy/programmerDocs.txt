@@ -102,4 +102,7 @@ loopCount that dictates which tests should be performed. The loopCount
 corresponds to the line number in the test document. If you wish to add more 
 testing, do so by appending tests onto the end of the test document and continue
 on from there (i.e just add more printf commands into the makefile, AFTER the
-exisiting ones). 
+exisiting ones).
+
+When running tests, you may want to consider discarding stderr so it's easier
+to see assertion failures 

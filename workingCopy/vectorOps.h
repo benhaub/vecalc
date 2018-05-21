@@ -50,13 +50,5 @@ struct Vector *scalar_mult(struct Vector *, Elem);
  */
 struct Vector *scalar_div(struct Vector *, Elem);
 
-/*
- * Sums up all the values in the vector and returns the magnitude
- * param struct Vector *: point to vector whose elements are to be summed
- * return: The magnitude of the vector
- * precond: Input vector is not null
- */
-float magnitude(struct Vector *);
-
 #endif /*_VECTOROPS_H_*/  
 

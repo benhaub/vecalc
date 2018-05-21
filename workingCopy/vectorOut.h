@@ -17,5 +17,14 @@ bool print_vec(struct Vector *);
  */
 void getHelp();
 
+/*
+ * Sums up all the values in the vector; Returns the magnitude and prints it to
+ * to stdout
+ * param struct Vector *: point to vector whose elements are to be summed
+ * return: The magnitude of the vector
+ * precond: Input vector is not null
+ */
+float magnitude(struct Vector *);
+
 #endif /*_VECTOROUT_H_*/
 

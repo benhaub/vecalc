@@ -56,6 +56,11 @@ test:
 	printf "%s\n" "0.567.1.0000008" "          + 7        * 9    /8/       - 1000         / -0.25" >> vecalcTestInput.txt
 	#More illegal input [47, 50]
 	printf "%s\n" "- -1" "+ -2" " - -1-" " - --3" >> vecalcTestInput.txt
+	#Clear vector [51]
+	printf "%s\n" "c" >> vecalcTestInput.txt
+	#Test magnitude option [52, 60]
+	printf "%s\n" "a 5 m" "a 4 a 3 m a 7 a 8" "m" "m7" "+ m" "- m" "* m" "/ m" "m m" >> vecalcTestInput.txt
 	printf "%s\n" "                                                  " >> vecalcTestInput.txt
-	./vecalc < vecalcTestInput.txt 
+	./vecalc < vecalcTestInput.txt
+	#See errors below:
 	rm -f vecalcTestInput.txt

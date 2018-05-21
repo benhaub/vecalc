@@ -22,16 +22,18 @@ and issue a command to run vecalc.
 Once vecalc is running, the command line should display "vecalc: " and 
 be awaiting input. vecalc takes the following commands from this state:
 
-[q] 	    : quit; Same functionality as [e] (end)
-[c] 	    : clear; Delete the current vector and start a new one
-[p] 	    : print; Output the contents of the vector to the console
-[h] 	    : help; Output the list of commands and the usage
-[a] [value] : append; extend the vector by one element and fill the element with the value
-[+] [value] : scalar plus;  add [value] to each element of the vector
-[-] [value] : scalar minus subtract [value] from each element of the vector
-[*] [value] : scalar multiply multiply [value] to each element of the vector
-[/] [value] : scalar divide divide [value] from each element of the vector
-[e] 	    : end; terminate the vecalc program
+[q] 	    		: quit; Same functionality as [e] (end)
+[c] 	    		: clear; Delete the current vector and start a new one
+[p] 	    		: print; Output the contents of the vector to the console
+[h] 			: help; Output the list of commands and the usage to the console
+[m]	    		: magnitude; Output the magnitude to the console
+[r] [option] [value] 	: repeat the last command given with a new set of commands.
+[a] [value] 		: append; extend the vector by one element and fill the element with the value
+[+] [value] 		: scalar plus;  add [value] to each element of the vector
+[-] [value] 		: scalar minus subtract [value] from each element of the vector
+[*] [value] 		: scalar multiply multiply [value] to each element of the vector
+[/] [value] 		: scalar divide divide [value] from each element of the vector
+[e] 	    		: end; terminate the vecalc program
 
 All commands have the general form [option] [value].
 vecalc may also be given intial arguments when running the program:

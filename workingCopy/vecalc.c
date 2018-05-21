@@ -39,13 +39,6 @@ int main(int argc, char *argv[]) {
 	 * contains an argument to an option for all valid input.
 	 */
 	char *option;
-
-	/*
-	 * string to save argv if we need to re-use it. Especially
-	 * useful in the case that the r option is given. Remember that any
-	 * valid option is only one character in size.
-	 */ 
-	char* saveArgv;
 	
 	/*
 	 * In order to manage memory usage properly, we need to know how
@@ -56,12 +49,22 @@ int main(int argc, char *argv[]) {
 	 * If argv was given any arguments as it started, those are not
 	 * dynamically allocated elements.
 	 */
-
 	int initialArgc;
 	initialArgc = argc;
 	
 	int maxArgc;
 	maxArgc = argc;
+
+	/*
+	 * float to hold the value of magnitude. m is only used in this program
+	 * for testing, so warnings about it being unused are generated if we
+	 * aren't compiling the test code. We can safely ignore it.
+	 */
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wunused-parameter"
+	#pragma GCC diagnostic ignored "-Wunused-but-set-variable"	
+	float m;
+	#pragma GCC diagnostic pop
 	
 	#ifdef TESTING
 
@@ -225,15 +228,16 @@ int main(int argc, char *argv[]) {
 						}
 						break;
 
-		/*		case 'm'	magnitude(vec);
+				case 'm':	m = magnitude(vec);
 
 						break;
 
-				case 'r'	repeatArgv(argv, saveArgv);
+				case 'r':	appendArgv(argv, maxArgc, initialArgc);
 
 						break;
-*/
+
 				default:	fprintf(stderr, "Invalid option: %s\n", argv[i]);
+						
 						break;
 			}/*delimits case*/
 		}/*delimits for*/
@@ -876,6 +880,11 @@ int main(int argc, char *argv[]) {
 				printf("Element 3 should have a value of -0.166666, but has value: %f\n", vec->elements[3]);
 				assert(vec->elements[3] == 0.166666);
 			}
+			if(magnitude(vec) - 7.5 > ERROR) {
+
+				printf("The magnitude of the vector should be 7.5, but it is %f\n", magnitude(vec));
+				assert(magnitude(vec) - 7.5 < ERROR);
+			}
 		}
 		else if(loopCount == 35) {
 			
@@ -969,6 +978,11 @@ int main(int argc, char *argv[]) {
 			
 				printf("Element 0 should have a value of 5, but has value: %f\n", vec->elements[0]);
 				assert(vec->elements[0] == 5);
+			}
+			if(magnitude(vec) != 15) {
+
+				printf("The magnitude of the vector should be 15, but it is %f\n", magnitude(vec));
+				assert(magnitude(vec) == 15);
 			}
 		}
 		/* / -0.25 */
@@ -1089,6 +1103,39 @@ int main(int argc, char *argv[]) {
 
 				printf("The magnitude of the vector should be 18195, but it is %f\n", magnitude(vec));
 				assert(magnitude(vec) == 18195);
+			}
+		}
+		else if(loopCount == 52) {
+
+			if(m != 5) {
+
+				printf("The magnitude shoud be 5, but it is %f\n", m);
+				assert(m == 5);
+			}
+		}
+		else if(loopCount == 53) {
+
+			if(m != 12) {
+
+				printf("The magnitude should be 12, but it is %f\n", m);
+				assert(m == 12);
+			}
+		}
+		else if(loopCount == 54) {
+		  	
+			if(m != 27) {
+
+				printf("The magnitude should be 27, but it is %f\n", m);
+				assert(m == 27);
+			}
+		}
+		else if(loopCount == 55 || loopCount == 56 || loopCount == 57 || loopCount == 58\
+			       		|| loopCount == 59 || loopCount == 60) {
+			
+			if(m != 27) {
+
+				printf("The magnitude should be 27, but it is %f\n", m);
+				assert(m == 27);
 			}
 		}
 	loopCount++;
