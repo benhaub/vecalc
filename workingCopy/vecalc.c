@@ -81,31 +81,39 @@ int main(int argc, char *argv[]) {
 		}
 
 		/*Check if this is the most space we've needed so far*/
-		if(maxArgc < argc) {
+		if(argc > maxArgc) {
 
 			maxArgc = argc;
 		}
 
 		/*
 		 * This can sometimes happen with redirected input, known for
-		 * certain that this happens with here-strings.
+		 * certain that this happens with here-strings, or when the
+		 * initital arguments aren't given.
 		 */
 		if(argv[1] == NULL) {
 
-			/*
-			 * TODO:
-			 * add saveArgv into argument list
-			 */
 			argc = refreshArgv(argv, maxArgc, initialArgc);
+
+			/*Check if this is the most space we've needed so far*/
+			if(argc > maxArgc) {
+
+				maxArgc = argc;
+			}
 			
 			/*
 			 * The only problematic values are the values
 			 * that follow the current command left over from a 
-			 * previously larger command, if it exists.
+			 * previously larger command, if it exists. They are
+			 * problematic because sometimes strings will only
+			 * partially copy over an old string, so they need to
+			 * be cleared out fully to ensure safe copying. The
+			 * reason we don't clear memory beyond maxArgc is
+			 * because that memory may not belong to us.
 			 */
-			if(argc != maxArgc) {
+			if(argc < maxArgc) {
 			
-				cleanArgv(argv, argc, argc+1);
+				cleanArgv(argv, argc, argc + 1);
 			}
 		}
 
@@ -232,7 +240,11 @@ int main(int argc, char *argv[]) {
 
 						break;
 
-				case 'r':	appendArgv(argv, maxArgc, initialArgc);
+				case 'r':	if(i != 1) {
+
+							fprintf(stderr, "The r option can not follow any\
+								other option.");
+						}	
 
 						break;
 
@@ -243,7 +255,6 @@ int main(int argc, char *argv[]) {
 		}/*delimits for*/
 		
 		/*TODO:
-		 * implement magnitude option
 		 * add option to repeat last option given, with or without addition arguments
 		 *
 		 * Make sure it is known what happens for entries that are near
@@ -1141,9 +1152,9 @@ int main(int argc, char *argv[]) {
 	loopCount++;
 	#endif /*TESTING*/
 
-	argc = refreshArgv(argv, maxArgc, initialArgc);
+		argc = refreshArgv(argv, maxArgc, initialArgc);
 	
-		if(argc != maxArgc) {
+		if(argc < maxArgc) {
 
 			cleanArgv(argv, argc, argc+1);
 		}

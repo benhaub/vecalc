@@ -16,7 +16,7 @@ bool ensureDigit(char *);
 
 /* 
  * gets new options from standard in and places them back in argv for
- * processing
+ * processing.
  * param char*[]: The argument vector that contains all the arguments
  * param int *: The maximum number of arguments that has been used
  * param int *: The initial amount of arguments the program was ran with
@@ -43,16 +43,6 @@ void userIn(char *);
  * arguments used are cleared of existing values
  */
 void cleanArgv(char *[], int, int);
-/*
- * add more arguments onto an argument vector
- * param char *[]: The argument vector currently in use
- * param char *: string that hold the previous set of commands that is being
- * re-used
- * precond: char *[] is not null
- * char * is not null
- * postcond: The old arguments from char * will be placed at the beginning of
- * the argument vector in use, and the new ones will follow it
- */
-void appendArgv(char *[], int, int); 
 
 #endif /*_VECTORIN_H_*/
+

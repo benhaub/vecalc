@@ -1,9 +1,9 @@
 /*
- *===============================================================================/
+ *==============================================================================//
  * Author	:	Ben Haubrich						//
  * File		:	vectorIn.c						//
  * Synopsis	:	Contains all the functions that deal with user input	//
- *===============================================================================/
+ *==============================================================================//
  */
 
 /*Standard Headers*/
@@ -22,8 +22,7 @@
 
 /* 
  * gets new options from standard in and places them back in argv for
- * processing. Also ensures as little memory allocation for new args as
- * possible.
+ * processing. 
  * param argv: The argument vector that contains all the arguments
  * param int *: The maximum number of arguments that has been used
  * param int *: The initial amount of arguments the program was ran with
@@ -38,19 +37,34 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 
 	userIn(newOptions);
 
+	int j = 1;
+
 	/*
-	 * The first argument of argv is taken by then name of the program. 
-	 * j fullfills two purposes:
+	 * The first argument of argv is taken by then name of the program 
+	 * (so we start at 1, not 0). j fullfills two purposes:
 	 * The first is keeping track of which element of argv we should insert 
 	 * into. The second is counting how many arguments were added, so that 
 	 * we can use it to update argc.
+	 *
+	 * If the r option is given, we want j to be positioned such that the
+	 * the commands entered by the user in newOptions are appended to the
+	 * commands issued last time, so that they are repeated as well as any
+	 * additional commands specified.
 	 */
-	int j = 1;
+	if(strcmp(newOptions, "r") == 0) {
 
-	/*Nothing to evaluate if this is true*/	
+		j = maxArgc;
+
+		/*skip the 'r' value*/
+		newOptions++;
+	}
+
+	/*
+	 * Nothing to evaluate if this is true. This can happen if we are given
+	 * a blank line as input from redirected input.
+	 */	
 	if(strcmp(newOptions, "") == 0) {
 
-		/*strcpy(argv[j], newOptions);*/
 		argv[j] = "";
 		return j;
 	}
@@ -239,29 +253,5 @@ void cleanArgv(char *argv[], int argc, int maxArgc) {
 	for(i = argc; i < maxArgc; i++) {
 
 		argv[i] = memset(argv[i], 0, strlen(argv[i]));
-	}
-}
-/*
- * Add more arguments onto an argument vector
- * param char *[]: The argument vector currently in use
- * param int: The maximum amount of arguments the vector currently has
- * param int: The inital amount of arguments that argv was called with 
- * precond: char *[] is not null
- * postcond: a new set of arguments will be appeneded on argv
- *
- * NOTE: This is basically the same function as refreshArgv, except j starts at
- * the maxArgc instead of 1.
- */
-void appendArgv(char *argv[], int maxArgc, int initialArgc ) {
-
-	char *newOptions = calloc(MAX_INPUT_LENGTH ,sizeof(char));
-	checkAlloc(newOptions);
-
-	userIn(newOptions);
-
-	/*Only append new arguments if the user specified them*/
-	if(strcmp(newOptions, "") != 0) {
-
-
 	}
 }

@@ -36,11 +36,12 @@ be awaiting input. vecalc takes the following commands from this state:
 [e] 	    		: end; terminate the vecalc program
 
 All commands have the general form [option] [value].
-vecalc may also be given intial arguments when running the program:
+vecalc may also be given initial arguments when running the program:
 
 ./vecalc [option] [value]
-- Make sure to espace special characters to prevent shell interpretation.
-(i.e the multiply command)
+- Make sure to escape special characters to prevent shell interpretation.
+(i.e the multiply command will be interpreted as a wild card by the shell
+if it's not escaped)
 
 You may also send commands in via input redirection. All redirected input
 should end with a q option, although it doesn't need to. If you send in a
