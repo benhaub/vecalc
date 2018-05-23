@@ -62,9 +62,9 @@ test:
 	printf "%s\n" "a 5 m" "a 4 a 3 m a 7 a 8" "m" "m7" "+ m" "- m" "* m" "/ m" "m m" >> vecalcTestInput.txt
 	#Clear vector [61, 62]
 	printf "%s\n" "c" "a 5" >> vecalcTestInput.txt
-	#Test repeat option [63, 66]
-	printf "%s\n" "r + 3" "r" "* 9 a 7" "r a 4 / 2" >> vecalcTestInput.txt
+	#Test repeat option [63, 72]
+	printf "%s\n" "r + 3" "r" "* 9 a 7" "r a 4 / 2" "* 2 r + 5" "rr" "c" "r" "a 5" "r r r r" >> vecalcTestInput.txt
 	printf "%s\n" "                                                  " >> vecalcTestInput.txt
 	./vecalc < vecalcTestInput.txt
 	#See errors below:
-	rm -f vecalcTestInput.txt
+	#rm -f vecalcTestInput.txt

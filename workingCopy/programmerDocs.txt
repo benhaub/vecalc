@@ -103,4 +103,9 @@ on from there (i.e just add more printf commands into the makefile, AFTER the
 exisiting ones).
 
 When running tests, you may want to consider discarding stderr so it's easier
-to see assertion failures 
+to see assertion failures.
+
+///Repeat Command///
+
+This is the only command that does not have a function specifically made to handle
+this option. Most of its functionality is built into refreshArgv().

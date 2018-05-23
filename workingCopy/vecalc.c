@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
 		 */
 		if(argv[1] == NULL) {
 
-			argc = refreshArgv(argv, maxArgc, initialArgc);
+			argc = refreshArgv(argv, maxArgc, initialArgc, argc);
 
 			/*Check if this is the most space we've needed so far*/
 			if(argc > maxArgc) {
@@ -242,7 +242,7 @@ int main(int argc, char *argv[]) {
 
 				case 'r':	if(i != 1) {
 
-							fprintf(stderr, "The r option can not follow any other option.");
+							fprintf(stderr, "The r option can not follow any other option.\n");
 						}
 						break;
 
@@ -1191,14 +1191,14 @@ int main(int argc, char *argv[]) {
 				assert(vec->size == 3);
 			}
 		}
-		if(loopCount == 66) {
+		else if(loopCount == 66) {
 
 			if(vec->elements[0] - 445.5 > ERROR) {
 
 				printf("Element 0 should have a value of 445.1, but has value %f\n", vec->elements[0]);
 				assert(vec->elements[0] - 445.5 < ERROR);
 			}
-			if(vec->elements[1] - 445.1 > ERROR) {
+			if(vec->elements[1] - 445.5 > ERROR) {
 
 				printf("Element 1 should have a value of 445.5, but has value %f\n", vec->elements[1]);
 				assert(vec->elements[1] - 445.5 < ERROR);
@@ -1229,10 +1229,94 @@ int main(int argc, char *argv[]) {
 				assert(vec->size == 6);
 			}
 		}
+		else if(loopCount == 67 || loopCount == 68) {
+
+			if(vec->elements[0] - 896 > ERROR) {
+
+				printf("Element 0 should have a value of 891, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] - 896 < ERROR);
+			}
+			if(vec->elements[1] - 896 > ERROR) {
+
+				printf("Element 1 should have a value of 896, but has value %f\n", vec->elements[1]);
+				assert(vec->elements[1] - 896 < ERROR);
+			}
+			if(vec->elements[2] != 653) {
+				
+				printf("Element 2 should have a value of 653, but has value %f\n", vec->elements[2]);
+				assert(vec->elements[2] == 653);
+			}
+			if(vec->elements[3] - 69 > ERROR) {
+
+				printf("Element 3 should have a value of 69, but has value %f\n", vec->elements[3]);
+				assert(vec->elements[3] - 69 < ERROR);
+			}
+			if(vec->elements[4] - 13 > ERROR) {
+
+				printf("Element 4 should have a value of 13, but has value %f\n", vec->elements[4]);
+				assert(vec->elements[4] - 13 < ERROR);
+			}
+			if(vec->elements[5] != 9) {
+
+				printf("Element 5 should have a value of 9, but has a value %f\n", vec->elements[5]);
+				assert(vec->elements[5] == 9);
+			}
+			if(vec->size != 6) {
+
+				printf("The size of the vector should be 6, but it is %d\n", vec->size);
+				assert(vec->size == 6);
+			}
+		}
+		else if(loopCount == 71) {
+
+			if(vec->elements[0] != 5) {
+
+				printf("Element 0 should have a value of 5, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->size != 1) {
+
+				printf("The size of the vector should be 1, but it is %d\n", vec->size);
+				assert(vec->size == 1);
+			}
+		}
+		else if(loopCount == 72) {
+
+			if(vec->elements[0] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->elements[1] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}	
+			if(vec->elements[2] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->elements[3] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->elements[4] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->size != 2) {
+
+				printf("The size of the vector should be 2, but has size %d\n", vec->size);
+				assert(vec->size == 2);
+			}
+		}
 	loopCount++;
 	#endif /*TESTING*/
 
-		argc = refreshArgv(argv, maxArgc, initialArgc);
+		argc = refreshArgv(argv, maxArgc, initialArgc, argc);
 	
 		if(argc < maxArgc) {
 

@@ -48,5 +48,30 @@ You may also send commands in via input redirection. All redirected input
 should end with a q option, although it doesn't need to. If you send in a
 blank line from a file or here-string, vecalc will close.
 
+///repeat command///
 
+The repeat command is the only non-intuitive command. It repeats exactly the last
+command entered into vecalc. It can only be used by itself or as an option with
+additional commands added to it.
 
+Ex:
+
+vecalc: a 4 r + 2
+
+This will not be accepted by vecalc as a repeated command. This is equivalent to
+entering a 4 + 2, since those were still valid options
+
+vecalc: r
+
+Suppose we entered a 4 + 2 previously. This would repeat that command again as if
+we had typed it twice into vecalc.
+
+vecalc: r r r r
+
+Since the repeat command may not be followed by any other command, only the first
+instance of the r option will have affect.
+
+vecalc: r a 5 + 2
+
+Suppose we entered a 4 + 2 previously. This would repeat that command again as if
+we had typed it twice into vecalc, with the additional commands of append 5 and add 2.

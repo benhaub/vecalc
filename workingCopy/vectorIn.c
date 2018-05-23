@@ -24,13 +24,13 @@
  * gets new options from standard in and places them back in argv for
  * processing. 
  * param argv: The argument vector that contains all the arguments
- * param int *: The maximum number of arguments that has been used
- * param int *: The initial amount of arguments the program was ran with
+ * param int: The maximum number of arguments that has been used
+ * param int: The initial amount of arguments the program was ran with
  * return: The new number of arguments
  * postcond: argv is refreshed with new arguments. The old ones are overwritten.
  * if there place needs to be taken
  */
-int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
+int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 
 	char *newOptions = calloc(MAX_INPUT_LENGTH ,sizeof(char));
 	checkAlloc(newOptions);
@@ -67,24 +67,13 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 	newOptions = temp;
 	
 	/*
-	 * If the r option is given, we want j to be positioned such that the
-	 * the commands entered by the user in newOptions are appended to the
-	 * commands issued last time, so that they are repeated as well as any
-	 * additional commands specified.
-	 */
-	if(temp[0] == 'r') {
-
-		j = maxArgc;
-	}
-
-	/*
 	 * If the user didn't specify any additional arguments, then we are
 	 * left with just r, and we can return right away because we are just
 	 * re-using the same argv
 	 */
 	if(strcmp(newOptions, "r") == 0) {
 
-		return j;
+		return currentArgc;
 	}
 
 	/*
@@ -97,10 +86,18 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 	/*get all the space delimited arguments and put them in argv*/
 	char *delim = " ";
 	nextArg = strtok(newOptions, delim);
+	
+	if(nextArg != NULL && strcmp(nextArg, "r") == 0) {
 
-	/*Don't include r options in argv*/
-	if(strcmp(newOptions, "r") == 0) {
-
+		/*
+	 	* If the r option is given, we want j to be positioned such that
+		* the the commands entered by the user in newOptions are
+		* appended to the commands issued last time, so that they are
+		* repeated as well as any additional commands specified.
+		*/		
+		j = currentArgc;
+		
+		/*Don't include the r option in argv*/
 		nextArg = strtok(NULL, delim);
 	}
 

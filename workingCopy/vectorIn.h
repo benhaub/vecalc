@@ -18,13 +18,14 @@ bool ensureDigit(char *);
  * gets new options from standard in and places them back in argv for
  * processing.
  * param char*[]: The argument vector that contains all the arguments
- * param int *: The maximum number of arguments that has been used
- * param int *: The initial amount of arguments the program was ran with
+ * param int: The maximum number of arguments that has been used
+ * param int: The initial amount of arguments the program was ran with
+ * param int: The number of arguments currently in the vector
  * return: The new number of arguments
  * postcond: argv is refreshed with new arguments. The old ones are overwritten.
  * if their place needs to be taken
  */
-int refreshArgv(char *[], int, int);
+int refreshArgv(char *[], int, int, int);
 
 /*
  * Handles input from the user to make sure that it is safe to be further
