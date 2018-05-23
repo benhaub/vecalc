@@ -74,12 +74,6 @@ int main(int argc, char *argv[]) {
 
 	while(1) {
 
-		/*Check vec in case the c option was given*/
-		if(vec == NULL) {
-
-			vec = alloc_vec();
-		}
-
 		/*Check if this is the most space we've needed so far*/
 		if(argc > maxArgc) {
 
@@ -132,7 +126,13 @@ int main(int argc, char *argv[]) {
 		int i;
 		for(i = 1; i < argc; i++) {
 		
-       			option = argv[i];
+       			/*Check vec in case the c option was given*/
+			if(vec == NULL) {
+
+				vec = alloc_vec();
+			}
+
+			option = argv[i];
 
 			/*Any option should only be one character in length*/
 			if(strlen(option) > 1) {
@@ -242,10 +242,8 @@ int main(int argc, char *argv[]) {
 
 				case 'r':	if(i != 1) {
 
-							fprintf(stderr, "The r option can not follow any\
-								other option.");
-						}	
-
+							fprintf(stderr, "The r option can not follow any other option.");
+						}
 						break;
 
 				default:	fprintf(stderr, "Invalid option: %s\n", argv[i]);
@@ -1147,6 +1145,88 @@ int main(int argc, char *argv[]) {
 
 				printf("The magnitude should be 27, but it is %f\n", m);
 				assert(m == 27);
+			}
+		}
+		/*Test repeat*/
+		/*r + 3*/
+		else if(loopCount == 63) {
+
+			if(vec->elements[0] != 8) {
+
+				printf("Element 0 should have a value of 8, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 8);
+			}
+			if(vec->elements[1] != 8) {
+
+				printf("Element 1 should have a value of 8, but has value %f\n", vec->elements[1]);
+				assert(vec->elements[1] == 8);
+			}
+			if(vec->size != 2) {
+
+				printf("The size of the vector should be 2, but it is %d\n", vec->size);
+				assert(vec->size == 2);
+			}
+		}
+		/* r */
+		else if(loopCount == 64) {
+
+			if(vec->elements[0] != 11) {
+
+				printf("Element 0 should have a value of 11, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 11);
+			}
+			if(vec->elements[1] != 11) {
+
+				printf("Element 1 should have a value of 11, but has value %f\n", vec->elements[1]);
+				assert(vec->elements[1] == 11);
+			}
+			if(vec->elements[2] != 8) {
+				
+				printf("Element 2 should have a value of 8, but has value %f\n", vec->elements[2]);
+				assert(vec->elements[2] == 8);
+			}
+			if(vec->size != 3) {
+
+				printf("The size of the vector should be 3, but it is %d\n", vec->size);
+				assert(vec->size == 3);
+			}
+		}
+		if(loopCount == 66) {
+
+			if(vec->elements[0] - 445.5 > ERROR) {
+
+				printf("Element 0 should have a value of 445.1, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] - 445.5 < ERROR);
+			}
+			if(vec->elements[1] - 445.1 > ERROR) {
+
+				printf("Element 1 should have a value of 445.5, but has value %f\n", vec->elements[1]);
+				assert(vec->elements[1] - 445.5 < ERROR);
+			}
+			if(vec->elements[2] != 324) {
+				
+				printf("Element 2 should have a value of 324, but has value %f\n", vec->elements[2]);
+				assert(vec->elements[2] == 324);
+			}
+			if(vec->elements[3] - 31.5 > ERROR) {
+
+				printf("Element 3 should have a value of 31.5, but has value %f\n", vec->elements[3]);
+				assert(vec->elements[3] - 31.5 < ERROR);
+			}
+			if(vec->elements[4] - 3.5 > ERROR) {
+
+				printf("Element 4 should have a value of 3.5, but has value %f\n", vec->elements[4]);
+				assert(vec->elements[4] - 3.5 < ERROR);
+			}
+			if(vec->elements[5] != 2) {
+
+				printf("Element 5 should have a value of 2, but has a value %f\n", vec->elements[5]);
+				assert(vec->elements[5] == 2);
+			}
+			if(vec->size != 6) {
+
+				printf("The size of the vector should be 6, but it is %d\n", vec->size);
+				assert(vec->size == 6);
 			}
 		}
 	loopCount++;

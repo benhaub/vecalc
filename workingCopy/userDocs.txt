@@ -27,7 +27,8 @@ be awaiting input. vecalc takes the following commands from this state:
 [p] 	    		: print; Output the contents of the vector to the console
 [h] 			: help; Output the list of commands and the usage to the console
 [m]	    		: magnitude; Output the magnitude to the console
-[r] [option] [value] 	: repeat the last command given with a new set of commands.
+[r] [option] [value] 	: repeat the last command given with a new set of commands. Repeated can not
+			: be be preceded by any other command.
 [a] [value] 		: append; extend the vector by one element and fill the element with the value
 [+] [value] 		: scalar plus;  add [value] to each element of the vector
 [-] [value] 		: scalar minus subtract [value] from each element of the vector

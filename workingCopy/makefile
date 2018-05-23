@@ -60,6 +60,10 @@ test:
 	printf "%s\n" "c" >> vecalcTestInput.txt
 	#Test magnitude option [52, 60]
 	printf "%s\n" "a 5 m" "a 4 a 3 m a 7 a 8" "m" "m7" "+ m" "- m" "* m" "/ m" "m m" >> vecalcTestInput.txt
+	#Clear vector [61, 62]
+	printf "%s\n" "c" "a 5" >> vecalcTestInput.txt
+	#Test repeat option [63, 66]
+	printf "%s\n" "r + 3" "r" "* 9 a 7" "r a 4 / 2" >> vecalcTestInput.txt
 	printf "%s\n" "                                                  " >> vecalcTestInput.txt
 	./vecalc < vecalcTestInput.txt
 	#See errors below:

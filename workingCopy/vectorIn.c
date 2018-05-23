@@ -36,28 +36,15 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 	checkAlloc(newOptions);
 
 	userIn(newOptions);
-
-	int j = 1;
-
+	
 	/*
 	 * The first argument of argv is taken by then name of the program 
 	 * (so we start at 1, not 0). j fullfills two purposes:
 	 * The first is keeping track of which element of argv we should insert 
 	 * into. The second is counting how many arguments were added, so that 
 	 * we can use it to update argc.
-	 *
-	 * If the r option is given, we want j to be positioned such that the
-	 * the commands entered by the user in newOptions are appended to the
-	 * commands issued last time, so that they are repeated as well as any
-	 * additional commands specified.
 	 */
-	if(strcmp(newOptions, "r") == 0) {
-
-		j = maxArgc;
-
-		/*skip the 'r' value*/
-		newOptions++;
-	}
+	int j = 1;
 
 	/*
 	 * Nothing to evaluate if this is true. This can happen if we are given
@@ -68,6 +55,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 		argv[j] = "";
 		return j;
 	}
+
 	/*
 	 * fgets (from the userIn function processes the string when the user
 	 * presses enter, but pressing enter also sends in a newline character.
@@ -77,6 +65,28 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 	checkAlloc(temp);
 	strncpy(temp, newOptions, (strlen(newOptions)) - 1);
 	newOptions = temp;
+	
+	/*
+	 * If the r option is given, we want j to be positioned such that the
+	 * the commands entered by the user in newOptions are appended to the
+	 * commands issued last time, so that they are repeated as well as any
+	 * additional commands specified.
+	 */
+	if(temp[0] == 'r') {
+
+		j = maxArgc;
+	}
+
+	/*
+	 * If the user didn't specify any additional arguments, then we are
+	 * left with just r, and we can return right away because we are just
+	 * re-using the same argv
+	 */
+	if(strcmp(newOptions, "r") == 0) {
+
+		return j;
+	}
+
 	/*
 	 * nextArg takes the next space delimited string and stores it in the
 	 * next open spot in argv. Any string placed in nextArg will be no
@@ -88,6 +98,12 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 	char *delim = " ";
 	nextArg = strtok(newOptions, delim);
 
+	/*Don't include r options in argv*/
+	if(strcmp(newOptions, "r") == 0) {
+
+		nextArg = strtok(NULL, delim);
+	}
+
 	/*Holds memory locations from argv to be freed before overwriting them*/
 	char *holdMem;
 
@@ -97,6 +113,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 
 			argv[j] = calloc(strlen(nextArg), sizeof(char));
 		}
+
 		/*
 		 * If j is less than the maximum args we've used and greater
 		 * than the number of arguments vecalc was initialized with, 
@@ -109,6 +126,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 			argv[j] = calloc(strlen(nextArg), sizeof(char));
 			free(holdMem);
 		}
+
 		/*
 		 * We don't own this memory, we should overwrite the location
 		 * with one that we do own
@@ -117,6 +135,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 
 			argv[j] = calloc(strlen(nextArg), sizeof(char));
 		}
+
 		/*
 		 * We can't realloc this memory, so we'll clear it's contents
 		 * for new arguments
@@ -127,6 +146,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 		}
 		strncpy(argv[j], nextArg, strlen(nextArg));
 		j++;
+
 		/*
 		 * With the null input string, strtok continues on from the old
 		 * string, and keeps copying more characters until the next 
@@ -136,6 +156,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc) {
 	}
 	free(nextArg);
 	free(newOptions);
+
 return j;
 }
 
@@ -160,7 +181,6 @@ bool ensureDigit(char *arg) {
 		return false;
 	}
 	
-
 	size_t i;
 	for(i = 0; i < strlen(arg); i++) {
 	
@@ -170,7 +190,6 @@ bool ensureDigit(char *arg) {
 		* be there, but any more than that wouldn't be an actual floating 
 		* point number or negative number.
 		*/
-
 		if(arg[i] == '-') {
 
 			subtractCount++;

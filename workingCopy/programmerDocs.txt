@@ -41,7 +41,6 @@ vectorIn.c		Format and check user entered data - Accepts new input
 			ensureDigit()
 			cleanArgv()
 
-
 vectorIn.h		Defines MAX_INPUT_LENGTH	
 
 vectorOut.c		Prints output for the user
@@ -57,7 +56,6 @@ vectorMem.c		Handles memory allocation and deletion
 			extend_vec()
 			dealloc_vec()
 			alloc_vec()
-	
 			
 vectorOps.c		Provides all the mathematical operations that can be
 			performed on a vector
