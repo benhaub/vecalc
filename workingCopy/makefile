@@ -67,4 +67,4 @@ test:
 	printf "%s\n" "                                                  " >> vecalcTestInput.txt
 	./vecalc < vecalcTestInput.txt
 	#See errors below:
-	#rm -f vecalcTestInput.txt
+	rm -f vecalcTestInput.txt
