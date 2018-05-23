@@ -41,7 +41,6 @@ vectorIn.c		Format and check user entered data - Accepts new input
 			ensureDigit()
 			cleanArgv()
 
-
 vectorIn.h		Defines MAX_INPUT_LENGTH	
 
 vectorOut.c		Prints output for the user
@@ -57,7 +56,6 @@ vectorMem.c		Handles memory allocation and deletion
 			extend_vec()
 			dealloc_vec()
 			alloc_vec()
-	
 			
 vectorOps.c		Provides all the mathematical operations that can be
 			performed on a vector
@@ -102,4 +100,12 @@ loopCount that dictates which tests should be performed. The loopCount
 corresponds to the line number in the test document. If you wish to add more 
 testing, do so by appending tests onto the end of the test document and continue
 on from there (i.e just add more printf commands into the makefile, AFTER the
-exisiting ones). 
+exisiting ones).
+
+When running tests, you may want to consider discarding stderr so it's easier
+to see assertion failures.
+
+///Repeat Command///
+
+This is the only command that does not have a function specifically made to handle
+this option. Most of its functionality is built into refreshArgv().

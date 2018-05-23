@@ -49,12 +49,22 @@ int main(int argc, char *argv[]) {
 	 * If argv was given any arguments as it started, those are not
 	 * dynamically allocated elements.
 	 */
-
 	int initialArgc;
 	initialArgc = argc;
 	
 	int maxArgc;
 	maxArgc = argc;
+
+	/*
+	 * float to hold the value of magnitude. m is only used in this program
+	 * for testing, so warnings about it being unused are generated if we
+	 * aren't compiling the test code. We can safely ignore it.
+	 */
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wunused-parameter"
+	#pragma GCC diagnostic ignored "-Wunused-but-set-variable"	
+	float m;
+	#pragma GCC diagnostic pop
 	
 	#ifdef TESTING
 
@@ -64,34 +74,40 @@ int main(int argc, char *argv[]) {
 
 	while(1) {
 
-		/*Check vec in case the c option was given*/
-		if(vec == NULL) {
-
-			vec = alloc_vec();
-		}
-
 		/*Check if this is the most space we've needed so far*/
-		if(maxArgc < argc) {
+		if(argc > maxArgc) {
 
 			maxArgc = argc;
 		}
 
 		/*
 		 * This can sometimes happen with redirected input, known for
-		 * certain that this happens with here-strings.
+		 * certain that this happens with here-strings, or when the
+		 * initital arguments aren't given.
 		 */
 		if(argv[1] == NULL) {
 
-			argc = refreshArgv(argv, maxArgc, initialArgc);
+			argc = refreshArgv(argv, maxArgc, initialArgc, argc);
+
+			/*Check if this is the most space we've needed so far*/
+			if(argc > maxArgc) {
+
+				maxArgc = argc;
+			}
 			
 			/*
 			 * The only problematic values are the values
 			 * that follow the current command left over from a 
-			 * previously larger command, if it exists.
+			 * previously larger command, if it exists. They are
+			 * problematic because sometimes strings will only
+			 * partially copy over an old string, so they need to
+			 * be cleared out fully to ensure safe copying. The
+			 * reason we don't clear memory beyond maxArgc is
+			 * because that memory may not belong to us.
 			 */
-			if(argc != maxArgc) {
+			if(argc < maxArgc) {
 			
-				cleanArgv(argv, argc, argc+1);
+				cleanArgv(argv, argc, argc + 1);
 			}
 		}
 
@@ -110,7 +126,13 @@ int main(int argc, char *argv[]) {
 		int i;
 		for(i = 1; i < argc; i++) {
 		
-       			option = argv[i];
+       			/*Check vec in case the c option was given*/
+			if(vec == NULL) {
+
+				vec = alloc_vec();
+			}
+
+			option = argv[i];
 
 			/*Any option should only be one character in length*/
 			if(strlen(option) > 1) {
@@ -214,19 +236,29 @@ int main(int argc, char *argv[]) {
 						}
 						break;
 
+				case 'm':	m = magnitude(vec);
+
+						break;
+
+				case 'r':	if(i != 1) {
+
+							fprintf(stderr, "The r option can not follow any other option.\n");
+						}
+						break;
+
 				default:	fprintf(stderr, "Invalid option: %s\n", argv[i]);
+						
 						break;
 			}/*delimits case*/
 		}/*delimits for*/
 		
 		/*TODO:
-		 * add magnitude option
 		 * add option to repeat last option given, with or without addition arguments
-		 *
-		 * Clean up any memory leaks!
 		 *
 		 * Make sure it is known what happens for entries that are near
 		 * max length
+		 *
+		 * Assignment spec says the vector has a max length of 65 thousand something
 		 */
 
 	#ifdef TESTING
@@ -857,6 +889,11 @@ int main(int argc, char *argv[]) {
 				printf("Element 3 should have a value of -0.166666, but has value: %f\n", vec->elements[3]);
 				assert(vec->elements[3] == 0.166666);
 			}
+			if(magnitude(vec) - 7.5 > ERROR) {
+
+				printf("The magnitude of the vector should be 7.5, but it is %f\n", magnitude(vec));
+				assert(magnitude(vec) - 7.5 < ERROR);
+			}
 		}
 		else if(loopCount == 35) {
 			
@@ -950,6 +987,11 @@ int main(int argc, char *argv[]) {
 			
 				printf("Element 0 should have a value of 5, but has value: %f\n", vec->elements[0]);
 				assert(vec->elements[0] == 5);
+			}
+			if(magnitude(vec) != 15) {
+
+				printf("The magnitude of the vector should be 15, but it is %f\n", magnitude(vec));
+				assert(magnitude(vec) == 15);
 			}
 		}
 		/* / -0.25 */
@@ -1066,13 +1108,217 @@ int main(int argc, char *argv[]) {
 				printf("Element 4 should have a value of 3567, but has value: %f\n", vec->elements[0]);
 				assert(vec->elements[0] == 3567);
 			}
+			if(magnitude(vec) != 18195) {
+
+				printf("The magnitude of the vector should be 18195, but it is %f\n", magnitude(vec));
+				assert(magnitude(vec) == 18195);
+			}
+		}
+		else if(loopCount == 52) {
+
+			if(m != 5) {
+
+				printf("The magnitude shoud be 5, but it is %f\n", m);
+				assert(m == 5);
+			}
+		}
+		else if(loopCount == 53) {
+
+			if(m != 12) {
+
+				printf("The magnitude should be 12, but it is %f\n", m);
+				assert(m == 12);
+			}
+		}
+		else if(loopCount == 54) {
+		  	
+			if(m != 27) {
+
+				printf("The magnitude should be 27, but it is %f\n", m);
+				assert(m == 27);
+			}
+		}
+		else if(loopCount == 55 || loopCount == 56 || loopCount == 57 || loopCount == 58\
+			       		|| loopCount == 59 || loopCount == 60) {
+			
+			if(m != 27) {
+
+				printf("The magnitude should be 27, but it is %f\n", m);
+				assert(m == 27);
+			}
+		}
+		/*Test repeat*/
+		/*r + 3*/
+		else if(loopCount == 63) {
+
+			if(vec->elements[0] != 8) {
+
+				printf("Element 0 should have a value of 8, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 8);
+			}
+			if(vec->elements[1] != 8) {
+
+				printf("Element 1 should have a value of 8, but has value %f\n", vec->elements[1]);
+				assert(vec->elements[1] == 8);
+			}
+			if(vec->size != 2) {
+
+				printf("The size of the vector should be 2, but it is %d\n", vec->size);
+				assert(vec->size == 2);
+			}
+		}
+		/* r */
+		else if(loopCount == 64) {
+
+			if(vec->elements[0] != 11) {
+
+				printf("Element 0 should have a value of 11, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 11);
+			}
+			if(vec->elements[1] != 11) {
+
+				printf("Element 1 should have a value of 11, but has value %f\n", vec->elements[1]);
+				assert(vec->elements[1] == 11);
+			}
+			if(vec->elements[2] != 8) {
+				
+				printf("Element 2 should have a value of 8, but has value %f\n", vec->elements[2]);
+				assert(vec->elements[2] == 8);
+			}
+			if(vec->size != 3) {
+
+				printf("The size of the vector should be 3, but it is %d\n", vec->size);
+				assert(vec->size == 3);
+			}
+		}
+		else if(loopCount == 66) {
+
+			if(vec->elements[0] - 445.5 > ERROR) {
+
+				printf("Element 0 should have a value of 445.1, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] - 445.5 < ERROR);
+			}
+			if(vec->elements[1] - 445.5 > ERROR) {
+
+				printf("Element 1 should have a value of 445.5, but has value %f\n", vec->elements[1]);
+				assert(vec->elements[1] - 445.5 < ERROR);
+			}
+			if(vec->elements[2] != 324) {
+				
+				printf("Element 2 should have a value of 324, but has value %f\n", vec->elements[2]);
+				assert(vec->elements[2] == 324);
+			}
+			if(vec->elements[3] - 31.5 > ERROR) {
+
+				printf("Element 3 should have a value of 31.5, but has value %f\n", vec->elements[3]);
+				assert(vec->elements[3] - 31.5 < ERROR);
+			}
+			if(vec->elements[4] - 3.5 > ERROR) {
+
+				printf("Element 4 should have a value of 3.5, but has value %f\n", vec->elements[4]);
+				assert(vec->elements[4] - 3.5 < ERROR);
+			}
+			if(vec->elements[5] != 2) {
+
+				printf("Element 5 should have a value of 2, but has a value %f\n", vec->elements[5]);
+				assert(vec->elements[5] == 2);
+			}
+			if(vec->size != 6) {
+
+				printf("The size of the vector should be 6, but it is %d\n", vec->size);
+				assert(vec->size == 6);
+			}
+		}
+		else if(loopCount == 67 || loopCount == 68) {
+
+			if(vec->elements[0] - 896 > ERROR) {
+
+				printf("Element 0 should have a value of 891, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] - 896 < ERROR);
+			}
+			if(vec->elements[1] - 896 > ERROR) {
+
+				printf("Element 1 should have a value of 896, but has value %f\n", vec->elements[1]);
+				assert(vec->elements[1] - 896 < ERROR);
+			}
+			if(vec->elements[2] != 653) {
+				
+				printf("Element 2 should have a value of 653, but has value %f\n", vec->elements[2]);
+				assert(vec->elements[2] == 653);
+			}
+			if(vec->elements[3] - 69 > ERROR) {
+
+				printf("Element 3 should have a value of 69, but has value %f\n", vec->elements[3]);
+				assert(vec->elements[3] - 69 < ERROR);
+			}
+			if(vec->elements[4] - 13 > ERROR) {
+
+				printf("Element 4 should have a value of 13, but has value %f\n", vec->elements[4]);
+				assert(vec->elements[4] - 13 < ERROR);
+			}
+			if(vec->elements[5] != 9) {
+
+				printf("Element 5 should have a value of 9, but has a value %f\n", vec->elements[5]);
+				assert(vec->elements[5] == 9);
+			}
+			if(vec->size != 6) {
+
+				printf("The size of the vector should be 6, but it is %d\n", vec->size);
+				assert(vec->size == 6);
+			}
+		}
+		else if(loopCount == 71) {
+
+			if(vec->elements[0] != 5) {
+
+				printf("Element 0 should have a value of 5, but has value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->size != 1) {
+
+				printf("The size of the vector should be 1, but it is %d\n", vec->size);
+				assert(vec->size == 1);
+			}
+		}
+		else if(loopCount == 72) {
+
+			if(vec->elements[0] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->elements[1] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}	
+			if(vec->elements[2] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->elements[3] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->elements[4] != 5) {
+
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
+				assert(vec->elements[0] == 5);
+			}
+			if(vec->size != 2) {
+
+				printf("The size of the vector should be 2, but has size %d\n", vec->size);
+				assert(vec->size == 2);
+			}
 		}
 	loopCount++;
 	#endif /*TESTING*/
 
-	argc = refreshArgv(argv, maxArgc, initialArgc);
+		argc = refreshArgv(argv, maxArgc, initialArgc, argc);
 	
-		if(argc != maxArgc) {
+		if(argc < maxArgc) {
 
 			cleanArgv(argv, argc, argc+1);
 		}

@@ -54,10 +54,12 @@ void getHelp() {
 	printf("[c] : clear; Delete the current vector and start a new one\n");
 	printf("[p] : print; Output the contents of the vector to the console \n");
 	printf("[h] : help; Output the list of commands and the usage\n");
+	printf("[m] : magnitude; Output the magnitude to the console\n");
+	printf("[r] [option] [value] : repeat; repeat the last command given with a new set of commands. Repeat can not be preceeded by any other command\n");
 	printf("[a] [value] : append; extend the vector by one element and fill the element with the value \n");
 	printf("[+] [value] : scalar plus;  add [value] to each element of the vector\n");
-	printf("[-] [value] : scalar minus subtract [value] from each element of the vector\n");
-	printf("[*] [value] : scalar multiply multiply [value] to each element of the vector\n");
-	printf("[/] [value] : scalar divide divide [value] from each element of the vector\n");
+	printf("[-] [value] : scalar minus; subtract [value] from each element of the vector\n");
+	printf("[*] [value] : scalar multiply; multiply [value] to each element of the vector\n");
+	printf("[/] [value] : scalar divide; divide [value] from each element of the vector\n");
 	printf("[e] : end; terminate the vecalc program\n");
 }
