@@ -32,8 +32,9 @@ int refreshArgv(char *[], int, int, int);
  * processed by vecalc and that it's take up as little memory as possible.
  * param char *: string to hold the users new input
  * precond: char * is not null
+ * postcond: Input char is resized so that input fits optimally
  */
-void userIn(char *);
+char * userIn(char *);
 /*
  * Clean argv removes values from argv greater than the current argc
  * param char[] *: the argument vector to be cleaned of unwanted values

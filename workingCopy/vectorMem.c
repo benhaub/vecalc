@@ -61,6 +61,7 @@ return vector;
 
 void dealloc_vec(struct Vector *vector) {
 
+	free(vector->elements);
 	free(vector);
 }
 

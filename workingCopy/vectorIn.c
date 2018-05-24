@@ -32,10 +32,10 @@
  */
 int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 
-	char *newOptions = calloc(MAX_INPUT_LENGTH ,sizeof(char));
+	char *newOptions = malloc(MAX_INPUT_LENGTH*sizeof(char));
 	checkAlloc(newOptions);
 
-	userIn(newOptions);
+	newOptions = userIn(newOptions);
 	
 	/*
 	 * The first argument of argv is taken by then name of the program 
@@ -62,9 +62,10 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 	 * It is not needed. so we'll copy all but the last byte. 
 	 */
 	char *temp = calloc(strlen(newOptions), sizeof(newOptions));
-	checkAlloc(temp);
 	strncpy(temp, newOptions, (strlen(newOptions)) - 1);
-	newOptions = temp;
+	memset(newOptions, 0, strlen(newOptions));
+	memcpy(newOptions, temp, strlen(temp));
+	free(temp);
 	
 	/*
 	 * If the user didn't specify any additional arguments, then we are
@@ -81,7 +82,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 	 * next open spot in argv. Any string placed in nextArg will be no
 	 * greater than the size of newOptions
 	 */
-	char *nextArg = calloc(strlen(newOptions), sizeof(char));
+	char *nextArg;
 
 	/*get all the space delimited arguments and put them in argv*/
 	char *delim = " ";
@@ -101,9 +102,6 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 		nextArg = strtok(NULL, delim);
 	}
 
-	/*Holds memory locations from argv to be freed before overwriting them*/
-	char *holdMem;
-
 	while(nextArg != NULL) {
 
 		if(argv[j] == NULL) {
@@ -118,10 +116,8 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 		 */
 		else if(j >= initialArgc && j < maxArgc) {
 
-			holdMem = malloc(strlen(argv[j])*sizeof(char));
-			holdMem = argv[j];	
+			free(argv[j]);	
 			argv[j] = calloc(strlen(nextArg), sizeof(char));
-			free(holdMem);
 		}
 
 		/*
@@ -151,7 +147,6 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 		 */
 		nextArg = strtok(NULL, delim);
 	}
-	free(nextArg);
 	free(newOptions);
 
 return j;
@@ -226,8 +221,9 @@ return true;
  * processed by vecalc and that it's take up as little memory as possible.
  * param char *: string to hold the users new input
  * precond: char * is not null
+ * postcond: Input char is resized so that input fits optimally
  */
-void userIn(char *newOptions) {
+char *userIn(char *newOptions) {
 
 	/*
 	 * Check to see if stdin is coming from the terminal, and only print
@@ -247,6 +243,8 @@ void userIn(char *newOptions) {
 	/*Re-size newOptions to fit the input more optimally*/
 	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
 	checkAlloc(newOptions);
+
+return newOptions;
 }
 
 /*
