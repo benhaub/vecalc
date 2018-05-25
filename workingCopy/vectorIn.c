@@ -32,11 +32,8 @@
  */
 int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 
-	char *newOptions = malloc(MAX_INPUT_LENGTH*sizeof(char));
-	checkAlloc(newOptions);
+	char *newOptions = userIn();
 
-	newOptions = userIn(newOptions);
-	
 	/*
 	 * The first argument of argv is taken by then name of the program 
 	 * (so we start at 1, not 0). j fullfills two purposes:
@@ -59,8 +56,8 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 	/*
 	 * fgets (from the userIn function processes the string when the user
 	 * presses enter, but pressing enter also sends in a newline character.
-	 * It is not needed. so we'll copy all but the last byte. 
-	 */
+	 * It is not needed. so we'll copy all but the last byte.
+	 */ 
 	char *temp = calloc(strlen(newOptions), sizeof(newOptions));
 	strncpy(temp, newOptions, (strlen(newOptions)) - 1);
 	memset(newOptions, 0, strlen(newOptions));
@@ -217,13 +214,17 @@ return true;
 }
 
 /*
- * Handles input from the user to make sure that it is safe to be further
- * processed by vecalc and that it's take up as little memory as possible.
- * param char *: string to hold the users new input
- * precond: char * is not null
- * postcond: Input char is resized so that input fits optimally
+ * Accepts input from the user.
+ * return: A dynamically allocated string that holds the users ne input
+ * precond: char * is not null and is dynamically allocated
+ * postcond: The returned string should be freed when it is no longer needed.
+ * Returned strings will have newlines on the end of them, be sure to trim it
+ * if necessary
  */
-char *userIn(char *newOptions) {
+char *userIn() {
+
+	char *newOptions = malloc(MAX_INPUT_LENGTH*sizeof(char));
+	checkAlloc(newOptions);
 
 	/*
 	 * Check to see if stdin is coming from the terminal, and only print
@@ -239,12 +240,43 @@ char *userIn(char *newOptions) {
 	 * the input and enters it on the next call for input from stdin.
 	 */	
 	fgets(newOptions, MAX_INPUT_LENGTH, stdin);
-	
-	/*Re-size newOptions to fit the input more optimally*/
-	newOptions = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
-	checkAlloc(newOptions);
 
-return newOptions;
+	/*
+	 * Blank lines from files or here-strings can not be re-allocated
+	 * properly
+	 */
+	if(isatty(STDIN_FILENO) == 0 && strcmp(newOptions, "") == 0) {
+
+		exit(EXIT_SUCCESS);	
+	}
+	
+	/*
+	 * Re-size newOptions to fit the input more optimally
+	 * I am assuming that realloc will free the old location of newOptions
+	 * if it has to provide a new pointer because trying to free the old
+	 * location if the pointers differ results in a double free error
+	 */
+	char *repositioned;
+	repositioned = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
+	checkAlloc(repositioned);
+
+	/*
+	 * realloc isn't always guarenteed to rellocate memory in place.
+	 * If it had to move newOptions to a new location, we'll return that
+	 * one instead. It is stated in realloc's documentation that:
+	 * "If the new size of the memory object would require movement of the
+	 * object, the space for the previous instantiation of the object is
+	 * freed."
+	 */
+	if(newOptions != repositioned) {
+
+		newOptions = NULL;
+		return repositioned;
+	}
+	else {
+
+		return newOptions;
+	}
 }
 
 /*

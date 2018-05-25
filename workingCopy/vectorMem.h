@@ -37,7 +37,7 @@ struct Vector *extend_vec(struct Vector *, Elem);
 /*
  * Checks malloc calls to make sure the succeeded
  * param void *: The newly allocated pointer
- * return: true if void * is not null, false otherwise
+ * return: true if void * is not null, program termination otherwise
  */
 bool checkAlloc(void * ptr);
 

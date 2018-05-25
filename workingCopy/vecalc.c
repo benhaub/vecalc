@@ -255,12 +255,13 @@ int main(int argc, char *argv[]) {
 		}/*delimits for*/
 		
 		/*TODO:
-		 * add option to repeat last option given, with or without addition arguments
 		 *
 		 * Make sure it is known what happens for entries that are near
 		 * max length
 		 *
 		 * Assignment spec says the vector has a max length of 65 thousand something
+		 *
+		 * Generalize functions as much as possible
 		 */
 
 	#ifdef TESTING
