@@ -121,6 +121,8 @@ int main(int argc, char *argv[]) {
 		 */
 		if(isatty(STDIN_FILENO) == 0 && strcmp(argv[1], "") == 0) {
 
+			dealloc_vec(vec);
+			free(option);
 			return EXIT_SUCCESS;	
 		}
 		

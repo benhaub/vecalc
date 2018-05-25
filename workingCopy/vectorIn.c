@@ -17,8 +17,8 @@
 		     */
 
 /*Local Headers*/
-#include "vectorMem.h"
-#include "vectorIn.h"
+#include "vectorMem.h" /*For checkAlloc()*/
+#include "vectorIn.h" /*For userIn()*/
 
 /* 
  * gets new options from standard in and places them back in argv for
@@ -54,7 +54,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 	}
 
 	/*
-	 * fgets (from the userIn function processes the string when the user
+	 * fgets (from the userIn function) processes the string when the user
 	 * presses enter, but pressing enter also sends in a newline character.
 	 * It is not needed. so we'll copy all but the last byte.
 	 */ 
@@ -63,6 +63,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 	memset(newOptions, 0, strlen(newOptions));
 	memcpy(newOptions, temp, strlen(temp));
 	free(temp);
+	temp = NULL;
 	
 	/*
 	 * If the user didn't specify any additional arguments, then we are
@@ -71,6 +72,7 @@ int refreshArgv(char *argv[], int maxArgc, int initialArgc, int currentArgc) {
 	 */
 	if(strcmp(newOptions, "r") == 0) {
 
+		free(newOptions);
 		return currentArgc;
 	}
 
@@ -242,8 +244,7 @@ char *userIn() {
 	fgets(newOptions, MAX_INPUT_LENGTH, stdin);
 
 	/*
-	 * Blank lines from files or here-strings can not be re-allocated
-	 * properly
+	 * EOF's on here-strings are always returned null by realloc.
 	 */
 	if(isatty(STDIN_FILENO) == 0 && strcmp(newOptions, "") == 0) {
 
@@ -252,9 +253,6 @@ char *userIn() {
 	
 	/*
 	 * Re-size newOptions to fit the input more optimally
-	 * I am assuming that realloc will free the old location of newOptions
-	 * if it has to provide a new pointer because trying to free the old
-	 * location if the pointers differ results in a double free error
 	 */
 	char *repositioned;
 	repositioned = realloc(newOptions, strlen(newOptions)*sizeof(newOptions));
@@ -263,10 +261,11 @@ char *userIn() {
 	/*
 	 * realloc isn't always guarenteed to rellocate memory in place.
 	 * If it had to move newOptions to a new location, we'll return that
-	 * one instead. It is stated in realloc's documentation that:
+	 * pointer instead. It is stated in realloc's documentation that:
 	 * "If the new size of the memory object would require movement of the
 	 * object, the space for the previous instantiation of the object is
-	 * freed."
+	 * freed.". We will therefore not try to free newOptions since it's
+	 * been done already.
 	 */
 	if(newOptions != repositioned) {
 
