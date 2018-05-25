@@ -52,7 +52,7 @@ blank line from a file or here-string, vecalc will close.
 
 The repeat command is the only non-intuitive command. It repeats exactly the last
 command entered into vecalc. It can only be used by itself or as an option with
-additional commands added to it.
+additional commands as arguments added to it.
 
 Ex:
 

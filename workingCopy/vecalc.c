@@ -83,9 +83,10 @@ int main(int argc, char *argv[]) {
 		/*
 		 * This can sometimes happen with redirected input, known for
 		 * certain that this happens with here-strings, or when the
-		 * initital arguments aren't given.
+		 * initital arguments aren't given. The while makes sure to
+		 * take care of blank input if it's given
 		 */
-		if(argv[1] == NULL) {
+		while(argv[1] == NULL) {
 
 			argc = refreshArgv(argv, maxArgc, initialArgc, argc);
 
@@ -120,6 +121,8 @@ int main(int argc, char *argv[]) {
 		 */
 		if(isatty(STDIN_FILENO) == 0 && strcmp(argv[1], "") == 0) {
 
+			dealloc_vec(vec);
+			free(option);
 			return EXIT_SUCCESS;	
 		}
 		
@@ -169,8 +172,9 @@ int main(int argc, char *argv[]) {
 				case 'h':	getHelp();
 						break;
 
-				case 'a':	tempVec = vec;
-						if(ensureDigit(argv[i + 1])) {
+				case 'a':	if(ensureDigit(argv[i + 1])) {
+
+							tempVec = vec;
 
 							/*
 							 * Notice the pre-inrement. extend_vec takes the next value
@@ -253,12 +257,13 @@ int main(int argc, char *argv[]) {
 		}/*delimits for*/
 		
 		/*TODO:
-		 * add option to repeat last option given, with or without addition arguments
 		 *
 		 * Make sure it is known what happens for entries that are near
 		 * max length
 		 *
 		 * Assignment spec says the vector has a max length of 65 thousand something
+		 *
+		 * Generalize functions as much as possible
 		 */
 
 	#ifdef TESTING
@@ -1289,24 +1294,9 @@ int main(int argc, char *argv[]) {
 			}
 			if(vec->elements[1] != 5) {
 
-				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
-				assert(vec->elements[0] == 5);
+				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[1]);
+				assert(vec->elements[1] == 5);
 			}	
-			if(vec->elements[2] != 5) {
-
-				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
-				assert(vec->elements[0] == 5);
-			}
-			if(vec->elements[3] != 5) {
-
-				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
-				assert(vec->elements[0] == 5);
-			}
-			if(vec->elements[4] != 5) {
-
-				printf("Element 0 should have a value of 5, but has a value %f\n", vec->elements[0]);
-				assert(vec->elements[0] == 5);
-			}
 			if(vec->size != 2) {
 
 				printf("The size of the vector should be 2, but has size %d\n", vec->size);
@@ -1323,5 +1313,9 @@ int main(int argc, char *argv[]) {
 			cleanArgv(argv, argc, argc+1);
 		}
 	}/*delimits while(1)*/
+
+	dealloc_vec(vec);
+	free(option);
+
 return 0;
 } 

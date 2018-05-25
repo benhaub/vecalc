@@ -28,12 +28,14 @@ bool ensureDigit(char *);
 int refreshArgv(char *[], int, int, int);
 
 /*
- * Handles input from the user to make sure that it is safe to be further
- * processed by vecalc and that it's take up as little memory as possible.
- * param char *: string to hold the users new input
- * precond: char * is not null
+ * Accepts input from the user.
+ * return: A dynamically allocated string that holds the users ne input
+ * precond: char * is not null and is dynamically allocated
+ * postcond: The returned string should be freed when it is no longer needed.
+ * Returned strings will have newlines on the end of them, be sure to trim it
+ * if necessary
  */
-void userIn(char *);
+char * userIn();
 /*
  * Clean argv removes values from argv greater than the current argc
  * param char[] *: the argument vector to be cleaned of unwanted values

@@ -13,6 +13,7 @@
 
 /*Local Headers*/
 #include "vecalc.h" /*For definition of Vector*/
+#include "vectorMem.h" /*For checkAlloc() */
 
 /*
  * Extend an existing vecotr by 1 element
@@ -26,9 +27,9 @@
 struct Vector *extend_vec(struct Vector *inputVector, Elem value) {
 
 	/*Initialise the new vector*/
-	struct Vector *biggerVector = calloc(1, sizeof(struct Vector));
+	struct Vector *biggerVector = malloc(sizeof(struct Vector));
 	biggerVector->size = inputVector->size + 1;
-	biggerVector->elements = calloc(biggerVector->size, sizeof(Elem));
+	biggerVector->elements = malloc(biggerVector->size*sizeof(Elem));
 
 	/*Copy the elements from the input vector into the new vector*/
 	int i;
@@ -48,6 +49,7 @@ struct Vector *extend_vec(struct Vector *inputVector, Elem value) {
 struct Vector *alloc_vec() {
 	
 	struct Vector *vector = calloc(1, sizeof(struct Vector));
+	checkAlloc(vector);
 
 	if(vector == NULL) {
 
@@ -61,6 +63,7 @@ return vector;
 
 void dealloc_vec(struct Vector *vector) {
 
+	free(vector->elements);
 	free(vector);
 }
 
@@ -73,8 +76,8 @@ bool checkAlloc(void * ptr) {
 
 	if(ptr == NULL) {
 
-		fprintf(stderr, "Call to malloc failed\n");
-		return false;
+		fprintf(stderr, "Call for memory allocation failed. Insufficient memory available\n");
+		exit(EXIT_FAILURE);
 	}
 	else {
 		
