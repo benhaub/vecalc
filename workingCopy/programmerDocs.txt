@@ -27,7 +27,6 @@ vecalc.c		Main menu - Analyses user input first, then tells vecalc
 			main()
 
 vecalc.h		Defines a Vector and an Elem
-			
 
 vectorIn.c		Format and check user entered data - Accepts new input 
 			from the user. Makes adjustments to entered data so 
@@ -66,18 +65,27 @@ vectorOps.c		Provides all the mathematical operations that can be
 			scalar_div()
 			scalar_mult()
 
-///Makefile///
-Compiling can be done with the provided make file which has the following targets:
+///Makefiles///
 
-vecalc - Compile the vector calculator
+The following makefiles and targets are available:
 
-debug - compile vector calculator with symbol table. The dependancies for debug
-use the .c files because .o files will not generate the symbol table properly
+>makefile - standard compilation of vecalc for normal use
 
+Has targets:
+
+vecalc - Complie the vector calculator
 clean - remove all object files from cwd
+profile - compile with -pg option for use with gprof
 
-test - create a line by line test document that is customizable in the makefile.
-test uses .c files to generate the symbol table properly
+>makefile.debug - Compile vecalc for testing purposes
+
+Has targets:
+
+test - compile vecalc compatiable with symbol table for gdb and with
+conditionally compiled test code. This target will also automatically
+generate a test file and run vecalc with it as input. The test file is
+then deleted.
+debug - compile vecalc with just the symbol table for use in gdb 
 
 ///Testing///
 
@@ -109,3 +117,9 @@ to see assertion failures.
 
 This is the only command that does not have a function specifically made to handle
 this option. Most of its functionality is built into refreshArgv().
+
+///Additional Excutables///
+In the vecalc folder you will also find a .c file called vecalcCmdGen.c. This
+is a program that generates a text file of 800 randomly generated unique
+commands. Not all the commands are error free commands, some of them will cause
+vecalc to produce error output. 

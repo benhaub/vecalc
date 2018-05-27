@@ -172,7 +172,11 @@ int main(int argc, char *argv[]) {
 				case 'h':	getHelp();
 						break;
 
-				case 'a':	if(ensureDigit(argv[i + 1])) {
+				case 'a':	if(vec->size == MAXVECSIZE) {
+
+							fprintf(stderr, "Vector is at maximum size and can not be extended");
+						}	
+						else if(ensureDigit(argv[i + 1])) {
 
 							tempVec = vec;
 
@@ -257,9 +261,6 @@ int main(int argc, char *argv[]) {
 		}/*delimits for*/
 		
 		/*TODO:
-		 *
-		 * Make sure it is known what happens for entries that are near
-		 * max length
 		 *
 		 * Assignment spec says the vector has a max length of 65 thousand something
 		 *
