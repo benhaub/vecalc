@@ -30,9 +30,6 @@ clean:
 	rm *.o
 	rm core.*
 
-pwd:
-	echo $(PWD)
-
 cflags:
 	echo $(CFLAGS)
 		

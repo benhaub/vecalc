@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <string.h> /*To check length of option*/
 #include <assert.h> /*For conidtionally compiled testing*/
-#include <unistd.h> /*For returning stdin to the terminal*/
+#include <unistd.h> /*For isatty()*/
 
 /*Local Headers*/
 #include "vecalc.h"
