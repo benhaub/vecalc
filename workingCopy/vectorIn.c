@@ -165,7 +165,6 @@ bool ensureDigit(char *arg) {
 	/*
 	 * isdigit considers blank string numbers apparently. This is probably
 	 * caused by using memset
-	 * 
 	 */
 	if(arg == NULL || strcmp(arg, "" ) == 0) {
 
@@ -279,7 +278,8 @@ char *userIn() {
 }
 
 /*
- * Clean argv removes values from argv from argv[arc] to argv[maxArgc]
+ * Removes values in argv from argv[argc] to argv[maxArgc] and
+ * replaces them with null characters
  * param char[] *: the argument vector to be cleaned of unwanted values
  * param int: The current amount of arguments in argv
  * param int: The maximum amount of arguments in argv

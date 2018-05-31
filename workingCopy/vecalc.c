@@ -260,13 +260,6 @@ int main(int argc, char *argv[]) {
 			}/*delimits case*/
 		}/*delimits for*/
 		
-		/*TODO:
-		 *
-		 * Assignment spec says the vector has a max length of 65 thousand something
-		 *
-		 * Generalize functions as much as possible
-		 */
-
 	#ifdef TESTING
 		
 		const Elem ERROR = 1E-5;

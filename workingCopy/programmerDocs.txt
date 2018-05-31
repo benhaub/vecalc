@@ -4,29 +4,32 @@
 //Synopsis	:	Information for programming vecalc	//
 //////////////////////////////////////////////////////////////////
 
-vecalc is a vector calculator written in c that can perform mathematical 
+vecalc is a vector calculator written in C89 that can perform mathematical 
 operations on a one dimensional array (vector).
 
 ///Structure///
 vecalc is a multi file program where each .c contains functions that perform
-related tasks. The structure is as follows:
+similar tasks. The structure is as follows:
 
 File			Purpose
 
-vecalc.c		Main menu - Analyses user input first, then tells vecalc
-			operator what to do with it. This is an infinitely
-			looping operation that continue until the 'e' or 'q'
-			command is issued.
+vecalc.c		Main menu - Analyses user input, and selects the
+			appropriate operation. This is an infinitely
+			looping process that continue until the 'e' or 'q'
+			command is issued. If the input is through file
+			redirection, then it continues until the 'e' or 'q'
+			or blank line is given.
 
 			Includes all the regression testing, which is conditionally
 			compiled with -DTESTING or by using the test target within
-			the makefile
+			makefile.debug
 			
 			
 			Functions:
 			main()
 
 vecalc.h		Defines a Vector and an Elem
+			Defines maximum size of a vector at 2^16
 
 vectorIn.c		Format and check user entered data - Accepts new input 
 			from the user. Makes adjustments to entered data so 
@@ -74,6 +77,10 @@ The following makefiles and targets are available:
 Has targets:
 
 vecalc - Complie the vector calculator
+dynamic - Compile vecalc with a dynamically loading library
+(*** Please ensure that the environment variable changed appropriately. If it did
+not change then it can be change manually with:
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/lib ***)
 clean - remove all object files from cwd
 profile - compile with -pg option for use with gprof
 
@@ -104,11 +111,11 @@ stdin.
 DO NOT CHANGE THE ORDERING OF TESTS
 
 vecalc tests the commands in a known order. The order is kept track of using a
-loopCount that dictates which tests should be performed. The loopCount
-corresponds to the line number in the test document. If you wish to add more 
-testing, do so by appending tests onto the end of the test document and continue
-on from there (i.e just add more printf commands into the makefile, AFTER the
-exisiting ones).
+loopCount that dictates which tests should be performed. If you wish to add more 
+testing, do so by appending tests onto the end of the test document and add the
+tests onto existing tests in vecalc.c (i.e just add more printf commands into
+makefile.debug, AFTER the exisiting ones, and add more loopCount dependant
+testing AFTER the existing testing in vecalc.c).
 
 When running tests, you may want to consider discarding stderr so it's easier
 to see assertion failures.

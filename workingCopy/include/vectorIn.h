@@ -36,8 +36,10 @@ int refreshArgv(char *[], int, int, int);
  * if necessary
  */
 char * userIn();
+
 /*
- * Clean argv removes values from argv greater than the current argc
+ * Removes values in argv from argv[argc] to argv[maxArgc] and
+ * replaces them with null characters
  * param char[] *: the argument vector to be cleaned of unwanted values
  * param int: The current amount of arguments in argv
  * param int: The maximum amount of arguments in argv

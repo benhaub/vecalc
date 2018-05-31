@@ -103,6 +103,7 @@ struct Vector *scalar_mult(struct Vector *vector, Elem factor) {
 			vector->elements[i] *= factor;
 		}
 	}
+
 return vector;
 }
 
@@ -133,6 +134,7 @@ struct Vector *scalar_div(struct Vector *vector, Elem divisor) {
 			vector->elements[i] = (vector->elements[i]) / (divisor);
 		}
 	}
+
 return vector;
 }
 /*
@@ -151,5 +153,6 @@ float magnitude(struct Vector *vector) {
 		magnitude += vector->elements[i];
 	}
 	printf("Magnitude: %f\n", magnitude);
-	return magnitude;
+
+return magnitude;
 }

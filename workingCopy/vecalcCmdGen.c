@@ -3,8 +3,9 @@
 #include <time.h>
 
 /*
- * This function prints out commands fro the vecalc execuatable according to
- * the format specified in the fprintf statement
+ * This program creates a text document that contains commands for the vecalc
+ * execuatable according to the format specified in the fprintf statement. The
+ * text document can then be redirected into vecalc to run vecalc.
  */
 int main() {
 
@@ -22,6 +23,9 @@ int main() {
 	FILE *vecalcCmds;
 	vecalcCmds = fopen("vecalcCmds.txt", "w+");
 
+	/*
+	 * rand() % x means generate random numbers between 1 and x
+	 */
 	int i;
 	for(i = 0; i < c; i++) {
 
@@ -39,6 +43,7 @@ int main() {
 
 		fprintf(vecalcCmds, "%c %d %c %d %c %d %c %d\n", cmdsList[rand() % 7], rand() % 100, cmdsList[rand() % 7], rand() % 100, cmdsList[rand() % 7], rand() % 100, cmdsList[rand() % 7], rand() % 100);
 	}
+	fprintf(vecalcCmds, "q");
 
 return 0;
 }
