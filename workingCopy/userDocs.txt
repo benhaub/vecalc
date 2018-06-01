@@ -9,7 +9,15 @@ operations on a one dimensional array (vector).
 
 ///Installation///
 
-- Not sure how installation will work yet
+To install vecalc. Place the folder vecalc whereever you want. Then on the terminal,
+change your directory to ./vecalc/workingCopy.
+
+From here, you may issue the command [make vecalc] to produce a vecalc executable.
+
+alternatively, you may also issue the command [make dynamic] to produce a vecalc
+executable. This is a version of vecalc that uses less memory on your computer
+with no sacrifice in performance. Only advanced users should produce this executable.
+If you do, please consult the programmerDocs.txt for further information.
 
 ///Running vecalc///
 
