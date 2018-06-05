@@ -30,24 +30,23 @@ and issue a command to run vecalc.
 Once vecalc is running, the command line should display "vecalc: " and 
 be awaiting input. vecalc takes the following commands from this state:
 
-[q] 	    		: quit; Same functionality as [e] (end)
-[c] 	    		: clear; Delete the current vector and start a new one
-[p] 	    		: print; Output the contents of the vector to the console
-[h] 			: help; Output the list of commands and the usage to the console
-[m]	    		: magnitude; Output the magnitude to the console
-[r] [option] [value] 	: repeat the last command given with a new set of commands. Repeated can not
+q 	    		: quit; Same functionality as [e] (end)
+c 	    		: clear; Delete the current vector and start a new one
+p 	    		: print; Output the contents of the vector to the console
+h 			: help; Output the list of commands and the usage to the console
+m	    		: magnitude; Output the magnitude to the console
+r [option] [value] 	: repeat the last command given with a new set of commands. Repeat can not
 			: be be preceded by any other command.
-[a] [value] 		: append; extend the vector by one element and fill the element with the value
-[+] [value] 		: scalar plus;  add [value] to each element of the vector
-[-] [value] 		: scalar minus subtract [value] from each element of the vector
-[*] [value] 		: scalar multiply multiply [value] to each element of the vector
-[/] [value] 		: scalar divide divide [value] from each element of the vector
-[e] 	    		: end; terminate the vecalc program
+a [value] 		: append; extend the vector by one element and fill the element with the value
++ [value] 		: scalar plus;  add [value] to each element of the vector
+- [value] 		: scalar minus subtract [value] from each element of the vector
+* [value] 		: scalar multiply multiply [value] to each element of the vector
+/ [value] 		: scalar divide divide [value] from each element of the vector
+e 	    		: end; terminate the vecalc program
 
-All commands have the general form [option] [value].
 vecalc may also be given initial arguments when running the program:
 
-./vecalc [option] [value]
+./vecalc [option] [value (if applicable)]
 - Make sure to escape special characters to prevent shell interpretation.
 (i.e the multiply command will be interpreted as a wild card by the shell
 if it's not escaped)
@@ -66,13 +65,14 @@ Ex:
 
 vecalc: a 4 r + 2
 
-This will not be accepted by vecalc as a repeated command. This is equivalent to
+This will not be accepted by vecalc as a repeated command, Thus it is equivalent to
 entering a 4 + 2, since those were still valid options
 
 vecalc: r
 
 Suppose we entered a 4 + 2 previously. This would repeat that command again as if
-we had typed it twice into vecalc.
+we had typed it twice into vecalc. Therefore, in this case:
+vecalc: r == vecalc: a 4 + 2
 
 vecalc: r r r r
 
@@ -83,3 +83,6 @@ vecalc: r a 5 + 2
 
 Suppose we entered a 4 + 2 previously. This would repeat that command again as if
 we had typed it twice into vecalc, with the additional commands of append 5 and add 2.
+Therefore, This command is equivalent to:
+
+vecalc: r a 5 + 2 == vecalc: a 4 + 2 a 5 + 2
