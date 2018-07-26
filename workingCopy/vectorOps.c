@@ -152,7 +152,6 @@ float magnitude(struct Vector *vector) {
 
 		magnitude += vector->elements[i];
 	}
-	printf("Magnitude: %f\n", magnitude);
-
+	
 return magnitude;
 }

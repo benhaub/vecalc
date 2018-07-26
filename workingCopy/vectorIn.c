@@ -159,12 +159,14 @@ return j;
  */
 bool ensureDigit(char *arg) {
 
+	/* Counts the number of times a decimal has appeared in a number*/
 	int decimalCount = 0;
+	/* Counts the number of times a negative sign has appeared in a number*/
 	int subtractCount = 0;
 	
 	/*
-	 * isdigit considers blank string numbers apparently. This is probably
-	 * caused by using memset
+	 * isdigit considers blank strings numbers. This is because the null
+	 * string is referred to as 0.
 	 */
 	if(arg == NULL || strcmp(arg, "" ) == 0) {
 
@@ -175,7 +177,7 @@ bool ensureDigit(char *arg) {
 	for(i = 0; i < strlen(arg); i++) {
 	
 		/*
-		* isdigit obviously doesn't count decimal poits or negative signs
+		* isdigit obviously doesn't count decimal points or negative signs
 		* as digits, so we'll allow at least one decimal or negative sign to
 		* be there, but any more than that wouldn't be an actual floating 
 		* point number or negative number.
@@ -216,7 +218,7 @@ return true;
 
 /*
  * Accepts input from the user.
- * return: A dynamically allocated string that holds the users ne input
+ * return: A dynamically allocated string that holds the users new input
  * precond: char * is not null and is dynamically allocated
  * postcond: The returned string should be freed when it is no longer needed.
  * Returned strings will have newlines on the end of them, be sure to trim it

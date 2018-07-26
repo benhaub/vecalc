@@ -53,7 +53,7 @@ struct Vector *alloc_vec() {
 
 	if(vector == NULL) {
 
-		fprintf(stderr, "Error allocating memory");
+		fprintf(stderr, "Error allocating memory.\n");
 	}
 
 	vector->size = 0;
@@ -68,7 +68,7 @@ void dealloc_vec(struct Vector *vector) {
 }
 
 /*
- * Checks malloc calls to make sure the succeeded
+ * Checks memory allocation calls to make sure the call succeeded
  * param void *: The newly allocated pointer
  * return: true if void * is not null, false otherwise
  */
@@ -76,7 +76,7 @@ bool checkAlloc(void * ptr) {
 
 	if(ptr == NULL) {
 
-		fprintf(stderr, "Call for memory allocation failed. Insufficient memory available\n");
+		fprintf(stderr, "Call for memory allocation failed.\n");
 		exit(EXIT_FAILURE);
 	}
 	else {

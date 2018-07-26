@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wunused-parameter"
 	#pragma GCC diagnostic ignored "-Wunused-but-set-variable"	
-	float m;
+	Elem m;
 	#pragma GCC diagnostic pop
 	
 	#ifdef TESTING
@@ -245,7 +245,7 @@ int main(int argc, char *argv[]) {
 						break;
 
 				case 'm':	m = magnitude(vec);
-
+						printf("Magnitude: %f\n", m);
 						break;
 
 				case 'r':	if(i != 1) {
