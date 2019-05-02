@@ -11,68 +11,68 @@ operations on a one dimensional array (vector).
 vecalc is a multi file program where each .c contains functions that perform
 similar tasks. The structure is as follows:
 
-File			Purpose
+File	:		Purpose
 
-vecalc.c		Main menu - Analyses user input, and selects the
-			appropriate operation. This is an infinitely
-			looping process that continue until the 'e' or 'q'
-			command is issued. If the input is through file
-			redirection, then it continues until the 'e' or 'q'
-			or blank line is given.
+vecalc.c	:		Main menu - Analyses user input, and selects the
+							appropriate operation. This is an infinitely
+							looping process that continue until the 'e' or 'q'
+							command is issued. If the input is through file
+							redirection, then it continues until the 'e' or 'q'
+							or blank line is given.
 
-			Includes all the regression testing, which is conditionally
-			compiled with -DTESTING or by using the test target within
-			makefile.debug
+							Includes all the regression testing, which is conditionally
+							compiled with -DTESTING or by using the test target within
+							makefile.debug
 			
 			
-			Functions:
-			main()
+vecalc.c functions:
+										main()
 
-vecalc.h		Defines a Vector and an Elem
-			Defines maximum size of a vector at 2^16
+vecalc.h	:		Defines a Vector and an Elem
+							Defines maximum size of a vector at 2^16
 
-vectorIn.c		Format and check user entered data - Accepts new input 
-			from the user. Makes adjustments to entered data so 
-			that it can be placed back into argv and sent back to 
-			the main menu. Checks for numbers when numbers should
-			be present.
+vectorIn.c	:		Format and check user entered data - Accepts new input 
+								from the user. Makes adjustments to entered data so 
+								that it can be placed back into argv and sent back to 
+								the main menu. Checks for numbers when numbers should
+								be present.
 			
-			Functions:
-			userIn()
-			refreshArgv()
-			ensureDigit()
-			cleanArgv()
+vectorIn.c functions:
+											userIn()
+											refreshArgv()
+											ensureDigit()
+											cleanArgv()
 
-vectorIn.h		Defines MAX_INPUT_LENGTH	
+vectorIn.h	:		Defines MAX_INPUT_LENGTH	
 
-vectorOut.c		Prints output for the user
+vectorOut.c	:		Prints output for the user
 
-			Functions:
-			getHelp()
-			print_vec()
+vectorOut.c functions:
+											getHelp()
+											print_vec()
 	
-vectorMem.c		Handles memory allocation and deletion
+vectorMem.c	:		Handles memory allocation and deletion
 
-			Functions:
-			checkalloc()
-			extend_vec()
-			dealloc_vec()
-			alloc_vec()
+vectorMem.c functions:
+											checkalloc()
+											extend_vec()
+											dealloc_vec()
+											alloc_vec()
 			
-vectorOps.c		Provides all the mathematical operations that can be
-			performed on a vector
+vectorOps.c	:		Provides all the mathematical operations that can be
+								performed on a vector
 
-			Functions:
-			scalar_plus()
-			scalar_minus()
-			scalar_div()
-			scalar_mult()
+vectorOps.c functions:
+											scalar_plus()
+											scalar_minus()
+											scalar_div()
+											scalar_mult()
 
 ///Makefiles///
 
 The following makefiles and targets are available:
 
->makefile - standard compilation of vecalc for normal use
+makefile	:	standard compilation of vecalc for normal use
 
 Has targets:
 
@@ -80,11 +80,11 @@ vecalc - Complie the vector calculator
 dynamic - Compile vecalc with a dynamically loading library
 (*** Please ensure that the environment variable changed appropriately. If it did
 not change then it can be change manually with:
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/lib ***)
+"export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/lib" minus the quotes ***)
 clean - remove all object files from cwd
 profile - compile with -pg option for use with gprof
 
->makefile.debug - Compile vecalc for testing purposes
+makefile.debug	:	Compile vecalc for testing purposes
 
 Has targets:
 
